@@ -5,6 +5,9 @@ package classesBasicas;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 /**
  * @author Audry Martins
@@ -15,6 +18,9 @@ public class Usuario
 {
 	// Atributos
 	
+	@Id @GeneratedValue
+	private Integer codigo;
+
 	@Column(length = 40, unique = true, nullable = false)
 	private String nomeUsuario;
 	
@@ -23,6 +29,9 @@ public class Usuario
 	
 	@Column(length = 30, nullable = false)
 	private String dica;
+	
+	@Enumerated
+	private Situacao situacao;
 	
 	// Construtores
 	
@@ -33,25 +42,46 @@ public class Usuario
 		this.nomeUsuario = "";
 		this.senha = "";
 		this.dica = "";
+		this.situacao = null;
 	}
 	
 	/**
+	 * @param codigo
 	 * @param nomeUsuario
 	 * @param senha
 	 * @param dica
 	 */
-	public Usuario(String nomeUsuario, String senha, String dica)
+	public Usuario(Integer codigo, String nomeUsuario, String senha,
+		String dica, Situacao situacao)
 	{
 		super();
 		
+		this.codigo = codigo;
 		this.nomeUsuario = nomeUsuario;
 		this.senha = senha;
 		this.dica = dica;
+		this.situacao = situacao;
 	}
 	
 	// Métodos
 	
 	// Gets e Sets
+	
+	/**
+	 * @return the codigo
+	 */
+	public Integer getCodigo()
+	{
+		return codigo;
+	}
+
+	/**
+	 * @param codigo the codigo to set
+	 */
+	public void setCodigo(Integer codigo)
+	{
+		this.codigo = codigo;
+	}
 	
 	/**
 	 * @return the nomeUsuario
@@ -102,5 +132,21 @@ public class Usuario
 	public void setDica(String dica)
 	{
 		this.dica = dica;
+	}
+
+	/**
+	 * @return the situacao
+	 */
+	public Situacao getSituacao()
+	{
+		return situacao;
+	}
+
+	/**
+	 * @param situacao the situacao to set
+	 */
+	public void setSituacao(Situacao situacao)
+	{
+		this.situacao = situacao;
 	}
 }

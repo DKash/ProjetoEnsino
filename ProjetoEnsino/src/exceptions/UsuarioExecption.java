@@ -3,6 +3,8 @@
  */
 package exceptions;
 
+import util.Mensagens;
+
 /**
  * @author Audry Martins
  *
@@ -20,9 +22,10 @@ public class UsuarioExecption extends Exception
 	/**
 	 * @param arg0
 	 */
-	public UsuarioExecption(String arg0)
+	public UsuarioExecption(String mensagem)
 	{
-		super(arg0);
+		mensagem = Mensagens.MENSAGEM_PESSOA_NOME_USUARIO_INVALIDO;
+		mensagem = Mensagens.MENSAGEM_PESSOA_SENHA_USUARIO_INVALIDA;
 	}
 	
 	//Métodos

@@ -6,7 +6,6 @@ package classesBasicas;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Enumerated;
-import javax.persistence.JoinColumn;
 
 
 /**
@@ -19,7 +18,6 @@ public class Endereco
 	// Atributos
 	
 	@Enumerated
-	@JoinColumn(nullable = false)
 	private TipoLogradouro tipoLogradouro;
 	
 	@Column(length = 40, nullable = false)
@@ -38,7 +36,6 @@ public class Endereco
 	private String cidade;
 	
 	@Enumerated
-	@JoinColumn(nullable = false)
 	private UF estado;
 	
 	@Column(length = 20, nullable = false)
@@ -49,6 +46,7 @@ public class Endereco
 	public Endereco()
 	{
 		super();
+	
 		this.tipoLogradouro = null;
 		this.logradouro = "";
 		this.numero = "";
@@ -74,6 +72,7 @@ public class Endereco
 		UF estado, String pais)
 	{
 		super();
+		
 		this.tipoLogradouro = tipoLogradouro;
 		this.logradouro = logradouro;
 		this.numero = numero;

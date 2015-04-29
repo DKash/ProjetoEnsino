@@ -42,7 +42,7 @@ public class Pessoa
 	private Date dataNascimento;
 	
 	@Column(length = 40, nullable = false, unique = true)
-	private String emailprincipal;
+	private String email;
 	
 	@OneToOne
 	@JoinColumn(nullable = false, unique = true)
@@ -53,7 +53,6 @@ public class Pessoa
 	private List<Telefone> telefones;
 	
 	@Embedded
-	@JoinColumn(nullable = false, unique = true)
 	private Endereco endereco;
 	
 	@Column(length = 30, nullable = false)
@@ -68,7 +67,7 @@ public class Pessoa
 		this.nome = "";
 		this.cpf = "";
 		this.dataNascimento = new Date();
-		this.emailprincipal = "";
+		this.email = "";
 		this.usuario = new Usuario();
 		this.telefones = new ArrayList<Telefone>();
 		this.endereco = new Endereco();
@@ -90,11 +89,12 @@ public class Pessoa
 		Endereco endereco, String nacionalidade)
 	{
 		super();
+		
 		this.codigo = codigo;
 		this.nome = nome;
 		this.cpf = cpf;
 		this.dataNascimento = dataNascimento;
-		this.emailprincipal = emailprincipal;
+		this.email = emailprincipal;
 		this.usuario = usuario;
 		this.telefones = telefones;
 		this.endereco = endereco;
@@ -177,7 +177,7 @@ public class Pessoa
 	 */
 	public String getEmailprincipal()
 	{
-		return emailprincipal;
+		return email;
 	}
 	
 	/**
@@ -186,7 +186,7 @@ public class Pessoa
 	 */
 	public void setEmailprincipal(String emailprincipal)
 	{
-		this.emailprincipal = emailprincipal;
+		this.email = emailprincipal;
 	}
 	
 	/**

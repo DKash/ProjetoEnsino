@@ -6,7 +6,8 @@ package classesBasicas;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
-import javax.persistence.JoinColumn;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 /**
  * @author Audry Martins
@@ -17,6 +18,9 @@ public class Telefone
 {
 	// Atributos
 	
+	@Id @GeneratedValue
+	private Integer codigo;
+
 	@Column(length = 10, nullable = false, unique = true)
 	private String codigoPais;
 	
@@ -27,7 +31,6 @@ public class Telefone
 	private String numero;
 	
 	@Enumerated
-	@JoinColumn(nullable = false)
 	private Operadora operadora;
 	
 	// Construtores
@@ -35,6 +38,7 @@ public class Telefone
 	public Telefone()
 	{
 		super();
+		
 		this.codigoPais = "";
 		this.ddd = "";
 		this.numero = "";
@@ -42,15 +46,18 @@ public class Telefone
 	}
 	
 	/**
+	 * @param codigo
 	 * @param codigoPais
 	 * @param ddd
 	 * @param numero
 	 * @param operadora
 	 */
-	public Telefone(String codigoPais, String ddd, String numero,
+	public Telefone(Integer codigo, String codigoPais, String ddd, String numero,
 		Operadora operadora)
 	{
 		super();
+		
+		this.codigo = codigo;
 		this.codigoPais = codigoPais;
 		this.ddd = ddd;
 		this.numero = numero;
@@ -60,6 +67,22 @@ public class Telefone
 	// Métodos
 	
 	// Gets e Sets
+	/**
+	 * @return the codigo
+	 */
+	public Integer getCodigo()
+	{
+		return codigo;
+	}
+	
+	/**
+	 * @param codigo the codigo to set
+	 */
+	public void setCodigo(Integer codigo)
+	{
+		this.codigo = codigo;
+	}
+
 	/**
 	 * @return the codigoPais
 	 */

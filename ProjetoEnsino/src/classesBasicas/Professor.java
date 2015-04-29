@@ -3,9 +3,11 @@
  */
 package classesBasicas;
 
+import java.util.Date;
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
-import javax.persistence.JoinColumn;
 
 /**
  * @author Audry Martins
@@ -17,13 +19,50 @@ public class Professor extends Pessoa
 	//Atributos
 	
 	@Enumerated
-	@JoinColumn(nullable = false)
 	private TipoProfessor tipoProfessor;
+
+	//Construtores
+	
+	public Professor()
+	{
+		this.tipoProfessor = null;
+	}
+	
+	/**
+	 * @param codigo
+	 * @param nome
+	 * @param cpf
+	 * @param dataNascimento
+	 * @param emailprincipal
+	 * @param usuario
+	 * @param telefones
+	 * @param endereco
+	 * @param nacionalidade
+	 */
+	public Professor(Integer codigo, String nome, String cpf,
+		Date dataNascimento, String emailprincipal, Usuario usuario,
+		List<Telefone> telefones, Endereco endereco, String nacionalidade)
+	{
+		super(codigo, nome, cpf, dataNascimento, emailprincipal, usuario, telefones,
+			endereco, nacionalidade);
+	}	
+	
+	/**
+	 * @param tipoProfessor
+	 */
+	public Professor(TipoProfessor tipoProfessor)
+	{
+		super();
+		
+		this.tipoProfessor = tipoProfessor;
+	}
 
 	//Métodos
 	
-	//Gets e Sets
+	//Gets e Sets	//Construtores
 	
+
+
 	/**
 	 * @return the tipoProfessor
 	 */
@@ -38,5 +77,5 @@ public class Professor extends Pessoa
 	public void setTipoProfessor(TipoProfessor tipoProfessor)
 	{
 		this.tipoProfessor = tipoProfessor;
-	}	
+	}
 }

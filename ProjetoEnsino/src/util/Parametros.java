@@ -1,7 +1,7 @@
 /**
  * 
  */
-package classesBasicas;
+package util;
 
 import javax.faces.bean.ManagedBean;
 

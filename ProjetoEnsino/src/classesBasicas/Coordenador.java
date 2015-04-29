@@ -3,10 +3,11 @@
  */
 package classesBasicas;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 /**
  * @author Audry Martins
@@ -16,45 +17,61 @@ import javax.persistence.OneToMany;
 public class Coordenador extends Pessoa
 {
 	//Atributos
+		
+	@OneToOne
+	private Professor professor;
 	
-	/*@OneToOne
-	private Projeto projeto;*/
+	//Construtores
+		
+	public Coordenador()
+	{
+		this.professor = new Professor();
+	}
 	
-	@OneToMany
-	private List<Professor> avaliadores;
-	
+	/**
+	 * @param codigo
+	 * @param nome
+	 * @param cpf
+	 * @param dataNascimento
+	 * @param emailprincipal
+	 * @param usuario
+	 * @param telefones
+	 * @param endereco
+	 * @param nacionalidade
+	 */
+	public Coordenador(Integer codigo, String nome, String cpf,
+		Date dataNascimento, String emailprincipal, Usuario usuario,
+		List<Telefone> telefones, Endereco endereco, String nacionalidade)
+	{
+		super(codigo, nome, cpf, dataNascimento, emailprincipal, usuario, telefones,
+			endereco, nacionalidade);
+	}
+
+	/**
+	 * @param professor
+	 */
+	public Coordenador(Professor professor)
+	{
+		super();
+		this.professor = professor;
+	}
+
 	//Métodos
 	
 	//Gets e Sets
 	/**
-	 * @return the avaliadores
+	 * @return the professor
 	 */
-	public List<Professor> getAvaliadores()
+	public Professor getProfessor()
 	{
-		return avaliadores;
-	}
-
-	/**
-	 * @param avaliadores the avaliadores to set
-	 */
-	public void setAvaliadores(List<Professor> avaliadores)
-	{
-		this.avaliadores = avaliadores;
+		return professor;
 	}
 	
 	/**
-	 * @return the projeto
-	 *//*
-	public Projeto getProjeto()
+	 * @param professor the professor to set
+	 */
+	public void setProfessor(Professor professor)
 	{
-		return projeto;
-	}
-
-	*//**
-	 * @param projeto the projeto to set
-	 *//*
-	public void setProjeto(Projeto projeto)
-	{
-		this.projeto = projeto;
-	}*/
+		this.professor = professor;
+	}	
 }

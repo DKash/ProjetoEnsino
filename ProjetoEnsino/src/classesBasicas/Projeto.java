@@ -3,16 +3,16 @@
  */
 package classesBasicas;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToMany;
 
 
 /**
@@ -37,22 +37,69 @@ public class Projeto
 	@Column(length = 2, nullable = false)
 	private Integer qtdAlunosProjeto;
 	
-	@OneToMany
+	@ManyToMany
 	@JoinColumn(nullable = false)
 	private List<Aluno> alunos;
 	
-	@ManyToOne
+	@ManyToMany
 	@JoinColumn(nullable = false)
 	private Professor professorOrientador;
 	
-	//Talvez verificar se está certo, esse ou de baixo
-	@OneToOne
-	private Coordenador avaliadores;
+	@ManyToMany
+	@JoinColumn(nullable = false)
+	private List<Coordenador> professoresAvaliadores;
 	
-	//Ou esse
-	/*@ManyToMany
-	private List<Professor> professoresAvaliadores;*/
+	@ManyToMany
+	@JoinColumn(nullable = false)
+	private List<Nota> notas;
 	
+	@Enumerated
+	private Resultado resultado;
+	
+	//Construtores
+	
+	public Projeto()
+	{
+		super();
+		
+		this.nome = "";
+		this.descricao ="";
+		this.alunos = new ArrayList<Aluno>();
+		this.professorOrientador = new Professor();
+		this.professoresAvaliadores = new ArrayList<Coordenador>();
+		this.notas = new ArrayList<Nota>();
+		this.resultado = null;
+	}
+	
+	/**
+	 * @param codigo
+	 * @param nome
+	 * @param descricao
+	 * @param qtdAlunosProjeto
+	 * @param alunos
+	 * @param professorOrientador
+	 * @param professoresAvaliadores
+	 * @param notas
+	 * @param resultado
+	 */
+	public Projeto(Integer codigo, String nome, String descricao,
+		Integer qtdAlunosProjeto, List<Aluno> alunos,
+		Professor professorOrientador, List<Coordenador> professoresAvaliadores,
+		List<Nota> notas, Resultado resultado)
+	{
+		super();
+		
+		this.codigo = codigo;
+		this.nome = nome;
+		this.descricao = descricao;
+		this.qtdAlunosProjeto = qtdAlunosProjeto;
+		this.alunos = alunos;
+		this.professorOrientador = professorOrientador;
+		this.professoresAvaliadores = professoresAvaliadores;
+		this.notas = notas;
+		this.resultado = resultado;
+	}
+
 	// Métodos
 	
 	// Gets e Sets
@@ -63,16 +110,15 @@ public class Projeto
 	{
 		return codigo;
 	}
-	
+
 	/**
-	 * @param codigo
-	 *            the codigo to set
+	 * @param codigo the codigo to set
 	 */
 	public void setCodigo(Integer codigo)
 	{
 		this.codigo = codigo;
 	}
-	
+
 	/**
 	 * @return the nome
 	 */
@@ -80,82 +126,13 @@ public class Projeto
 	{
 		return nome;
 	}
-	
+
 	/**
-	 * @param nome
-	 *            the nome to set
+	 * @param nome the nome to set
 	 */
 	public void setNome(String nome)
 	{
 		this.nome = nome;
-	}
-	
-	/**
-	 * @return the descrcao
-	 */
-	public String getDescrcao()
-	{
-		return descricao;
-	}
-	
-	/**
-	 * @param descrcao
-	 *            the descrcao to set
-	 */
-	public void setDescrcao(String descrcao)
-	{
-		this.descricao = descrcao;
-	}
-	
-	/**
-	 * @return the qtdAlunosProjeto
-	 */
-	public Integer getQtdAlunosProjeto()
-	{
-		return qtdAlunosProjeto;
-	}
-	
-	/**
-	 * @param qtdAlunosProjeto
-	 *            the qtdAlunosProjeto to set
-	 */
-	public void setQtdAlunosProjeto(Integer qtdAlunosProjeto)
-	{
-		this.qtdAlunosProjeto = qtdAlunosProjeto;
-	}
-	
-	/**
-	 * @return the alunos
-	 */
-	public List<Aluno> getAlunos()
-	{
-		return alunos;
-	}
-	
-	/**
-	 * @param alunos
-	 *            the alunos to set
-	 */
-	public void setAlunos(List<Aluno> alunos)
-	{
-		this.alunos = alunos;
-	}
-	
-	/**
-	 * @return the professorOrientador
-	 */
-	public Professor getProfessorOrientador()
-	{
-		return professorOrientador;
-	}
-	
-	/**
-	 * @param professorOrientador
-	 *            the professorOrientador to set
-	 */
-	public void setProfessorOrientador(Professor professorOrientador)
-	{
-		this.professorOrientador = professorOrientador;
 	}
 
 	/**
@@ -175,35 +152,98 @@ public class Projeto
 	}
 
 	/**
-	 * @return the avaliadores
+	 * @return the qtdAlunosProjeto
 	 */
-	public Coordenador getAvaliadores()
+	public Integer getQtdAlunosProjeto()
 	{
-		return avaliadores;
+		return qtdAlunosProjeto;
 	}
 
 	/**
-	 * @param avaliadores the avaliadores to set
+	 * @param qtdAlunosProjeto the qtdAlunosProjeto to set
 	 */
-	public void setAvaliadores(Coordenador avaliadores)
+	public void setQtdAlunosProjeto(Integer qtdAlunosProjeto)
 	{
-		this.avaliadores = avaliadores;
+		this.qtdAlunosProjeto = qtdAlunosProjeto;
 	}
-	
+
+	/**
+	 * @return the alunos
+	 */
+	public List<Aluno> getAlunos()
+	{
+		return alunos;
+	}
+
+	/**
+	 * @param alunos the alunos to set
+	 */
+	public void setAlunos(List<Aluno> alunos)
+	{
+		this.alunos = alunos;
+	}
+
+	/**
+	 * @return the professorOrientador
+	 */
+	public Professor getProfessorOrientador()
+	{
+		return professorOrientador;
+	}
+
+	/**
+	 * @param professorOrientador the professorOrientador to set
+	 */
+	public void setProfessorOrientador(Professor professorOrientador)
+	{
+		this.professorOrientador = professorOrientador;
+	}
+
 	/**
 	 * @return the professoresAvaliadores
-	 *//*
-	public List<Professor> getProfessoresAvaliadores()
+	 */
+	public List<Coordenador> getProfessoresAvaliadores()
 	{
 		return professoresAvaliadores;
 	}
-	
-	*//**
-	 * @param professoresAvaliadores
-	 *            the professoresAvaliadores to set
-	 *//*
-	public void setProfessoresAvaliadores(List<Professor> professoresAvaliadores)
+
+	/**
+	 * @param professoresAvaliadores the professoresAvaliadores to set
+	 */
+	public void setProfessoresAvaliadores(List<Coordenador> professoresAvaliadores)
 	{
 		this.professoresAvaliadores = professoresAvaliadores;
-	}*/
+	}
+
+	/**
+	 * @return the notas
+	 */
+	public List<Nota> getNotas()
+	{
+		return notas;
+	}
+
+	/**
+	 * @param notas the notas to set
+	 */
+	public void setNotas(List<Nota> notas)
+	{
+		this.notas = notas;
+	}
+
+	/**
+	 * @return the resultado
+	 */
+	public Resultado getResultado()
+	{
+		return resultado;
+	}
+
+	/**
+	 * @param resultado the resultado to set
+	 */
+	public void setResultado(Resultado resultado)
+	{
+		this.resultado = resultado;
+	}
 }
