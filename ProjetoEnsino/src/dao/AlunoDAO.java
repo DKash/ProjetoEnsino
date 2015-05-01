@@ -5,7 +5,7 @@ package dao;
 
 import javax.persistence.EntityManager;
 
-import interfaces.IAlunoDAO;
+import interfaces.dao.IAlunoDAO;
 import classesBasicas.Aluno;
 import dao.generics.DAOGeneric;
 

@@ -5,7 +5,7 @@ package dao;
 
 import javax.persistence.EntityManager;
 
-import interfaces.IUsuarioDAO;
+import interfaces.dao.IUsuarioDAO;
 import classesBasicas.Usuario;
 import dao.generics.DAOGeneric;
 

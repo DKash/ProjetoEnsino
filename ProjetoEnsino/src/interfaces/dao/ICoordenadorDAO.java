@@ -1,7 +1,7 @@
 /**
  * 
  */
-package interfaces;
+package interfaces.dao;
 
 import classesBasicas.Coordenador;
 import dao.generics.IDAOGeneric;

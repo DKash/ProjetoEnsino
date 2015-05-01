@@ -1,7 +1,7 @@
 /**
  * 
  */
-package interfaces;
+package interfaces.dao;
 
 import classesBasicas.Aluno;
 import dao.generics.IDAOGeneric;

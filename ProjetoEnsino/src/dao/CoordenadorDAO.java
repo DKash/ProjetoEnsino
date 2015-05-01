@@ -5,7 +5,7 @@ package dao;
 
 import javax.persistence.EntityManager;
 
-import interfaces.ICoordenadorDAO;
+import interfaces.dao.ICoordenadorDAO;
 import classesBasicas.Coordenador;
 import dao.generics.DAOGeneric;
 
