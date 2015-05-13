@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -44,6 +45,9 @@ public class Pessoa
 	@Column(length = 40, nullable = false, unique = true)
 	private String email;
 	
+	@Embedded
+	private Sexo sexo;
+	
 	@OneToOne
 	@JoinColumn(nullable = false, unique = true)
 	private Usuario usuario;
@@ -58,6 +62,9 @@ public class Pessoa
 	@Column(length = 30, nullable = false)
 	private String nacionalidade;
 	
+	@Enumerated
+	private Situacao situacao;
+	
 	// Construtores
 	
 	public Pessoa()
@@ -68,10 +75,12 @@ public class Pessoa
 		this.cpf = "";
 		this.dataNascimento = new Date();
 		this.email = "";
+		this.sexo = null;
 		this.usuario = new Usuario();
 		this.telefones = new ArrayList<Telefone>();
 		this.endereco = new Endereco();
 		this.nacionalidade = "";
+		this.situacao = Situacao.ATIVO;
 	}
 	
 	/**
@@ -85,8 +94,8 @@ public class Pessoa
 	 * @param endereco
 	 */
 	public Pessoa(Integer codigo, String nome, String cpf, Date dataNascimento, 
-		String emailprincipal, Usuario usuario, List<Telefone> telefones,
-		Endereco endereco, String nacionalidade)
+		String emailprincipal, Sexo sexo, Usuario usuario, List<Telefone> telefones,
+		Endereco endereco, String nacionalidade, Situacao situacao)
 	{
 		super();
 		
@@ -95,10 +104,12 @@ public class Pessoa
 		this.cpf = cpf;
 		this.dataNascimento = dataNascimento;
 		this.email = emailprincipal;
+		this.sexo = sexo;
 		this.usuario = usuario;
 		this.telefones = telefones;
 		this.endereco = endereco;
 		this.nacionalidade = nacionalidade;
+		this.situacao = situacao;
 	}
 	
 	// Métodos
@@ -173,22 +184,37 @@ public class Pessoa
 	}
 	
 	/**
-	 * @return the emailprincipal
+	 * @return the email
 	 */
-	public String getEmailprincipal()
+	public String getEmail()
 	{
 		return email;
 	}
-	
+
 	/**
-	 * @param emailprincipal
-	 *            the emailprincipal to set
+	 * @param email the email to set
 	 */
-	public void setEmailprincipal(String emailprincipal)
+	public void setEmail(String email)
 	{
-		this.email = emailprincipal;
+		this.email = email;
 	}
-	
+
+	/**
+	 * @return the sexo
+	 */
+	public Sexo getSexo()
+	{
+		return sexo;
+	}
+
+	/**
+	 * @param sexo the sexo to set
+	 */
+	public void setSexo(Sexo sexo)
+	{
+		this.sexo = sexo;
+	}
+
 	/**
 	 * @return the usuario
 	 */
@@ -255,5 +281,21 @@ public class Pessoa
 	public void setNacionalidade(String nacionalidade)
 	{
 		this.nacionalidade = nacionalidade;
+	}
+
+	/**
+	 * @return the situacao
+	 */
+	public Situacao getSituacao()
+	{
+		return situacao;
+	}
+
+	/**
+	 * @param situacao the situacao to set
+	 */
+	public void setSituacao(Situacao situacao)
+	{
+		this.situacao = situacao;
 	}
 }

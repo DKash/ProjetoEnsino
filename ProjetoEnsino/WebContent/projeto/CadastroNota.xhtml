@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<title>#{msgs.tituloCadastroProjeto}</title>
+<style type="text/css">
+body
+{
+	background: url(http://i62.tinypic.com/2poy70h.jpg) no-repeat;
+}
+</style>
+</head>
+<h:body>
+	<h:form>
+	
+	#{MensagemInicial.mensagem}
+	
+		<iframe width="800" height="700"
+			src="https://www.youtube.com/embed/gG_dA32oH44" frameborder="0"
+			align="right" scrolling="no"></iframe>
+
+		<h:head>#{msgs.tituloProjeto}</h:head>
+		<hr></hr>
+		<br></br>
+
+		<h3>#{msgs.tituloProjetoNota}</h3>
+
+		<h:panelGrid columns="3" id="notas">
+			<h:outputLabel value="#{msgs.labelProjetoCriterios}* "></h:outputLabel>
+			<h:inputText maxlength="10" required="true"
+				requiredMessage="#{msgs.vldProjetoCriterio}"
+				value="#{cadastroProjetoMB.entidade.notas.criterio}"></h:inputText>
+
+			<h:outputLabel value="#{msgs.labelProjetoNota}* "></h:outputLabel>
+			<h:inputText maxlength="4" required="true"
+				requiredMessage="#{msgs.vldProjetoNota}"
+				converterMessage="#{msgs.cvmApenasNumeros}"
+				value="#{cadastroProjetoMB.entidade.notas.nota}"></h:inputText>
+
+			<f:facet name="footer">
+				<h:commandButton value="#{msgs.labelAddNota}"
+					actionListener="#{cadastroProjetoMB.addNota}">
+				</h:commandButton>
+			</f:facet>
+
+			<h:outputLabel value="#{msgs.promptProjetoProfessorAvaliador}* "></h:outputLabel>
+			<h:selectOneListbox size="1" maxlength="1" required="true"
+				requiredMessage="#{msgs.vldProjetoProfessorAvaliador}"
+				value="#{cadastroProjetoMB.entidade.notas.professorAvaliador}">
+				<f:selectItem value="CadastroProjetoMB.avaliadores" />
+				</h:selectOneListbox>
+		
+		</h:panelGrid>
+		
+		<br></br>
+
+		<h:panelGrid columns="3">
+			<f:facet name="footer">
+				<h:commandButton value="#{msgs.botaoCadastrar}"
+					action="#{cadastroProjetoMB.inserir}"></h:commandButton>
+
+				<h:commandButton value="#{msgs.botaoAlterar}"
+					action="#{cadastroProjetoMB.alterar}"></h:commandButton>
+
+				<h:commandButton value="#{msgs.botaoRemover}"
+					action="#{cadastroProjetoMB.remover}"></h:commandButton>
+
+				<h:commandButton value="#{msgs.botaoConsultarPorCodigo}"
+					action="#{cadastroProjetoMB.consultarPorId}"></h:commandButton>
+
+				<h:commandButton value="#{msgs.botaoConsultarTodos}"
+					action="#{cadastroProjetoMB.consultarTodos}"></h:commandButton>
+
+				<h:commandButton value="#{msgs.botaoConsultarTodosPorIndice}"
+					action="#{cadastroProjetoMB.consultarTodosComParametros}"></h:commandButton>
+
+				<h:commandButton value="#{msgs.botaoCancelar}" immediate="true"
+					action="#{msgs.urlMenu}"></h:commandButton>
+
+				<h:commandButton value="#{msgs.botaoLimpar}" immediate="true"
+					type="reset"></h:commandButton>
+			</f:facet>
+		</h:panelGrid>
+		<h:messages errorStyle="font-color: red"></h:messages>
+	</h:form>
+</h:body>
+</html>

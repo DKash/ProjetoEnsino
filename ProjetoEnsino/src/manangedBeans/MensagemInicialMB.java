@@ -8,10 +8,6 @@ import java.util.Calendar;
 
 import javax.faces.bean.ManagedBean;
 
-import util.Mensagens;
-import classesBasicas.Usuario;
-
-
 /**
  * @author Audry Martins
  *
@@ -22,24 +18,7 @@ public class MensagemInicialMB
 	// Atributos
 	
 	private String mensagem;
-	
-	// Construtores
-	
-	public MensagemInicialMB()
-	{
-		super();
-		
-		this.mensagem = "";
-	}
-	
-	/**
-	 * @param mensagem
-	 */
-	public MensagemInicialMB(String mensagem)
-	{
-		super();
-		this.mensagem = mensagem;
-	}
+	private LoginMB usuario = new LoginMB();
 	
 	// Métodos
 	
@@ -51,36 +30,35 @@ public class MensagemInicialMB
 	{
 		Calendar c = Calendar.getInstance();
 		Integer horaAtual = c.get(Calendar.HOUR_OF_DAY);
-		SimpleDateFormat sdf = new SimpleDateFormat("EEEEE, dd/MM/yyyy");
+		SimpleDateFormat sdf = new SimpleDateFormat("EEEEE, dd/MM/yyyy HH:mm:ss");
 		
-		Usuario usuario = new Usuario();
 		if(horaAtual < 12)
 		{
-			setMensagem(Mensagens.MENSAGEM_BOM_DIA + ", "
-				+ Mensagens.MENSAGEM_DIA_SEMANA + " "
+			setMensagem("#{msgs.mensagemBomDia}" + ", "
+				+ "#{msgs.mensagemDiaSemana}" + " "
 				+ sdf.format(c.getTime()) + ". "
-				+ Mensagens.MENSAGEM_BOAS_VINDAS + " "
-				+ usuario.getNomeUsuario() + ".");
+				+ "#{msgs.mensagemBoasVindas}" + " "
+				+ usuario.getUsuario().getNomeUsuario() + ".");
 		}
 		else
 		{
 			if(horaAtual >= 12 && horaAtual < 19)
 			{
-				setMensagem(Mensagens.MENSAGEM_BOA_TARDE + ", "
-					+ Mensagens.MENSAGEM_DIA_SEMANA + " "
+				setMensagem("#{msgs.mensagemBoaTarde}" + ", "
+					+ "#{msgs.mensagemDiaSemana}" + " "
 					+ sdf.format(c.getTime()) + ". "
-					+ Mensagens.MENSAGEM_BOAS_VINDAS + " "
-					+ usuario.getNomeUsuario() + ".");
+					+ "#{msgs.mensagemBoasVindas}" + " "
+					+ usuario.getUsuario().getNomeUsuario()+ ".");
 			}
 			else
 			{
 				if(horaAtual >= 19 && horaAtual <= 24)
 				{
-					setMensagem(Mensagens.MENSAGEM_BOA_NOITE + ", "
-						+ Mensagens.MENSAGEM_DIA_SEMANA + " "
+					setMensagem("#{msgs.mensagemBoaNoite}" + ", "
+						+ "#{msgs.mensagemDiaSemana}" + " "
 						+ sdf.format(c.getTime()) + ". "
-						+ Mensagens.MENSAGEM_BOAS_VINDAS + " "
-						+ usuario.getNomeUsuario() + ".");
+						+ "#{msgs.mensagemBoasVindas}" + " "
+						+ usuario.getUsuario().getNomeUsuario() + ".") ;
 				}
 			}
 		}

@@ -7,9 +7,8 @@ package exceptions;
  * @author Audry Martins
  *
  */
-public class AlunoException extends Exception
-{	
-	
+public class UsuarioInexistenteException extends Exception
+{
 	//Atributos
 	/**
 	 * 
@@ -17,13 +16,15 @@ public class AlunoException extends Exception
 	private static final long serialVersionUID = 1L;
 
 	//Construtores
+	
 	/**
-	 * @param arg0
+	 * @param message
 	 */
-	public AlunoException(String arg0)
+	public UsuarioInexistenteException()
 	{
-		super(arg0);
+		super();
 	}
+	
 	//Métodos
 	
 	//Gets e Sets

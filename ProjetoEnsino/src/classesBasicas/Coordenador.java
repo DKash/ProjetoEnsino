@@ -7,12 +7,18 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 
 /**
  * @author Audry Martins
  *
  */
+@NamedQueries({
+	@NamedQuery(name = "Coordenador.findByName", query = "SELECT c FROM Coordenador c WHERE c.nome LIKE :nome"),
+	@NamedQuery(name = "Coordenador.findByCPF", query = "SELECT c FROM Coordenador c WHERE c.cpf = :cpf")
+})
 @Entity
 public class Coordenador extends Pessoa
 {
@@ -40,11 +46,11 @@ public class Coordenador extends Pessoa
 	 * @param nacionalidade
 	 */
 	public Coordenador(Integer codigo, String nome, String cpf,
-		Date dataNascimento, String emailprincipal, Usuario usuario,
-		List<Telefone> telefones, Endereco endereco, String nacionalidade)
+		Date dataNascimento, String emailprincipal, Sexo sexo, Usuario usuario,
+		List<Telefone> telefones, Endereco endereco, String nacionalidade, Situacao situacao)
 	{
-		super(codigo, nome, cpf, dataNascimento, emailprincipal, usuario, telefones,
-			endereco, nacionalidade);
+		super(codigo, nome, cpf, dataNascimento, emailprincipal, sexo, usuario, telefones,
+			endereco, nacionalidade, situacao);
 	}
 
 	/**

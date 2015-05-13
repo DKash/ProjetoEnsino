@@ -7,23 +7,22 @@ package exceptions;
  * @author Audry Martins
  *
  */
-public class ProfessorException extends Exception
+public class CoordenadorExistenteException extends Exception
 {
-	//Atributos
+	//Atributos	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	//Construtores
 	/**
-	 * @param arg0
 	 */
-	public ProfessorException(String arg0)
+	public CoordenadorExistenteException()
 	{
-		super(arg0);
+		super();
 	}
-		
+	
 	//Métodos
 	
 	//Gets e Sets

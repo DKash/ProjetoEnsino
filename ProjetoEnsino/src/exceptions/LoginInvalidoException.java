@@ -22,14 +22,6 @@ public class LoginInvalidoException extends Exception
 		super();
 	}
 	
-	/**
-	 * @param arg0
-	 */
-	public LoginInvalidoException(String arg0)
-	{
-		super(arg0);
-	}
-	
 	// Métodos
 	
 	// Gets e Sets

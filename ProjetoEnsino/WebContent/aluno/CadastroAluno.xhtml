@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<title>#{msgs.tituloCadastroAluno}</title>
+<style type="text/css">
+body
+{
+	/* background: url(http://i62.tinypic.com/2poy70h.jpg) no-repeat; */
+	background: url("\images\principal.png") no-repeat;	
+}
+</style>
+
+</h:head>
+<h:body>
+	<h:form>
+	
+	#{MensagemInicial.mensagem}
+	
+		<!-- <iframe width="800" height="700"
+			src="https://www.youtube.com/embed/gG_dA32oH44" frameborder="0"
+			align="right" scrolling="no"></iframe> -->
+
+		<h:head>#{msgs.tituloDadosPessoais}</h:head>
+		<hr></hr>
+		<br></br>
+
+		<h:panelGrid columns="4" border="2">
+			<h:outputLabel value="#{msgs.labelNome}* "></h:outputLabel>
+			<h:inputText maxlength="30" required="true"
+				requiredMessage="#{msgs.vldNome}"
+				converterMessage="#{msgs.cvmApenasLetras}" autocomplete="true"
+				value="#{cadastroAlunoMB.entidade.nome}"></h:inputText>
+
+			<h:outputLabel value="#{msgs.labelCPF}* "></h:outputLabel>
+			<h:inputText size="11" maxlength="11" required="true"
+				requiredMessage="#{msgs.vldCPF}"
+				converterMessage="#{msgs.cvmApenasNumeros}"
+				value="#{cadastroAlunoMB.entidade.cpf}"></h:inputText>
+
+			<h:outputLabel value="#{msgs.labelDataNascimento}* "></h:outputLabel>
+			<h:inputText size="10" maxlength="10" required="true"
+				requiredMessage="#{msgs.vldDataNascimento}"
+				converterMessage="#{msgs.cvmApenasNumeros}"
+				value="#{cadastroAlunoMB.entidade.dataNascimento}"></h:inputText>
+
+			<h:outputLabel value="#{msgs.promptEmail}* "></h:outputLabel>
+			<h:inputText maxlength="30" required="true"
+				requiredMessage="#{msgs.vldEmail}"
+				converterMessage="#{msgs.cvmApenasLetras}"
+				value="#{cadastroAlunoMB.entidade.email}"></h:inputText>
+
+			<h:outputLabel value="#{msgs.promptSexo}* "></h:outputLabel>
+			<h:selectOneRadio maxlength="9" required="true"
+				requiredMessage="#{msgs.vldSexo}"
+				value="#{cadastroAlunoMB.entidade.sexo}">
+				<f:selectItems value="#{cadastroAlunoMB.sexos}" />
+			</h:selectOneRadio>
+
+			<h:outputLabel value="#{msgs.labelNacionalidade}* "></h:outputLabel>
+			<h:inputText maxlength="30" required="true"
+				requiredMessage="#{msgs.vldNacionalidade}"
+				converterMessage="#{msgs.cvmApenasLetras}"
+				value="#{cadastroAlunoMB.entidade.nacionalidade}"></h:inputText>
+		</h:panelGrid>
+
+		<h3>#{msgs.tituloTelefone}</h3>
+
+		<h:panelGrid columns="4" border="4" cellspacing="4">
+			<h:outputLabel value="#{msgs.labelTelefoneCodigoPais}* "></h:outputLabel>
+			<h:inputText maxlength="5" required="true"
+				requiredMessage="#{msgs.vldTelefoneCodigoPais}"
+				value="#{cadastroAlunoMB.entidade.telefone.codigoPais}"></h:inputText>
+
+			<h:outputLabel value="#{msgs.labelTelefoneDDD}* "></h:outputLabel>
+			<h:inputText maxlength="3" required="true"
+				requiredMessage="#{msgs.vldTelefoneDDD}"
+				converterMessage="#{msgs.cvmApenasNumeros}"
+				value="#{cadastroAlunoMB.entidade.telefone.ddd}"></h:inputText>
+
+			<h:outputLabel value="#{msgs.labelNumero}* "></h:outputLabel>
+			<h:inputText maxlength="10" required="true"
+				requiredMessage="#{msgs.vldTelefoneNumero}"
+				converterMessage="#{msgs.cvmApenasNumeros}"
+				value="#{cadastroAlunoMB.entidade.telefone.numero}"></h:inputText>
+
+			<h:outputLabel value="#{msgs.labelTelefoneOperadora}* "></h:outputLabel>
+			<h:selectOneListbox maxlength="5" required="true"
+				requiredMessage="#{msgs.vldTelefoneOperadora}"
+				value="#{cadastroAlunoMB.entidade.telefone.operadora}">
+				<f:selectItems value="#{cadastroPessoaMB.operadoras}" />
+			</h:selectOneListbox>
+		</h:panelGrid>
+
+		<h3>#{msgs.tituloEndereco}</h3>
+
+		<h:panelGrid columns="2" border="1">
+			<h:outputLabel value="#{msgs.promptEnderecoTipoLogradouro}* "></h:outputLabel>
+			<h:selectOneListbox maxlength="10" required="true"
+				requiredMessage="#{msgs.vldEnderecoTipoLogradouro}"
+				value="#{cadastroPessoaMB.tipoLogradouros}"></h:selectOneListbox>
+
+			<h:outputLabel value="#{msgs.labelEnderecoLogradouro}* "></h:outputLabel>
+			<h:inputText maxlength="30" required="true"
+				requiredMessage="#{msgs.vldEnderecoLogradouro}"
+				converterMessage="#{msgs.cvmApenasLetras}"
+				value="#{cadastroAlunoMB.entidade.endereco.logradouro}"></h:inputText>
+
+			<h:outputLabel value="#{msgs.labelNumero}* "></h:outputLabel>
+			<h:inputText maxlength="5" required="true"
+				requiredMessage="#{msgs.vldEnderecoNumero}"
+				value="#{cadastroAlunoMB.entidade.endereco.numero}"></h:inputText>
+
+			<h:outputLabel value="#{msgs.labelEnderecoComplemento} "></h:outputLabel>
+			<h:inputText maxlength="20" required="false"
+				converterMessage="#{msgs.cvmApenasLetras}"
+				value="#{cadastroAlunoMB.entidade.endereco.complemento}"></h:inputText>
+
+			<h:outputLabel value="#{msgs.labelEnderecoBairro}* "></h:outputLabel>
+			<h:inputText maxlength="20" required="true"
+				requiredMessage="#{msgs.vldEnderecoBairro}"
+				converterMessage="#{msgs.cvmApenasLetras}"
+				value="#{cadastroAlunoMB.entidade.endereco.bairro}"></h:inputText>
+
+			<h:outputLabel value="#{msgs.labelEnderecoCidade}* "></h:outputLabel>
+			<h:inputText maxlength="20" required="true"
+				requiredMessage="#{msgs.vldEnderecoCidade}"
+				converterMessage="#{msgs.cvmApenasLetras}"
+				value="#{cadastroAlunoMB.entidade.endereco.cidade}"></h:inputText>
+
+			<h:outputLabel value="#{msgs.promptEnderecoUF}* "></h:outputLabel>
+			<h:selectOneListbox maxlength="2" required="true"
+				requiredMessage="#{msgs.vldEnderecoUF}"
+				converterMessage="#{msgs.cvmSelecioneCampo}"
+				value="#{cadastroAlunoMB.entidade.endereco.uf}">
+				<f:selectItems value="#{cadastroPessoaMB.ufs}" />
+			</h:selectOneListbox>
+
+			<h:outputLabel value="#{msgs.labelEnderecoPais}* "></h:outputLabel>
+			<h:inputText maxlength="20" required="true"
+				requiredMessage="#{msgs.vldEnderecoPais}"
+				converterMessage="#{msgs.cvmApenasLetras}"
+				value="#{cadastroAlunoMB.entidade.endereco.pais}"></h:inputText>
+		</h:panelGrid>
+
+		<h3>#{msgs.tituloUsuario}</h3>
+
+		<h:panelGrid columns="2" border="1">
+			<h:outputLabel value="#{msgs.labelUsuarioNomeUsuario}* "></h:outputLabel>
+			<h:inputText maxlength="15" required="true"
+				requiredMessage="#{msgs.vldUsuarioNomeUsuario}"
+				value="#{cadastroAlunoMB.entidade.usuario.nomeUsuario}"></h:inputText>
+
+			<h:outputLabel value="#{msgs.labelUsuarioSenha}* "></h:outputLabel>
+			<h:inputSecret maxlength="15" required="true"
+				requiredMessage="#{msgs.vldUsuarioSenha}"
+				value="#{cadastroAlunoMB.entidade.usuario.senha}"></h:inputSecret>
+
+			<h:outputLabel value="#{msgs.labelUsuarioSenhaConfirmacao}* "></h:outputLabel>
+			<h:inputSecret maxlength="15" required="true"
+				requiredMessage="#{msgs.vldUsuarioSenhaConfirmacao}"></h:inputSecret>
+
+			<h:outputLabel value="#{msgs.labelUsuarioDica} "></h:outputLabel>
+			<h:inputText maxlength="10" required="false"
+				value="#{cadastroAlunoMB.entidade.usuario.dica}"></h:inputText>
+
+			<h:outputLabel value="#{msgs.promptUsuarioSituacao} "></h:outputLabel>
+			<h:selectOneMenu maxlength="10" required="true"
+				requiredMessage="#{msgs.vldUsuarioSituacao}"
+				converterMessage="#{msgs.cvmSelecioneCampo}"
+				value="#{cadastroAlunoMB.entidade.usuario.situacao}">
+				<f:selectItems value="#{cadastroPessoaMB.situacao}" />
+			</h:selectOneMenu>
+		</h:panelGrid>
+
+		<br></br>
+
+		<h:panelGrid columns="4">
+			<f:facet name="footer">
+				<h:commandButton value="#{msgs.botaoCadastrar}"
+					action="#{cadastroAlunoMB.inserir}"></h:commandButton>
+
+				<h:commandButton value="#{msgs.botaoAlterar}"
+					action="#{cadastroAlunoMB.alterar}"></h:commandButton>
+
+				<h:commandButton value="#{msgs.botaoRemover}"
+					action="#{cadastroAlunoMB.remover}"></h:commandButton>
+
+				<h:commandButton value="#{msgs.botaoConsultarTodos}"
+					action="#{cadastroAlunoMB.consultarTodos}"></h:commandButton>
+
+				<br></br>
+
+				<h:commandButton value="#{msgs.botaoConsultarPorCodigo}"
+					action="#{cadastroAlunoMB.consultarPorId}"></h:commandButton>
+
+				<h:commandButton value="#{msgs.botaoConsultarPorIndice}"
+					action="#{cadastroAlunoMB.consultarTodosComParametros}"></h:commandButton>
+
+				<h:commandButton value="#{msgs.botaoConsultarPorNome}"
+					action="#{cadastroAlunoMB.consultarPorNome}"></h:commandButton>
+
+				<br></br>
+
+				<h:commandButton value="#{msgs.botaoCancelar}" immediate="true"
+					onclick="#{comandosMB.exibirMenu}">
+				</h:commandButton>
+
+				<h:commandButton value="#{msgs.botaoLimpar}" immediate="true"
+					type="reset"></h:commandButton>
+			</f:facet>
+		</h:panelGrid>
+		<h:messages errorStyle="font-color: red"></h:messages>
+	</h:form>
+</h:body>
+</html>

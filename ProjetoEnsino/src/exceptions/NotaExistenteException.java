@@ -7,7 +7,7 @@ package exceptions;
  * @author Audry Martins
  *
  */
-public class ProjetoException extends Exception
+public class NotaExistenteException extends Exception
 {
 	//Atributos
 	
@@ -15,16 +15,7 @@ public class ProjetoException extends Exception
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
-	//Construtores
-	/**
-	 * @param arg0
-	 */
-	public ProjetoException(String arg0)
-	{
-		super(arg0);
-	}
-	//Métodos
 	
+	//Métodos
 	//Gets e Sets
 }

@@ -8,11 +8,13 @@ import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 
 /**
  * @author Audry Martins
  *
  */
+@NamedQuery(name = "Usuario.findByName", query = "SELECT user FROM Usuario user WHERE user.nome LIKE :nome")
 @Entity
 public class Usuario
 {

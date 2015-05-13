@@ -8,17 +8,22 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+
 
 /**
  * @author Audry Martins
  *
  */
+@NamedQuery(name="Nota.findNotesByProject", query = "SELECT n FROM Nota n WHERE n.projeto = :projeto")
 @Entity
 public class Nota
 {
 	// Atributos
 	
-	@Id @GeneratedValue
+	@Id
+	@GeneratedValue
 	@Column(length = 5, nullable = false)
 	private Integer codigo;
 	
@@ -28,16 +33,19 @@ public class Nota
 	@Column(length = 5, nullable = false)
 	private Double nota;
 	
+	@ManyToOne
+	private Projeto projeto;
+	
 	@JoinColumn(nullable = false)
 	private Professor professorAvaliador;
 	
-	//Construtores
-	
+	// Construtores
 	public Nota()
 	{
 		super();
 		
 		this.criterio = "";
+		this.projeto = new Projeto();
 		this.professorAvaliador = new Professor();
 	}
 	
@@ -47,7 +55,7 @@ public class Nota
 	 * @param nota
 	 * @param professorAvaliador
 	 */
-	public Nota(Integer codigo, String criterio, Double nota,
+	public Nota(Integer codigo, String criterio, Double nota, Projeto projeto,
 		Professor professorAvaliador)
 	{
 		super();
@@ -55,9 +63,10 @@ public class Nota
 		this.codigo = codigo;
 		this.criterio = criterio;
 		this.nota = nota;
+		this.projeto = projeto;
 		this.professorAvaliador = professorAvaliador;
 	}
-
+	
 	// Métodos
 	
 	// Gets e Sets
@@ -70,7 +79,8 @@ public class Nota
 	}
 	
 	/**
-	 * @param codigo the codigo to set
+	 * @param codigo
+	 *            the codigo to set
 	 */
 	public void setCodigo(Integer codigo)
 	{
@@ -85,7 +95,6 @@ public class Nota
 		return criterio;
 	}
 	
-
 	/**
 	 * @param criterio
 	 *            the criterio to set
@@ -112,6 +121,24 @@ public class Nota
 		this.nota = nota;
 	}
 	
+	/**
+	 * @return the projeto
+	 */
+	public Projeto getProjeto()
+	{
+		return projeto;
+	}
+	
+
+	/**
+	 * @param projeto the projeto to set
+	 */
+	public void setProjeto(Projeto projeto)
+	{
+		this.projeto = projeto;
+	}
+	
+
 	/**
 	 * @return the professorAvaliador
 	 */

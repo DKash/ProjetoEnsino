@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<title>#{msgs.tituloMenuSobre}</title>
+</head>
+<body>
+	<h4 align="center">#{msgs.mensagemMenuSobre}</h4>
+
+	<p:blockUI animate="true" blocked="true"></p:blockUI>
+
+	<p:confirm header="Confirme?" message="Do you Want Insert This Object?"></p:confirm>
+
+	<p:confirmDialog appendTo="Confirme?" closable="true"
+		hideEffect="false" message="Object Saved Sucessfuly" severity="FATAL"
+		width="350"></p:confirmDialog>
+
+	<h:outputText value="Name* "></h:outputText>
+	<h:inputText onblur="reset" value="" ></h:inputText>
+
+	<p:growl autoUpdate="true" severity="WARN"
+		showDetail="Name was'not fill outed"></p:growl>
+</body>
+</html>

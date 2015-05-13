@@ -3,11 +3,21 @@
  */
 package manangedBeans;
 
-import javax.faces.bean.ManagedBean;
+import interfaces.negocio.IFachada;
 
-import util.Mensagens;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.context.FacesContext;
+
+import negocio.Fachada;
 import classesBasicas.Usuario;
-//import exceptions.LoginInvalido;
+import exceptions.AlunoExistenteException;
+import exceptions.CoordenadorExistenteException;
+import exceptions.NotaExistenteException;
+import exceptions.ProfessorExistenteException;
+import exceptions.ProjetoExistenteException;
+import exceptions.UsuarioExistenteException;
+import exceptions.UsuarioInexistenteException;
 
 
 /**
@@ -19,33 +29,10 @@ public class LoginMB
 {
 	// Atributos
 	
-	private Usuario usuario;
+	private Usuario usuario = new Usuario();
 	private String mensagem;
 	private String senha2;
-	
-	// Construtores
-	
-	public LoginMB()
-	{
-		super();
-		
-		this.usuario = new Usuario();
-		this.mensagem = "";
-		this.senha2 = "";
-	}
-	
-	/**
-	 * @param usuario
-	 * @param mensagem
-	 */
-	public LoginMB(Usuario usuario, String mensagem, String senha2)
-	{
-		super();
-	
-		this.usuario = usuario;
-		this.mensagem = mensagem;
-		this.senha2 = senha2;
-	}
+	private IFachada fachada = Fachada.getInstancia();
 	
 	// Métodos
 	
@@ -53,24 +40,66 @@ public class LoginMB
 	{
 		if(usuario.getSenha().equals(senha2))
 		{
-			setMensagem(Mensagens.MENSAGEM_SUCESSO_LOGIN);
+			try
+			{
+				fachada.efetuarLogin(usuario);
+				setMensagem("#{msgs.mensagemSucessoLogin}");
+				FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage("#{msgs.mensagemSucessoLogin}"));
+				return "/menu.xhtml?faces-redirect=true";
+			}catch(UsuarioInexistenteException e)
+			{
+				FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage("Usuario Inexistente, tente novamente"));
+				return "";
+			}
 		}
 		else
 		{
-			setMensagem(Mensagens.MENSAGEM_FALHA_LOGIN);
+			setMensagem("#{msgs.mensagemFalhaLogin}");
 		}
-			
-		/*try
+		return mensagem;
+	}
+	
+	public String cadastrarUsuario()
+	{
+		if(usuario.getSenha().equals(senha2))
 		{
-			fachada.efetuarLogin(usuario);
-			setMensagem(Mensagens.MENSAGEM_SUCESSO_LOGIN);
-			return "menu.xhtml";
-		} catch (LoginInvalidoException e)
+			try
+			{
+				fachada.inserirUsuario(usuario);
+				FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage("#{msgs.mensagemSucessoLogin}"));
+				return "index.xhtml";
+			}catch(AlunoExistenteException e)
+			{
+				e.printStackTrace();
+			}catch(ProfessorExistenteException e)
+			{
+				e.printStackTrace();
+			}catch(CoordenadorExistenteException e)
+			{
+				e.printStackTrace();
+			}catch(ProjetoExistenteException e)
+			{
+				e.printStackTrace();
+			}catch(UsuarioExistenteException e)
+			{
+				e.printStackTrace();
+				FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage("Usuario Existente, tente novamente"));
+				return "index.xhtml";
+			}catch(NotaExistenteException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		else
 		{
-			setMensagem(Mensagens.MENSAGEM_FALHA_LOGIN);
+			setMensagem("#{msgs.mensagemFalhaLogin}");
 			return "index.xhtml";
-		}*/
-		return null;
+		}
+		return mensagem;
 	}
 	
 	// Gets e Sets
@@ -107,7 +136,7 @@ public class LoginMB
 	{
 		this.mensagem = mensagem;
 	}
-
+	
 	/**
 	 * @return the senha2
 	 */
@@ -115,12 +144,30 @@ public class LoginMB
 	{
 		return senha2;
 	}
-
+	
 	/**
-	 * @param senha2 the senha2 to set
+	 * @param senha2
+	 *            the senha2 to set
 	 */
 	public void setSenha2(String senha2)
 	{
 		this.senha2 = senha2;
+	}
+	
+	/**
+	 * @return the fachada
+	 */
+	public IFachada getFachada()
+	{
+		return fachada;
+	}
+	
+	/**
+	 * @param fachada
+	 *            the fachada to set
+	 */
+	public void setFachada(IFachada fachada)
+	{
+		this.fachada = fachada;
 	}
 }

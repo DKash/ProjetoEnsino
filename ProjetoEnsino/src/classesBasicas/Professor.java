@@ -8,11 +8,17 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 /**
  * @author Audry Martins
  *
  */
+@NamedQueries({
+	@NamedQuery(name = "Professor.findByName", query = "SELECT p FROM Professor p WHERE p.nome LIKE :nome"),
+	@NamedQuery(name = "Professor.findByCPF", query = "SELECT p FROM Professor p WHERE p.cpf = :cpf")
+})
 @Entity
 public class Professor extends Pessoa
 {
@@ -40,11 +46,11 @@ public class Professor extends Pessoa
 	 * @param nacionalidade
 	 */
 	public Professor(Integer codigo, String nome, String cpf,
-		Date dataNascimento, String emailprincipal, Usuario usuario,
-		List<Telefone> telefones, Endereco endereco, String nacionalidade)
+		Date dataNascimento, String emailprincipal, Sexo sexo, Usuario usuario,
+		List<Telefone> telefones, Endereco endereco, String nacionalidade, Situacao situacao)
 	{
-		super(codigo, nome, cpf, dataNascimento, emailprincipal, usuario, telefones,
-			endereco, nacionalidade);
+		super(codigo, nome, cpf, dataNascimento, emailprincipal, sexo, usuario, telefones,
+			endereco, nacionalidade, situacao);
 	}	
 	
 	/**

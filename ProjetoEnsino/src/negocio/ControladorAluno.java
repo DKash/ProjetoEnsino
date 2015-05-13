@@ -3,12 +3,29 @@
  */
 package negocio;
 
+import interfaces.dao.IAlunoDAO;
+import interfaces.negocio.IControladorAluno;
+
 import java.util.List;
 
 import classesBasicas.Aluno;
-import interfaces.dao.IAlunoDAO;
-import interfaces.negocio.IControladorAluno;
+import classesBasicas.Situacao;
 import dao.AlunoDAO;
+import dao.generics.DAOFactory;
+import dao.generics.DAOGeneric;
+import exceptions.AlunoExistenteException;
+import exceptions.AlunoInexistenteException;
+import exceptions.CoordenadorExistenteException;
+import exceptions.CoordenadorInexistenteException;
+import exceptions.NotaExistenteException;
+import exceptions.NotaInexistenteException;
+import exceptions.ProfessorExistenteException;
+import exceptions.ProfessorInexistenteException;
+import exceptions.ProjetoExistenteException;
+import exceptions.ProjetoInexistenteException;
+import exceptions.UsuarioExistenteException;
+import exceptions.UsuarioInexistenteException;
+
 
 /**
  * @author Audry Martins
@@ -16,17 +33,17 @@ import dao.AlunoDAO;
  */
 public class ControladorAluno implements IControladorAluno
 {
-	//Atributos
+	// Atributos
 	
 	private IAlunoDAO alunoDAO;
-
-	//Construtores
+	
+	// Construtores
 	
 	public ControladorAluno()
 	{
 		super();
-		
-		this.alunoDAO = new AlunoDAO(null);
+	
+		alunoDAO = DAOFactory.getAlunoDAO();
 	}
 	
 	/**
@@ -38,64 +55,175 @@ public class ControladorAluno implements IControladorAluno
 		
 		this.alunoDAO = alunoDAO;
 	}
-
-	//Métodos
 	
-	/* (non-Javadoc)
+	// Métodos
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see dao.generics.IDAOGeneric#inserir(java.lang.Object)
 	 */
 	@Override
-	public void inserir(Aluno entidade)
+	public void inserir(Aluno entidade) throws AlunoExistenteException,
+		ProfessorExistenteException, CoordenadorExistenteException,
+		ProjetoExistenteException, UsuarioExistenteException,
+		NotaExistenteException
 	{
+		Boolean resultado = ((AlunoDAO) alunoDAO)
+			.verificarAlunoExistente(entidade);
+		if(resultado == true)
+			throw new AlunoExistenteException();
+		
+		entidade.setSituacao(Situacao.ATIVO);
 		alunoDAO.inserir(entidade);
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see dao.generics.IDAOGeneric#alterar(java.lang.Object)
 	 */
 	@Override
-	public void alterar(Aluno entidade)
+	public void alterar(Aluno entidade) throws AlunoInexistenteException,
+		CoordenadorInexistenteException, ProjetoInexistenteException,
+		UsuarioInexistenteException, ProfessorInexistenteException,
+		NotaInexistenteException
 	{
+		Boolean resultado = ((AlunoDAO) alunoDAO)
+			.verificarAlunoExistente(entidade);
+		if(resultado == false)
+			throw new AlunoInexistenteException();
+		
 		alunoDAO.alterar(entidade);
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see dao.generics.IDAOGeneric#remover(java.lang.Object)
 	 */
 	@Override
-	public void remover(Aluno entidade)
+	public void remover(Aluno entidade) throws AlunoInexistenteException,
+		CoordenadorInexistenteException, ProjetoInexistenteException,
+		UsuarioInexistenteException, ProfessorInexistenteException,
+		NotaInexistenteException
 	{
-		alunoDAO.remover(entidade);
+		Aluno alunoConsultado = alunoDAO
+			.consultarAlunoPorCPF(entidade.getCpf());
+		if(alunoConsultado == null)
+			throw new AlunoInexistenteException();
+		
+		entidade.setCodigo(alunoConsultado.getCodigo());
+		entidade.setSituacao(Situacao.INATIVO);
+		alunoDAO.alterar(entidade);
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see dao.generics.IDAOGeneric#consultarPorId(java.lang.Integer)
 	 */
 	@Override
-	public Aluno consultarPorId(Integer id)
+	public Aluno consultarPorId(Integer id) throws AlunoInexistenteException,
+		ProfessorInexistenteException, ProjetoInexistenteException,
+		UsuarioInexistenteException, CoordenadorInexistenteException,
+		NotaInexistenteException
 	{
-		return alunoDAO.consultarPorId(id);
+		Aluno alunoConsultado = (Aluno) alunoDAO.consultarPorId(id);
+		if(alunoConsultado == null
+			|| alunoConsultado.getSituacao() != Situacao.ATIVO)
+			throw new AlunoInexistenteException();
+		
+		return alunoConsultado;
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see dao.generics.IDAOGeneric#consultarTodos()
 	 */
 	@Override
-	public List<Aluno> consultarTodos()
+	public List<Aluno> consultarTodos() throws AlunoInexistenteException,
+		ProfessorInexistenteException, ProjetoInexistenteException,
+		UsuarioInexistenteException, CoordenadorInexistenteException,
+		NotaInexistenteException
 	{
-		return alunoDAO.consultarTodos();
+		List<Aluno> alunos = alunoDAO.consultarTodos();
+		if(alunos == null || alunos.isEmpty())
+			throw new AlunoInexistenteException();
+			
+		return alunos;
 	}
-
-	/* (non-Javadoc)
-	 * @see dao.generics.IDAOGeneric#consultarTodos(java.lang.Integer, java.lang.Integer)
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see dao.generics.IDAOGeneric#consultarTodos(java.lang.Integer,
+	 * java.lang.Integer)
 	 */
 	@Override
 	public List<Aluno> consultarTodos(Integer indiceInicial, Integer quantidade)
+		throws AlunoInexistenteException, ProfessorInexistenteException,
+		ProjetoInexistenteException, UsuarioInexistenteException,
+		CoordenadorInexistenteException, NotaInexistenteException
 	{
-		return alunoDAO.consultarTodos(indiceInicial, quantidade);
+		List<Aluno> alunos = alunoDAO.consultarTodos(indiceInicial, quantidade);
+		if(alunos == null || alunos.isEmpty())
+			throw new AlunoInexistenteException();
+			
+		return alunos;
 	}
 	
-	//Gets e Sets	
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see dao.generics.IDAOGeneric#consultarTodos()
+	 */
+
+	@SuppressWarnings("unchecked")
+	public List<Aluno> consultarTodosAtivos() throws AlunoInexistenteException
+	{
+		List<Aluno> alunos = ((DAOGeneric<Aluno>) alunoDAO).consultarTodosAtivos();
+		if(alunos == null || alunos.isEmpty())
+			throw new AlunoInexistenteException();
+			
+		return alunos;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see interfaces.dao.IAlunoDAO#consultarAlunoPorNome(java.lang.String)
+	 */
+	@Override
+	public Aluno consultarAlunoPorNome(String nome)
+		throws AlunoInexistenteException
+	{
+		Aluno aluno = alunoDAO.consultarAlunoPorNome(nome);
+		if(aluno == null || aluno.getSituacao() != Situacao.ATIVO)
+			throw new AlunoInexistenteException();
+		
+		return aluno;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see interfaces.dao.IAlunoDAO#consultarAlunoPorCPF(java.lang.String)
+	 */
+	@Override
+	public Aluno consultarAlunoPorCPF(String cpf)
+		throws AlunoInexistenteException
+	{
+		Aluno alunoConsultado = alunoDAO.consultarAlunoPorCPF(cpf);
+		if(alunoConsultado == null
+			|| alunoConsultado.getSituacao() != Situacao.ATIVO)
+			throw new AlunoInexistenteException();
+		
+		return alunoConsultado;
+	}
+	
+	// Gets e Sets
 	/**
 	 * @return the alunoDAO
 	 */
@@ -103,9 +231,10 @@ public class ControladorAluno implements IControladorAluno
 	{
 		return alunoDAO;
 	}
-
+	
 	/**
-	 * @param alunoDAO the alunoDAO to set
+	 * @param alunoDAO
+	 *            the alunoDAO to set
 	 */
 	public void setAlunoDAO(IAlunoDAO alunoDAO)
 	{

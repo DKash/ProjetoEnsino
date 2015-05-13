@@ -3,9 +3,11 @@
  */
 package dao;
 
-import javax.persistence.EntityManager;
-
 import interfaces.dao.ICoordenadorDAO;
+
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+
 import classesBasicas.Coordenador;
 import dao.generics.DAOGeneric;
 
@@ -29,5 +31,56 @@ public class CoordenadorDAO extends DAOGeneric<Coordenador> implements ICoordena
 	
 	//Métodos
 	
+	public Coordenador consultarCoordenadorPorNome(String nome)
+	{
+		TypedQuery<Coordenador> query = this.entityManager.createNamedQuery(
+			"Coordenador.findByName", this.classePersistente);
+		query.setParameter("nome", nome);
+		
+		try
+		{
+			return query.setMaxResults(1).getSingleResult();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public Coordenador consultarCoordenadorPorCPF(String cpf)
+	{
+		TypedQuery<Coordenador> query = this.entityManager.createNamedQuery(
+			"Coordenador.findByCPF", this.classePersistente);
+		query.setParameter("cpf", cpf);
+		
+		try
+		{
+			return query.setMaxResults(1).getSingleResult();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public Boolean verificarCoordenadorExistentePorId(int id)
+	{
+		Coordenador coordenador = consultarPorId(id);
+		
+		if(coordenador != null)
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	public Boolean verificarCoordenadorExistente(Coordenador coordenador)
+	{
+		if(consultarCoordenadorPorCPF(coordenador.getCpf()) != null)
+		{
+			return true;
+		}
+		return false;
+	}
 	//Gets e Sets
 }

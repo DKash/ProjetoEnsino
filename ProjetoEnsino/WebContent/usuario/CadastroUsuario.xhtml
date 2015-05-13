@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<title>#{msgs.tituloCadastroUsuario}</title>
+<style type="text/css">
+body {
+	background: url(http://i62.tinypic.com/2poy70h.jpg) no-repeat;
+}
+</style>
+</head>
+<h:body>
+	<h:form>
+	
+	#{MensagemInicial.mensagem}
+	
+		<iframe width="800" height="700"
+			src="https://www.youtube.com/embed/gG_dA32oH44" frameborder="0"
+			align="right" scrolling="no"></iframe>
+
+		<h:head>#{msgs.tituloUsuario}</h:head>
+		<hr></hr>
+		<br></br>
+
+		<h:panelGrid columns="2" border="1">
+			<h:outputLabel value="#{msgs.labelUsuarioNomeUsuario}* "></h:outputLabel>
+			<h:inputText maxlength="15" required="true"
+				requiredMessage="#{msgs.vldUsuarioNomeUsuario}"
+				value="#{cadastroUsuarioMB.entidade.usuario.nomeUsuario}"></h:inputText>
+
+			<h:outputLabel value="#{msgs.labelUsuarioSenha}* "></h:outputLabel>
+			<h:inputSecret maxlength="15" required="true"
+				requiredMessage="#{msgs.vldUsuarioSenha}"
+				value="#{cadastroUsuarioMB.entidade.usuario.senha}"></h:inputSecret>
+
+			<h:outputLabel value="#{msgs.labelUsuarioSenhaConfirmacao}* "></h:outputLabel>
+			<h:inputSecret maxlength="15" required="true"
+				requiredMessage="#{msgs.vldUsuarioSenhaConfirmacao}"></h:inputSecret>
+
+			<h:outputLabel value="#{msgs.labelUsuarioDica} "></h:outputLabel>
+			<h:inputText maxlength="10" required="false"
+				value="#{cadastroUsuarioMB.entidade.usuario.dica}"></h:inputText>
+
+			<h:outputLabel value="#{msgs.labelUsuarioSituacao} "></h:outputLabel>
+			<h:selectOneMenu maxlength="10" required="true"
+				requiredMessage="#{msgs.vldUsuarioSituacao}"
+				converterMessage="#{msgs.cvmSelecioneCampo}"
+				value="#{cadastroUsuarioMB.entidade.usuario.situacao}">
+				<f:selectItems
+					value="#{cadastroPessoaMB.situacao}" />
+			</h:selectOneMenu>
+		</h:panelGrid>
+
+		<br></br>
+
+		<h:panelGrid columns="3">
+			<f:facet name="footer">
+				<h:commandButton value="#{msgs.botaoCadastrar}"
+					action="#{cadastroUsuarioMB.inserir}"></h:commandButton>
+
+				<h:commandButton value="#{msgs.botaoAlterar}"
+					action="#{cadastroUsuarioMB.alterar}"></h:commandButton>
+
+				<h:commandButton value="#{msgs.botaoRemover}"
+					action="#{cadastroUsuarioMB.remover}"></h:commandButton>
+
+				<h:commandButton value="#{msgs.botaoConsultarPorCodigo}"
+					action="#{cadastroUsuarioMB.consultarPorId}"></h:commandButton>
+
+				<h:commandButton value="#{msgs.botaoConsultarTodos}"
+					action="#{cadastroUsuarioMB.consultarTodos}"></h:commandButton>
+
+				<h:commandButton value="#{msgs.botaoConsultarPorIndice}"
+					action="#{cadastroUsuarioMB.consultarTodosComParametros}"></h:commandButton>
+
+				<h:commandButton value="#{msgs.botaoConsultarPorNome}"
+					action="#{cadastroUsuarioMB.consultarPorNome}"></h:commandButton>
+
+				<h:commandButton value="#{msgs.botaoCancelar}" immediate="true"
+					action="#{msgs.urlMenu}"></h:commandButton>
+
+				<h:commandButton value="#{msgs.botaoLimpar}" immediate="true"
+					type="reset"></h:commandButton>
+			</f:facet>
+		</h:panelGrid>
+		<h:messages errorStyle="font-color: red"></h:messages>
+	</h:form>
+</h:body>
+</html>

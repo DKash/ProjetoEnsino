@@ -13,18 +13,22 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 
 
 /**
  * @author Audry Martins
  *
  */
+@NamedQuery(name = "Projeto.findByName", query = "SELECT proj FROM Projeto proj WHERE proj.nome LIKE :nome")
 @Entity
 public class Projeto
 {
 	// Atributos
 	
-	@Id @GeneratedValue
+	@Id
+	@GeneratedValue
 	@Column(length = 5, nullable = false)
 	private Integer codigo;
 	
@@ -40,35 +44,34 @@ public class Projeto
 	@ManyToMany
 	@JoinColumn(nullable = false)
 	private List<Aluno> alunos;
-	
-	@ManyToMany
+
+	@ManyToOne
 	@JoinColumn(nullable = false)
 	private Professor professorOrientador;
 	
 	@ManyToMany
 	@JoinColumn(nullable = false)
-	private List<Coordenador> professoresAvaliadores;
-	
-	@ManyToMany
-	@JoinColumn(nullable = false)
-	private List<Nota> notas;
+	private List<Professor> professoresAvaliadores;
 	
 	@Enumerated
 	private Resultado resultado;
 	
-	//Construtores
+	@Enumerated
+	private Situacao situacao;
+	
+	// Construtores
 	
 	public Projeto()
 	{
 		super();
 		
 		this.nome = "";
-		this.descricao ="";
+		this.descricao = "";
 		this.alunos = new ArrayList<Aluno>();
 		this.professorOrientador = new Professor();
-		this.professoresAvaliadores = new ArrayList<Coordenador>();
-		this.notas = new ArrayList<Nota>();
+		this.professoresAvaliadores = new ArrayList<Professor>();
 		this.resultado = null;
+		this.situacao = Situacao.ATIVO;
 	}
 	
 	/**
@@ -79,13 +82,12 @@ public class Projeto
 	 * @param alunos
 	 * @param professorOrientador
 	 * @param professoresAvaliadores
-	 * @param notas
 	 * @param resultado
 	 */
 	public Projeto(Integer codigo, String nome, String descricao,
 		Integer qtdAlunosProjeto, List<Aluno> alunos,
-		Professor professorOrientador, List<Coordenador> professoresAvaliadores,
-		List<Nota> notas, Resultado resultado)
+		Professor professorOrientador, List<Professor> professoresAvaliadores,
+		Resultado resultado, Situacao situacao)
 	{
 		super();
 		
@@ -96,10 +98,10 @@ public class Projeto
 		this.alunos = alunos;
 		this.professorOrientador = professorOrientador;
 		this.professoresAvaliadores = professoresAvaliadores;
-		this.notas = notas;
 		this.resultado = resultado;
+		this.situacao = situacao;
 	}
-
+	
 	// Métodos
 	
 	// Gets e Sets
@@ -110,15 +112,16 @@ public class Projeto
 	{
 		return codigo;
 	}
-
+	
 	/**
-	 * @param codigo the codigo to set
+	 * @param codigo
+	 *            the codigo to set
 	 */
 	public void setCodigo(Integer codigo)
 	{
 		this.codigo = codigo;
 	}
-
+	
 	/**
 	 * @return the nome
 	 */
@@ -126,15 +129,16 @@ public class Projeto
 	{
 		return nome;
 	}
-
+	
 	/**
-	 * @param nome the nome to set
+	 * @param nome
+	 *            the nome to set
 	 */
 	public void setNome(String nome)
 	{
 		this.nome = nome;
 	}
-
+	
 	/**
 	 * @return the descricao
 	 */
@@ -142,15 +146,16 @@ public class Projeto
 	{
 		return descricao;
 	}
-
+	
 	/**
-	 * @param descricao the descricao to set
+	 * @param descricao
+	 *            the descricao to set
 	 */
 	public void setDescricao(String descricao)
 	{
 		this.descricao = descricao;
 	}
-
+	
 	/**
 	 * @return the qtdAlunosProjeto
 	 */
@@ -158,15 +163,16 @@ public class Projeto
 	{
 		return qtdAlunosProjeto;
 	}
-
+	
 	/**
-	 * @param qtdAlunosProjeto the qtdAlunosProjeto to set
+	 * @param qtdAlunosProjeto
+	 *            the qtdAlunosProjeto to set
 	 */
 	public void setQtdAlunosProjeto(Integer qtdAlunosProjeto)
 	{
 		this.qtdAlunosProjeto = qtdAlunosProjeto;
 	}
-
+	
 	/**
 	 * @return the alunos
 	 */
@@ -174,15 +180,16 @@ public class Projeto
 	{
 		return alunos;
 	}
-
+	
 	/**
-	 * @param alunos the alunos to set
+	 * @param alunos
+	 *            the alunos to set
 	 */
 	public void setAlunos(List<Aluno> alunos)
 	{
 		this.alunos = alunos;
 	}
-
+	
 	/**
 	 * @return the professorOrientador
 	 */
@@ -190,47 +197,33 @@ public class Projeto
 	{
 		return professorOrientador;
 	}
-
+	
 	/**
-	 * @param professorOrientador the professorOrientador to set
+	 * @param professorOrientador
+	 *            the professorOrientador to set
 	 */
 	public void setProfessorOrientador(Professor professorOrientador)
 	{
 		this.professorOrientador = professorOrientador;
 	}
-
+	
 	/**
 	 * @return the professoresAvaliadores
 	 */
-	public List<Coordenador> getProfessoresAvaliadores()
+	public List<Professor> getProfessoresAvaliadores()
 	{
 		return professoresAvaliadores;
 	}
-
+	
 	/**
-	 * @param professoresAvaliadores the professoresAvaliadores to set
+	 * @param professoresAvaliadores
+	 *            the professoresAvaliadores to set
 	 */
-	public void setProfessoresAvaliadores(List<Coordenador> professoresAvaliadores)
+	public void setProfessoresAvaliadores(List<Professor> professoresAvaliadores)
 	{
 		this.professoresAvaliadores = professoresAvaliadores;
 	}
-
-	/**
-	 * @return the notas
-	 */
-	public List<Nota> getNotas()
-	{
-		return notas;
-	}
-
-	/**
-	 * @param notas the notas to set
-	 */
-	public void setNotas(List<Nota> notas)
-	{
-		this.notas = notas;
-	}
-
+	
 	/**
 	 * @return the resultado
 	 */
@@ -238,12 +231,30 @@ public class Projeto
 	{
 		return resultado;
 	}
-
+	
 	/**
-	 * @param resultado the resultado to set
+	 * @param resultado
+	 *            the resultado to set
 	 */
 	public void setResultado(Resultado resultado)
 	{
 		this.resultado = resultado;
+	}
+	
+	/**
+	 * @return the situacao
+	 */
+	public Situacao getSituacao()
+	{
+		return situacao;
+	}
+	
+	/**
+	 * @param situacao
+	 *            the situacao to set
+	 */
+	public void setSituacao(Situacao situacao)
+	{
+		this.situacao = situacao;
 	}
 }

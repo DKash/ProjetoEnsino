@@ -5,6 +5,8 @@ package interfaces.dao;
 
 import classesBasicas.Usuario;
 import dao.generics.IDAOGeneric;
+import exceptions.UsuarioInexistenteException;
+
 
 /**
  * @author Audry Martins
@@ -12,5 +14,10 @@ import dao.generics.IDAOGeneric;
  */
 public interface IUsuarioDAO extends IDAOGeneric<Usuario>
 {
-	//Métodos
+	// Métodos
+	
+	void efetuarLogin(Usuario usuario) throws UsuarioInexistenteException;
+	
+	Usuario consultarUsuarioPorNome(String nome)
+		throws UsuarioInexistenteException;
 }

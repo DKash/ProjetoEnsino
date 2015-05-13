@@ -3,13 +3,11 @@
  */
 package exceptions;
 
-import util.Mensagens;
-
 /**
  * @author Audry Martins
  *
  */
-public class UsuarioExecption extends Exception
+public class UsuarioExistenteException extends Exception
 {
 	
 	//Atributos
@@ -22,10 +20,9 @@ public class UsuarioExecption extends Exception
 	/**
 	 * @param arg0
 	 */
-	public UsuarioExecption(String mensagem)
+	public UsuarioExistenteException()
 	{
-		mensagem = Mensagens.MENSAGEM_PESSOA_NOME_USUARIO_INVALIDO;
-		mensagem = Mensagens.MENSAGEM_PESSOA_SENHA_USUARIO_INVALIDA;
+		super();
 	}
 	
 	//Métodos
