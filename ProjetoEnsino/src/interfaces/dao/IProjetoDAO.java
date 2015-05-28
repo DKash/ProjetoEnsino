@@ -3,9 +3,11 @@
  */
 package interfaces.dao;
 
+import java.util.List;
+
+import classesBasicas.Professor;
 import classesBasicas.Projeto;
 import dao.generics.IDAOGeneric;
-import exceptions.AlunoInexistenteException;
 import exceptions.ProjetoInexistenteException;
 
 /**
@@ -14,7 +16,10 @@ import exceptions.ProjetoInexistenteException;
  */
 public interface IProjetoDAO extends IDAOGeneric<Projeto>
 {
-	//Métodos
+	// Métodos
+	Projeto consultarProjetoPorNome(String nome)
+		throws ProjetoInexistenteException;
 	
-	Projeto consultarProjetoPorNome(String nome) throws AlunoInexistenteException, ProjetoInexistenteException;
+	List<Projeto> consultarNotasPorProjetoAvaliador(Projeto projeto,
+		Professor avaliador) throws ProjetoInexistenteException;
 }

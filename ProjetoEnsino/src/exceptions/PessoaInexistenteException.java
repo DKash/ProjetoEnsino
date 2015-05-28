@@ -7,21 +7,15 @@ package exceptions;
  * @author Audry Martins
  *
  */
-public class CoordenadorExistenteException extends Exception
+public class PessoaInexistenteException extends Exception
 {
-	//Atributos	
+
+	//Atributos
+	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
-	//Construtores
-	/**
-	 */
-	public CoordenadorExistenteException()
-	{
-		super();
-	}
 	
 	//Métodos
 	

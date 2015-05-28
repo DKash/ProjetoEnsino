@@ -3,39 +3,30 @@
  */
 package gui;
 
-import interfaces.negocio.IFachada;
-
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 
-import negocio.Fachada;
 import classesBasicas.Aluno;
-import exceptions.AlunoExistenteException;
-import exceptions.AlunoInexistenteException;
-import exceptions.CoordenadorExistenteException;
-import exceptions.CoordenadorInexistenteException;
-import exceptions.NotaExistenteException;
 import exceptions.NotaInexistenteException;
-import exceptions.ProfessorExistenteException;
-import exceptions.ProfessorInexistenteException;
+import exceptions.PessoaExistenteException;
+import exceptions.PessoaInexistenteException;
 import exceptions.ProjetoExistenteException;
 import exceptions.ProjetoInexistenteException;
-import exceptions.UsuarioExistenteException;
-import exceptions.UsuarioInexistenteException;
 
 /**
  * @author Audry Martins
  *
  */
+@ManagedBean
 public class CadastroAlunoMB extends CadastroPessoaMB
 {
 	// Atributos
 	
 	private Aluno entidade = new Aluno();
 	private List<Aluno> alunos;
-	private IFachada fachada = Fachada.getInstancia();
 	
 	// Métodos
 	/*
@@ -49,26 +40,22 @@ public class CadastroAlunoMB extends CadastroPessoaMB
 		try
 		{
 			fachada.inserirAluno(entidade);
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Aluno salvo com sucesso"));
-		}catch(AlunoExistenteException e)
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Aluno salvo com sucesso"));
+		}catch(PessoaExistenteException e)
 		{
 			e.printStackTrace();
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Aluno Inexistente"));
-		}catch(ProfessorExistenteException e)
-		{
-			e.printStackTrace();
-		}catch(CoordenadorExistenteException e)
-		{
-			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Aluno Inexistente"));
 		}catch(ProjetoExistenteException e)
 		{
-			e.printStackTrace();
-		}catch(UsuarioExistenteException e)
+			/*e.printStackTrace();*/
+		}catch(ProjetoInexistenteException e)
 		{
-			e.printStackTrace();
-		}catch(NotaExistenteException e)
+			/*e.printStackTrace();*/
+		}catch(NotaInexistenteException e)
 		{
-			e.printStackTrace();
+			/*e.printStackTrace();*/
 		}
 		return null;
 	}
@@ -84,26 +71,19 @@ public class CadastroAlunoMB extends CadastroPessoaMB
 		try
 		{
 			fachada.alterarAluno(entidade);
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Aluno salvo com sucesso"));
-		}catch(AlunoInexistenteException e)
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Aluno salvo com sucesso"));
+		}catch(PessoaInexistenteException e)
 		{
 			e.printStackTrace();
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Aluno Inexistente"));
-		}catch(CoordenadorInexistenteException e)
-		{
-			e.printStackTrace();
-		}catch(ProfessorInexistenteException e)
-		{
-			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Aluno Inexistente"));
 		}catch(ProjetoInexistenteException e)
 		{
-			e.printStackTrace();
-		}catch(UsuarioInexistenteException e)
-		{
-			e.printStackTrace();
+			/*e.printStackTrace();*/
 		}catch(NotaInexistenteException e)
 		{
-			e.printStackTrace();
+			/*e.printStackTrace();*/
 		}
 		return null;
 	}
@@ -119,26 +99,19 @@ public class CadastroAlunoMB extends CadastroPessoaMB
 		try
 		{
 			fachada.removerAluno(entidade);
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Aluno excluído com sucesso"));
-		}catch(AlunoInexistenteException e)
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Aluno excluído com sucesso"));
+		}catch(PessoaInexistenteException e)
 		{
 			e.printStackTrace();
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Aluno Inexistente"));
-		}catch(CoordenadorInexistenteException e)
-		{
-			e.printStackTrace();
-		}catch(ProfessorInexistenteException e)
-		{
-			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Aluno Inexistente"));
 		}catch(ProjetoInexistenteException e)
 		{
-			e.printStackTrace();
-		}catch(UsuarioInexistenteException e)
-		{
-			e.printStackTrace();
+			/*e.printStackTrace();*/
 		}catch(NotaInexistenteException e)
 		{
-			e.printStackTrace();
+			/*e.printStackTrace();*/
 		}
 		return null;
 	}
@@ -154,25 +127,17 @@ public class CadastroAlunoMB extends CadastroPessoaMB
 		try
 		{
 			fachada.consultarAlunoPorId(entidade.getCodigo());
-		}catch(AlunoInexistenteException e)
+		}catch(PessoaInexistenteException e)
 		{
 			e.printStackTrace();
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Aluno Inexistente"));
-		}catch(CoordenadorInexistenteException e)
-		{
-			e.printStackTrace();
-		}catch(ProfessorInexistenteException e)
-		{
-			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Aluno Inexistente"));
 		}catch(ProjetoInexistenteException e)
 		{
-			e.printStackTrace();
-		}catch(UsuarioInexistenteException e)
-		{
-			e.printStackTrace();
+			/*e.printStackTrace();*/
 		}catch(NotaInexistenteException e)
 		{
-			e.printStackTrace();
+			/*e.printStackTrace();*/
 		}
 		return null;
 	}
@@ -188,25 +153,17 @@ public class CadastroAlunoMB extends CadastroPessoaMB
 		try
 		{
 			fachada.consultarTodosAlunos();
-		}catch(AlunoInexistenteException e)
+		}catch(PessoaInexistenteException e)
 		{
 			e.printStackTrace();
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Aluno Inexistente"));
-		}catch(CoordenadorInexistenteException e)
-		{
-			e.printStackTrace();
-		}catch(ProfessorInexistenteException e)
-		{
-			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Aluno Inexistente"));
 		}catch(ProjetoInexistenteException e)
 		{
-			e.printStackTrace();
-		}catch(UsuarioInexistenteException e)
-		{
-			e.printStackTrace();
+			/*e.printStackTrace();*/
 		}catch(NotaInexistenteException e)
 		{
-			e.printStackTrace();
+			/*e.printStackTrace();*/
 		}
 		return null;
 	}
@@ -222,27 +179,100 @@ public class CadastroAlunoMB extends CadastroPessoaMB
 		try
 		{
 			fachada.consultarTodosAlunos(0, 1);
-		}catch(AlunoInexistenteException e)
+		}catch(PessoaInexistenteException e)
 		{
 			e.printStackTrace();
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Aluno Inexistente"));
-		}catch(CoordenadorInexistenteException e)
-		{
-			e.printStackTrace();
-		}catch(ProfessorInexistenteException e)
-		{
-			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Aluno Inexistente"));
 		}catch(ProjetoInexistenteException e)
 		{
-			e.printStackTrace();
+			/*e.printStackTrace();*/
 		}catch(NotaInexistenteException e)
 		{
-			e.printStackTrace();
-		}catch(UsuarioInexistenteException e)
-		{
-			e.printStackTrace();
+			/*e.printStackTrace();*/
 		}
 		return null;
+	}
+	
+	/*public String consultarAlunosPorNome()
+	{
+		try
+		{
+			fachada.consultarAlunoPorNome(entidade.getNome());
+		}catch(PessoaInexistenteException e)
+		{
+			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Aluno Inexistente"));
+		}
+		return null;
+	}*/
+	
+	/* (non-Javadoc)
+	 * @see gui.CadastroPessoaMB#consultarPorNome()
+	 */
+	@Override
+	public String consultarPorNome()
+	{
+		try
+		{
+			fachada.consultarAlunoPorNome(entidade.getNome());
+		}catch(PessoaInexistenteException e)
+		{
+			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Aluno Inexistente"));
+		}
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see gui.CadastroPessoaMB#consultarPorCPF()
+	 */
+	@Override
+	public String consultarPorCPF()
+	{
+		try
+		{
+			fachada.consultarAlunoPorCPF(entidade.getCpf());
+		}catch(PessoaInexistenteException e)
+		{
+			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Aluno Inexistente"));
+		}
+		return null;
+	}
+	
+	/* (non-Javadoc)
+	 * @see gui.ObjetoMB#consultarTodosAtivos()
+	 */
+	@Override
+	public String consultarTodosAtivos()
+	{
+		try
+		{
+			fachada.consultarTodosAlunosAtivos();
+		}catch(PessoaInexistenteException e)
+		{
+			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Aluno Inexistente"));
+		}catch(ProjetoInexistenteException e)
+		{
+			/*e.printStackTrace();*/
+		}catch(NotaInexistenteException e)
+		{
+			/*e.printStackTrace();*/
+		}
+		return "";
+	}
+	
+	public String novo()
+	{
+		entidade = new Aluno();
+		return "/aluno/CadastroAluno.xhtml";
+		//return "#{msgs.urlCadastroAluno}";
 	}
 	
 	// Gets e Sets
@@ -262,7 +292,16 @@ public class CadastroAlunoMB extends CadastroPessoaMB
 	{
 		this.entidade = entidade;
 	}
-
+	
+	/**
+	 * @param alunos
+	 *            the alunos to set
+	 */
+	public void setAlunos(List<Aluno> alunos)
+	{
+		this.alunos = alunos;
+	}
+	
 	/**
 	 * @return the alunos
 	 */
@@ -270,11 +309,18 @@ public class CadastroAlunoMB extends CadastroPessoaMB
 	{
 		try
 		{
-			alunos = fachada.consultarTodosAlunosAtivos();
-		}catch(AlunoInexistenteException e)
+			alunos = fachada.consultarTodosAlunos();
+		}catch(PessoaInexistenteException e)
 		{
 			e.printStackTrace();
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Aluno Inexistente"));
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Aluno Inexistente"));
+		}catch(ProjetoInexistenteException e)
+		{
+			/*e.printStackTrace();*/
+		}catch(NotaInexistenteException e)
+		{
+			/*e.printStackTrace();*/
 		}
 		return alunos;
 	}

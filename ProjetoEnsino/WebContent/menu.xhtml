@@ -7,37 +7,81 @@
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 	<title>#{msgs.tituloJanelaMenu}</title>
-	<style type="text/css">
-body
-{
-	background: url(http://i62.tinypic.com/2poy70h.jpg) no-repeat;
-}
-</style>
 	<h:outputStylesheet library="css" name="configMenu.css"></h:outputStylesheet>
 </h:head>
-<h:body>	
-	#{mensagemInicialMB.mensagem}
+<h:body>
+	<h3>#{mensagemInicialMB.mensagem}</h3>
 	
+	<h:form>
+		<p:outputLabel id="Sessao"
+			value="Tempo de Sessão: #{loginMB.numero} min" dir="ltr" 
+			style="margin:830pt" />
+		<p:poll interval="60" listener="#{loginMB.decrement}" update="Sessao" />
+	</h:form>
+		
+		<p:outputLabel value="Hora Atual:  " /><p:clock pattern="HH:mm:ss" autoSync="true" />
+		
 	<br></br>
 	<br></br>
 
-	<h:form>
-		<p:tabMenu>
-			<p:menuitem value="#{msgs.tituloMenuAluno}"
-				url="#{msgs.urlCadastroAluno}" icon="ui-icon-star" />
-			<p:menuitem value="#{msgs.tituloMenuCoordenador}"
+	<p:menu>
+		<p:submenu label="#{msgs.tituloPaginaInicial}" icon="ui-icon-home">
+			<p:menuitem url="#{msgs.urlPaginaInicial}"
+				value="#{msgs.tituloPaginaInicial}" icon="ui-icon-home"></p:menuitem>
+		</p:submenu>
+
+		<p:submenu label="#{msgs.tituloMenuAluno}">
+			<p:menuitem value="#{msgs.tituloPesquisaAluno}"
+				url="#{msgs.urlPesquisaAluno}" icon="ui-icon-search"></p:menuitem>
+
+			<p:menuitem value="#{msgs.tituloCadastroAluno}"
+				url="#{msgs.urlCadastroAluno}" icon="ui-icon-star"></p:menuitem>
+		</p:submenu>
+
+		<p:submenu label="#{msgs.tituloMenuCoordenador}">
+			<p:menuitem value="#{msgs.tituloPesquisaCoordenador}"
+				url="#{msgs.urlPesquisaCoordenador}" icon="ui-icon-search"></p:menuitem>
+			<p:menuitem value="#{msgs.tituloCadastroCoordenador}"
 				url="#{msgs.urlCadastroCoordenador}" icon="ui-icon-star" />
-			<p:menuitem value="#{msgs.tituloMenuProfessor}"
+		</p:submenu>
+
+		<p:submenu label="#{msgs.tituloMenuProfessor}">
+			<p:menuitem value="#{msgs.tituloPesquisaProfessor}"
+				url="#{msgs.urlPesquisaProfessor}" icon="ui-icon-search"></p:menuitem>
+			<p:menuitem value="#{msgs.tituloCadastroProfessor}"
 				url="#{msgs.urlCadastroProfessor}" icon="ui-icon-star" />
-			<p:menuitem value="#{msgs.tituloMenuProjeto}"
+		</p:submenu>
+
+		<p:submenu label="#{msgs.tituloMenuProjeto}">
+			<p:menuitem value="#{msgs.tituloPesquisaProjeto}"
+				url="#{msgs.urlPesquisaProjeto}" icon="ui-icon-search"></p:menuitem>
+			<p:menuitem value="#{msgs.tituloCadastroProjeto}"
 				url="#{msgs.urlCadastroProjeto}" icon="ui-icon-star" />
-			<p:menuitem value="#{msgs.tituloMenuNota}"
+		</p:submenu>
+
+		<p:submenu label="#{msgs.tituloMenuNota}">
+			<p:menuitem value="#{msgs.tituloPesquisaNota}"
+				url="#{msgs.urlPesquisaNota}" icon="ui-icon-search"></p:menuitem>
+			<p:menuitem value="#{msgs.tituloCadastroNota}"
 				url="#{msgs.urlCadastroNota}" icon="ui-icon-star" />
-			<p:menuitem value="#{msgs.tituloMenuUsuario}"
+		</p:submenu>
+
+		<p:submenu label="#{msgs.tituloMenuUsuario}">
+			<p:menuitem value="#{msgs.tituloPesquisaUsuario}"
+				url="#{msgs.urlPesquisaUsuario}" icon="ui-icon-search"></p:menuitem>
+			<p:menuitem value="#{msgs.tituloCadastroUsuario}"
 				url="#{msgs.urlCadastroUsuario}" icon="ui-icon-star" />
+		</p:submenu>
+
+		<p:submenu label="#{msgs.tituloMenuSobre}">
 			<p:menuitem value="#{msgs.tituloMenuSobre}"
-				url="#{msgs.urlMenuSobre}" icon="ui-icon-document" />
-		</p:tabMenu>
-	</h:form>
+				url="#{msgs.urlMenuSobre}" icon="ui-icon-info"></p:menuitem>
+		</p:submenu>
+
+		<p:submenu label="#{msgs.tituloMenuSair}">
+			<p:menuitem value="#{msgs.tituloMenuSair}"
+				outcome="#{loginMB.logOut()}" icon="ui-icon-home"></p:menuitem>
+		</p:submenu>
+	</p:menu>
 </h:body>
 </html>

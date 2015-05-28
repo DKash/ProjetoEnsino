@@ -5,8 +5,8 @@ package classesBasicas;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-
 
 /**
  * @author Audry Martins
@@ -17,7 +17,7 @@ public class Endereco
 {
 	// Atributos
 	
-	@Enumerated
+	@Enumerated(EnumType.STRING)
 	private TipoLogradouro tipoLogradouro;
 	
 	@Column(length = 40, nullable = false)
@@ -35,7 +35,7 @@ public class Endereco
 	@Column(length = 20, nullable = false)
 	private String cidade;
 	
-	@Enumerated
+	@Enumerated(EnumType.STRING)
 	private UF estado;
 	
 	@Column(length = 20, nullable = false)

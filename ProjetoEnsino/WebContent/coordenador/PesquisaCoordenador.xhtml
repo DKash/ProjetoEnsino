@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>#{msgs.tituloPesquisaCoordenador}</title>
+</h:head>
+<h:body>
+	<h:form id="forCoordenadores">
+	
+	#{MensagemInicial.mensagem}
+
+		<h:head>
+			<h2>#{msgs.tituloPesquisaCoordenador}</h2>
+		</h:head>
+		<hr></hr>
+		<br></br>
+
+		<p:panelGrid columns="3">
+			<p:outputLabel value="#{msgs.botaoConsultarPorCodigo}"></p:outputLabel>
+			<p:inputText value="#{cadastroCoordenadorMB.entidade.codigo}"></p:inputText>
+			<p:commandButton value="#{msgs.botaoConsultarPorCodigo}"
+				action="#{cadastroCoordenadorMB.consultarPorId}"
+				update="formCoordenadores" icon="ui-icon-search"></p:commandButton>
+
+			<p:outputLabel value="#{msgs.botaoConsultarPorNome}"></p:outputLabel>
+			<p:inputText value="#{cadastroCoordenadorMB.entidade.nome}"></p:inputText>
+			<p:commandButton value="#{msgs.botaoConsultarPorNome}"
+				action="#{cadastroCoordenadorMB.consultarPorNome}"
+				update="formCoordenadores" icon="ui-icon-search"></p:commandButton>
+
+			<p:outputLabel value="#{msgs.botaoConsultarPorCPF}"></p:outputLabel>
+			<p:inputText value="#{cadastroCoordenadorMB.entidade.cpf}"></p:inputText>
+			<p:commandButton value="#{msgs.botaoConsultarPorCPF}"
+				action="#{cadastroCoordenadorMB.consultarPorCPF}"
+				update="formCoordenadores" icon="ui-icon-search"></p:commandButton>
+		</p:panelGrid>
+
+		<br></br>
+
+		<p:commandButton value="#{msgs.botaoNovo}"
+			action="#{cadastroCoordenadorMB.novo}" type="submit" immediate="true"
+			icon="ui-icon-star"></p:commandButton>
+
+		<br></br>
+		<br></br>
+
+		<h:form id="formCoordenadores">
+			<h:dataTable value="#{cadastroCoordenadorMB.coordenadores}"
+				var="coordenador" rendered="#{cadastroCoordenadorMB.coordenadores}"
+				border="1" width="400">
+
+				<h:column>
+					<f:facet name="#{msgs.tituloMenuCoordenador}"></f:facet>
+				#{cadastroCoordenadorMB.entidade.nome}
+			</h:column>
+
+				<h:column>
+					<f:facet name="CPF"></f:facet>
+				#{cadastroCoordenadorMB.entidade.cpf}
+				<h:outputText value="#{cadastroCoordenadorMB.entidade.cpf}">
+					</h:outputText>
+				</h:column>
+
+				<h:column>
+					<f:facet name="Sexo"></f:facet>
+				#{cadastroCoordenadorMB.entidade.sexo}
+				<h:outputText value="#{cadastroCoordenadorMB.entidade.sexo}">
+					</h:outputText>
+				</h:column>
+
+				<h:column>
+					<f:facet name="Email"></f:facet>
+				#{cadastroCoordenadorMB.entidade.email}
+				<h:outputText value="#{cadastroCoordenadorMB.entidade.email}">
+					</h:outputText>
+				</h:column>
+
+				<h:column>
+					<f:facet name="Nacionalidade"></f:facet>
+				#{cadastroCoordenadorMB.entidade.nacionalidade}
+				<h:outputText
+						value="#{cadastroCoordenadorMB.entidade.nacionalidade}">
+					</h:outputText>
+				</h:column>
+
+				<h:column>
+					<f:facet name="Data de Nascimento"></f:facet>
+					<h:outputText
+						value="#{cadastroCoordenadorMB.entidade.dataNascimento}">
+						<f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
+					</h:outputText>
+				</h:column>
+
+				<h:column>
+					<f:facet name="Situacao"></f:facet>
+				#{cadastroCoordenadorMB.entidade.situacao}
+			</h:column>
+				<h:column>
+				<f:facet name="header">#{msgs.labelPesquisaAcoes}</f:facet>
+					<p:commandButton value="#{msgs.botaoAlterar}"
+						action="#{cadastroCoordenadorMB.alterar}"
+						update="formCoordenadores" icon="ui-icon-refresh"></p:commandButton>
+
+					<p:commandButton value="#{msgs.botaoRemover}"
+						action="#{cadastroCoordenadorMB.remover}"
+						update="formCoordenadores" icon="ui-icon-remove"></p:commandButton>
+				</h:column>
+			</h:dataTable>
+		</h:form>
+
+		<br></br>
+		<br></br>
+
+		<p:panelGrid columns="2">
+			<f:facet name="footer">
+				<p:commandButton value="#{msgs.botaoCancelar}" immediate="true"
+					action="#{cadastroCoordenadorMB.exibirMenu}"
+					icon="ui-icon-close">
+				</p:commandButton>
+
+				<p:commandButton value="#{msgs.botaoLimpar}" immediate="true"
+					type="reset" icon="ui-icon-cancel"></p:commandButton>
+			</f:facet>
+		</p:panelGrid>
+		<p:messages errorStyle="font-color: red"></p:messages>
+	</h:form>
+</h:body>
+</html>

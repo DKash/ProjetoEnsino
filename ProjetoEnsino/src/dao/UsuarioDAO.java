@@ -5,12 +5,15 @@ package dao;
 
 import interfaces.dao.IUsuarioDAO;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
+import classesBasicas.Situacao;
 import classesBasicas.Usuario;
 import dao.generics.DAOGeneric;
-import exceptions.UsuarioInexistenteException;
+import exceptions.PessoaInexistenteException;
 
 /**
  * @author Audry Martins
@@ -32,15 +35,15 @@ public class UsuarioDAO extends DAOGeneric<Usuario> implements IUsuarioDAO
 	
 	//Métodos
 	
-	public void efetuarLogin(Usuario usuario) throws UsuarioInexistenteException
+	public Usuario efetuarLogin(Usuario usuario) throws PessoaInexistenteException
 	{
-		consultarUsuarioPorNome(usuario.getNomeUsuario());		
+		return consultarUsuarioPorNome(usuario.getNomeUsuario());		
 	}
 	
 	public Usuario consultarUsuarioPorNome(String nome)
 	{
 		TypedQuery<Usuario> query = this.entityManager.createNamedQuery(
-			"Usuario.findByName", this.classePersistente);
+			"Usuario.findByNome", this.classePersistente);
 		query.setParameter("nome", nome);
 		
 		try
@@ -71,6 +74,22 @@ public class UsuarioDAO extends DAOGeneric<Usuario> implements IUsuarioDAO
 			return true;
 		}
 		return false;
+	}
+	
+	public List<Usuario> consultarTodosAtivos()
+	{
+		TypedQuery<Usuario> query = this.entityManager.createNamedQuery(
+			"Usuario.findAllActives", this.classePersistente);
+		query.setParameter("situacao", Situacao.ATIVO);
+		
+		try
+		{
+			return query.getResultList();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	//Gets e Sets

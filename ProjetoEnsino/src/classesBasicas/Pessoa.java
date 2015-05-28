@@ -3,21 +3,23 @@
  */
 package classesBasicas;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
+import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 /**
  * @author Audry Martins
@@ -45,16 +47,17 @@ public class Pessoa
 	@Column(length = 40, nullable = false, unique = true)
 	private String email;
 	
-	@Embedded
+	@Enumerated(EnumType.STRING)
 	private Sexo sexo;
 	
 	@OneToOne
+	@Fetch(FetchMode.JOIN)
 	@JoinColumn(nullable = false, unique = true)
 	private Usuario usuario;
 	
-	@OneToMany
-	@JoinColumn(nullable = false)
-	private List<Telefone> telefones;
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(nullable = true)
+	private Telefone telefone;
 	
 	@Embedded
 	private Endereco endereco;
@@ -62,7 +65,7 @@ public class Pessoa
 	@Column(length = 30, nullable = false)
 	private String nacionalidade;
 	
-	@Enumerated
+	@Enumerated(EnumType.STRING)
 	private Situacao situacao;
 	
 	// Construtores
@@ -73,14 +76,14 @@ public class Pessoa
 		
 		this.nome = "";
 		this.cpf = "";
-		this.dataNascimento = new Date();
+		this.dataNascimento = null;
 		this.email = "";
 		this.sexo = null;
 		this.usuario = new Usuario();
-		this.telefones = new ArrayList<Telefone>();
+		this.telefone = new Telefone();
 		this.endereco = new Endereco();
 		this.nacionalidade = "";
-		this.situacao = Situacao.ATIVO;
+		this.situacao = null;
 	}
 	
 	/**
@@ -94,7 +97,7 @@ public class Pessoa
 	 * @param endereco
 	 */
 	public Pessoa(Integer codigo, String nome, String cpf, Date dataNascimento, 
-		String emailprincipal, Sexo sexo, Usuario usuario, List<Telefone> telefones,
+		String emailprincipal, Sexo sexo, Usuario usuario, Telefone telefone,
 		Endereco endereco, String nacionalidade, Situacao situacao)
 	{
 		super();
@@ -106,13 +109,49 @@ public class Pessoa
 		this.email = emailprincipal;
 		this.sexo = sexo;
 		this.usuario = usuario;
-		this.telefones = telefones;
+		this.telefone = telefone;
 		this.endereco = endereco;
 		this.nacionalidade = nacionalidade;
 		this.situacao = situacao;
 	}
 	
 	// Métodos
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode()
+	{
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((cpf == null) ? 0 : cpf.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj)
+	{
+		if(this == obj)
+			return true;
+		if(obj == null)
+			return false;
+		if(getClass() != obj.getClass())
+			return false;
+		Pessoa other = (Pessoa) obj;
+		if(cpf == null)
+		{
+			if(other.cpf != null)
+				return false;
+		}
+		else
+			if(!cpf.equals(other.cpf))
+				return false;
+		return true;
+	}
 	
 	// Gets e Sets
 	/**
@@ -123,6 +162,7 @@ public class Pessoa
 		return codigo;
 	}
 	
+
 	/**
 	 * @param codigo
 	 *            the codigo to set
@@ -233,20 +273,20 @@ public class Pessoa
 	}
 	
 	/**
-	 * @return the telefones
+	 * @return the telefone
 	 */
-	public List<Telefone> getTelefones()
+	public Telefone getTelefone()
 	{
-		return telefones;
+		return telefone;
 	}
 	
 	/**
-	 * @param telefones
-	 *            the telefones to set
+	 * @param telefone
+	 *            the telefone to set
 	 */
-	public void setTelefones(List<Telefone> telefones)
+	public void setTelefones(Telefone telefone)
 	{
-		this.telefones = telefones;
+		this.telefone = telefone;
 	}
 	
 	/**

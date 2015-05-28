@@ -3,6 +3,8 @@
  */
 package interfaces.negocio;
 
+import classesBasicas.Projeto;
+import exceptions.ProjetoInexistenteException;
 import interfaces.dao.IProjetoDAO;
 
 /**
@@ -11,5 +13,7 @@ import interfaces.dao.IProjetoDAO;
  */
 public interface IControladorProjeto extends IProjetoDAO
 {
-	//Métodos
+	// Métodos
+	Projeto consultarProjetoPorNome(String nome)
+		throws ProjetoInexistenteException;
 }

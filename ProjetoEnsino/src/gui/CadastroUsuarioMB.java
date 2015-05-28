@@ -3,43 +3,64 @@
  */
 package gui;
 
-import interfaces.negocio.IFachada;
-
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 
-import negocio.Fachada;
+import org.primefaces.event.CellEditEvent;
+import org.primefaces.event.RowEditEvent;
+
+import classesBasicas.TipoUsuario;
 import classesBasicas.Usuario;
-import exceptions.AlunoExistenteException;
-import exceptions.AlunoInexistenteException;
-import exceptions.CoordenadorExistenteException;
-import exceptions.CoordenadorInexistenteException;
 import exceptions.NotaExistenteException;
 import exceptions.NotaInexistenteException;
-import exceptions.ProfessorExistenteException;
-import exceptions.ProfessorInexistenteException;
+import exceptions.PessoaExistenteException;
+import exceptions.PessoaInexistenteException;
 import exceptions.ProjetoExistenteException;
 import exceptions.ProjetoInexistenteException;
-import exceptions.UsuarioExistenteException;
-import exceptions.UsuarioInexistenteException;
 
 /**
  * @author Audry Martins
  *
  */
+@ManagedBean
 public class CadastroUsuarioMB extends CadastroPessoaMB
 {
-	//Atributos
+	// Atributos
 	
 	private Usuario entidade = new Usuario();
 	private List<Usuario> usuarios;
-	private IFachada fachada = Fachada.getInstancia();
 	
-	//Métodos
+	@PostConstruct
+	public void init()
+	{
+		usuarios = getUsuarios();
+				
+		/*try
+		{
+			usuarios = fachada.consultarTodosUsuarios();
+		}catch(PessoaInexistenteException e)
+		{
+			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Usuario Inexistente"));
+		}catch(ProjetoInexistenteException e)
+		{
+			 e.printStackTrace(); 
+		}catch(NotaInexistenteException e)
+		{
+			 e.printStackTrace(); 
+		}*/
+	}
 	
-	/* (non-Javadoc)
+	// Métodos
+	
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see manangedBeans.CadastroPessoaMB#inserir()
 	 */
 	@Override
@@ -48,31 +69,33 @@ public class CadastroUsuarioMB extends CadastroPessoaMB
 		try
 		{
 			fachada.inserirUsuario(entidade);
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Usuário salvo com sucesso"));
-		}catch(AlunoExistenteException e)
-		{
-			e.printStackTrace();
-		}catch(ProfessorExistenteException e)
-		{
-			e.printStackTrace();
-		}catch(CoordenadorExistenteException e)
-		{
-			e.printStackTrace();
+			entidade = new Usuario();
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Usuário salvo com sucesso"));
 		}catch(ProjetoExistenteException e)
 		{
-			e.printStackTrace();
-		}catch(UsuarioExistenteException e)
+			/* e.printStackTrace(); */
+		}catch(PessoaExistenteException e)
 		{
 			e.printStackTrace();
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Usuário Existente"));
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Usuário Existente"));
 		}catch(NotaExistenteException e)
 		{
-			e.printStackTrace();
+			/*e.printStackTrace();*/
+		}catch(ProjetoInexistenteException e)
+		{
+			/*e.printStackTrace();*/
+		}catch(NotaInexistenteException e)
+		{
+			/*e.printStackTrace();*/
 		}
-		return null;
+		return "";
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see manangedBeans.CadastroPessoaMB#alterar()
 	 */
 	@Override
@@ -81,31 +104,26 @@ public class CadastroUsuarioMB extends CadastroPessoaMB
 		try
 		{
 			fachada.alterarUsuario(entidade);
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Usuário salvo com sucesso"));
-		}catch(AlunoInexistenteException e)
-		{
-			e.printStackTrace();
-		}catch(CoordenadorInexistenteException e)
-		{
-			e.printStackTrace();
-		}catch(ProfessorInexistenteException e)
-		{
-			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Usuário alterado com sucesso"));
 		}catch(ProjetoInexistenteException e)
 		{
-			e.printStackTrace();
-		}catch(UsuarioInexistenteException e)
+			/* e.printStackTrace(); */
+		}catch(PessoaInexistenteException e)
 		{
 			e.printStackTrace();
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Usuário Inexistente"));
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Usuário Inexistente"));
 		}catch(NotaInexistenteException e)
 		{
-			e.printStackTrace();
+			/* e.printStackTrace(); */
 		}
 		return null;
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see manangedBeans.CadastroPessoaMB#remover()
 	 */
 	@Override
@@ -114,31 +132,26 @@ public class CadastroUsuarioMB extends CadastroPessoaMB
 		try
 		{
 			fachada.removerUsuario(entidade);
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Usuário excluído com sucesso"));
-		}catch(AlunoInexistenteException e)
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Usuário excluído com sucesso"));
+		}catch(PessoaInexistenteException e)
 		{
 			e.printStackTrace();
-		}catch(CoordenadorInexistenteException e)
-		{
-			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Usuário Inexistente"));
 		}catch(ProjetoInexistenteException e)
 		{
-			e.printStackTrace();
-		}catch(UsuarioInexistenteException e)
-		{
-			e.printStackTrace();
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Usuário Inexistente"));
-		}catch(ProfessorInexistenteException e)
-		{
-			e.printStackTrace();
+			/* e.printStackTrace(); */
 		}catch(NotaInexistenteException e)
 		{
-			e.printStackTrace();
+			/* e.printStackTrace(); */
 		}
 		return null;
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see manangedBeans.CadastroPessoaMB#consultarPorId()
 	 */
 	@Override
@@ -147,30 +160,24 @@ public class CadastroUsuarioMB extends CadastroPessoaMB
 		try
 		{
 			fachada.consultarUsuarioPorId(entidade.getCodigo());
-		}catch(AlunoInexistenteException e)
-		{
-			e.printStackTrace();
-		}catch(CoordenadorInexistenteException e)
-		{
-			e.printStackTrace();
-		}catch(ProfessorInexistenteException e)
-		{
-			e.printStackTrace();
 		}catch(ProjetoInexistenteException e)
 		{
-			e.printStackTrace();
-		}catch(UsuarioInexistenteException e)
+			/* e.printStackTrace(); */
+		}catch(PessoaInexistenteException e)
 		{
 			e.printStackTrace();
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Usuário Inexistente"));
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Usuário Inexistente"));
 		}catch(NotaInexistenteException e)
 		{
-			e.printStackTrace();
+			/* e.printStackTrace(); */
 		}
 		return null;
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see manangedBeans.CadastroPessoaMB#consultarTodos()
 	 */
 	@Override
@@ -179,30 +186,24 @@ public class CadastroUsuarioMB extends CadastroPessoaMB
 		try
 		{
 			fachada.consultarTodosUsuarios();
-		}catch(AlunoInexistenteException e)
-		{
-			e.printStackTrace();
-		}catch(CoordenadorInexistenteException e)
-		{
-			e.printStackTrace();
-		}catch(ProfessorInexistenteException e)
-		{
-			e.printStackTrace();
 		}catch(ProjetoInexistenteException e)
 		{
-			e.printStackTrace();
-		}catch(UsuarioInexistenteException e)
+			/* e.printStackTrace(); */
+		}catch(PessoaInexistenteException e)
 		{
 			e.printStackTrace();
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Usuário Inexistente"));
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Usuário Inexistente"));
 		}catch(NotaInexistenteException e)
 		{
-			e.printStackTrace();
+			/* e.printStackTrace(); */
 		}
 		return null;
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see manangedBeans.CadastroPessoaMB#consultarTodosComParametros()
 	 */
 	@Override
@@ -211,30 +212,158 @@ public class CadastroUsuarioMB extends CadastroPessoaMB
 		try
 		{
 			fachada.consultarTodosUsuarios(0, 1);
-		}catch(AlunoInexistenteException e)
-		{
-			e.printStackTrace();
-		}catch(CoordenadorInexistenteException e)
-		{
-			e.printStackTrace();
-		}catch(ProfessorInexistenteException e)
-		{
-			e.printStackTrace();
 		}catch(ProjetoInexistenteException e)
 		{
-			e.printStackTrace();
-		}catch(UsuarioInexistenteException e)
+			/* e.printStackTrace(); */
+		}catch(PessoaInexistenteException e)
 		{
 			e.printStackTrace();
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Usuário Inexistente"));
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Usuário Inexistente"));
 		}catch(NotaInexistenteException e)
 		{
-			e.printStackTrace();
+			/* e.printStackTrace(); */
 		}
 		return null;
 	}
-
-	//Gets e Sets
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see gui.CadastroPessoaMB#consultarPorNome()
+	 */
+	@Override
+	public String consultarPorNome()
+	{
+		try
+		{
+			fachada.consultarUsuarioPorNome(entidade.getNomeUsuario());
+		}catch(PessoaInexistenteException e)
+		{
+			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Usuário Inexistente"));
+		}
+		return null;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see gui.CadastroPessoaMB#consultarPorCPF()
+	 */
+	@Override
+	public String consultarPorCPF()
+	{
+		return "";
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see gui.ObjetoMB#consultarTodosAtivos()
+	 */
+	@Override
+	public String consultarTodosAtivos()
+	{
+		try
+		{
+			fachada.consultarTodosUsuariosAtivos();
+		}catch(PessoaInexistenteException e)
+		{
+			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Usuário Inexistente"));
+		}catch(ProjetoInexistenteException e)
+		{
+			/*e.printStackTrace();*/
+		}catch(NotaInexistenteException e)
+		{
+			/*e.printStackTrace();*/
+		}
+		return "";
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see gui.ObjetoMB#novo()
+	 */
+	@Override
+	public String novo()
+	{
+		entidade = new Usuario();
+		return "/usuario/Cadastrousuario.xhtml?faces-redirect=true";
+		//return "#{msgs.urlCadastroUsuario}";
+	}
+	
+	// Métodos
+	public void onRowEdit(RowEditEvent event)
+	{
+		try
+		{
+			fachada.alterarUsuario((Usuario) event.getObject());
+			FacesMessage msg = new FacesMessage("Usuario Editado",
+				((Usuario) event.getObject()).getCodigo().toString());
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+		}catch(PessoaInexistenteException e)
+		{
+			e.printStackTrace();
+			FacesMessage msg = new FacesMessage("Não foi possível alterar ",
+				((Usuario) event.getObject()).getNomeUsuario());
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+		}catch(ProjetoInexistenteException e)
+		{
+			/* e.printStackTrace(); */
+		}catch(NotaInexistenteException e)
+		{
+			/* e.printStackTrace(); */
+		}
+	}
+	
+	public void onRowEditRemove(RowEditEvent event)
+	{
+		try
+		{
+			fachada.removerUsuario((Usuario) event.getObject());
+			FacesMessage msg = new FacesMessage("Usuario Removido",
+				((Usuario) event.getObject()).getNomeUsuario());
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+		}catch(PessoaInexistenteException e)
+		{
+			e.printStackTrace();
+			FacesMessage msg = new FacesMessage("Não foi possível remover ",
+				((Usuario) event.getObject()).getNomeUsuario());
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+		}catch(ProjetoInexistenteException e)
+		{
+			/* e.printStackTrace(); */
+		}catch(NotaInexistenteException e)
+		{
+			/* e.printStackTrace(); */
+		}
+	}
+	
+	public void onRowCancel(RowEditEvent event)
+	{
+		FacesMessage msg = new FacesMessage("Edição Cancelada",
+			((Usuario) event.getObject()).getCodigo().toString());
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
+	
+	public void onCellEdit(CellEditEvent event)
+	{
+		Object oldValue = event.getOldValue();
+		Object newValue = event.getNewValue();
+		if(newValue != null && !newValue.equals(oldValue))
+		{
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
+				"Cell Changed", "Old: " + oldValue + ", New:" + newValue);
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+		}
+	}
+	
+	// Gets e Sets
 	/**
 	 * @return the entidade
 	 */
@@ -242,15 +371,16 @@ public class CadastroUsuarioMB extends CadastroPessoaMB
 	{
 		return entidade;
 	}
-
+	
 	/**
-	 * @param entidade the entidade to set
+	 * @param entidade
+	 *            the entidade to set
 	 */
 	public void setEntidade(Usuario entidade)
 	{
 		this.entidade = entidade;
 	}
-
+	
 	/**
 	 * @return the usuarios
 	 */
@@ -259,34 +389,35 @@ public class CadastroUsuarioMB extends CadastroPessoaMB
 		try
 		{
 			return fachada.consultarTodosUsuarios();
-		}catch(AlunoInexistenteException e)
+		}catch(PessoaInexistenteException e)
 		{
 			e.printStackTrace();
-		}catch(CoordenadorInexistenteException e)
-		{
-			e.printStackTrace();
-		}catch(ProfessorInexistenteException e)
-		{
-			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Usuário Inexistente"));
 		}catch(ProjetoInexistenteException e)
 		{
-			e.printStackTrace();
-		}catch(UsuarioInexistenteException e)
-		{
-			e.printStackTrace();
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Usuário Inexistente"));
+			/*e.printStackTrace();*/
 		}catch(NotaInexistenteException e)
 		{
-			e.printStackTrace();
+			/*e.printStackTrace();*/
 		}
 		return usuarios;
 	}
-
+	
 	/**
-	 * @param usuarios the usuarios to set
+	 * @param usuarios
+	 *            the usuarios to set
 	 */
 	public void setUsuarios(List<Usuario> usuarios)
 	{
 		this.usuarios = usuarios;
+	}
+	
+	/**
+	 * @return the tipoUsuarios
+	 */
+	public TipoUsuario[] getTipoUsuarios()
+	{
+		return TipoUsuario.values();
 	}
 }

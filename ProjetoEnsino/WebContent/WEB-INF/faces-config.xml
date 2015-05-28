@@ -7,7 +7,11 @@
 	<application>
 		<locale-config>
 			<default-locale>pt_BR</default-locale>
-			<!-- <default-locale>en_US</default-locale> -->
+			<!-- <default-locale>jp_JP</default-locale> -->
+			<supported-locale>en_US</supported-locale>
+			<supported-locale>es_ES</supported-locale>
+			<supported-locale>fr_FR</supported-locale>
+			<supported-locale>jp_JP</supported-locale>
 		</locale-config>
 		<resource-bundle>
 			<base-name>props.messages</base-name>

@@ -3,9 +3,13 @@
  */
 package interfaces.dao;
 
+import java.util.List;
+
 import classesBasicas.Professor;
+import classesBasicas.TipoProfessor;
 import dao.generics.IDAOGeneric;
-import exceptions.ProfessorInexistenteException;
+import exceptions.PessoaInexistenteException;
+
 
 /**
  * @author Audry Martins
@@ -13,9 +17,13 @@ import exceptions.ProfessorInexistenteException;
  */
 public interface IProfessorDAO extends IDAOGeneric<Professor>
 {
-	//Métodos
+	// Métodos
+	Professor consultarProfessorPorNome(String nome)
+		throws PessoaInexistenteException;
 	
-	Professor consultarProfessorPorNome(String nome) throws ProfessorInexistenteException;
+	Professor consultarProfessorPorCPF(String cpf)
+		throws PessoaInexistenteException;
 	
-	Professor consultarProfessorPorCPF(String cpf) throws ProfessorInexistenteException;
+	List<Professor> consultarProfessorPorTipoProfessor(
+		TipoProfessor tipoProfessor) throws PessoaInexistenteException;
 }

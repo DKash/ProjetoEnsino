@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>#{msgs.tituloPesquisaUsuario}</title>
+</h:head>
+<h:body>
+	<h:form id="formPesquisaUsuarios">
+	#{MensagemInicial.mensagem}
+		<h:head>
+			<h2>#{msgs.tituloPesquisaUsuario}</h2>
+		</h:head>
+		<hr></hr>
+		<br></br>
+
+		<p:panelGrid columns="3" cellpadding="5">
+			<p:outputLabel value="#{msgs.botaoConsultarPorCodigo}"></p:outputLabel>
+			<p:inputText value="#{cadastroUsuarioMB.entidade.codigo}"
+				placeholder="#{msgs.labelCodigo}"></p:inputText>
+			<p:commandButton value="#{msgs.botaoConsultarPorCodigo}"
+				action="#{cadastroUsuarioMB.consultarPorId}"
+				update="formPesquisaUsuarios, msgs"></p:commandButton>
+
+			<p:outputLabel value="#{msgs.botaoConsultarPorNome}"></p:outputLabel>
+			<p:inputText value="#{cadastroUsuarioMB.entidade.nomeUsuario}"
+				placeholder="#{msgs.labelUsuarioNomeUsuario}"></p:inputText>
+			<p:commandButton value="#{msgs.botaoConsultarPorNome}"
+				action="#{cadastroUsuarioMB.consultarPorNome}"
+				update="formPesquisaUsuarios, msgs"></p:commandButton>
+		</p:panelGrid>
+
+		<br></br>
+		<br></br>
+
+		<p:growl id="msgs" showDetail="true"/>
+
+		<h:form id="formUsuarios">
+			<p:dataTable value="#{cadastroUsuarioMB.usuarios}" var="u"
+				widgetVar="UsuariosTable" style="width:80%"
+				styleClass="table table-hover" editable="true"
+				disabled="#{u.situacao != 'ATIVO'}"
+				emptyMessage="#{msgs.cvmSemRegistros}">
+
+				<p:ajax event="rowEdit" listener="#{cadastroUsuarioMB.onRowEdit}"
+					update=":msgs" />
+				<p:ajax event="rowEditCancel"
+					listener="#{cadastroUsuarioMB.onRowCancel}" update=":msgs" />
+
+				<p:column sortBy="#{u.codigo}">
+					<f:facet name="header">#{msgs.labelCodigo}</f:facet>
+					<p:outputLabel value="#{u.codigo}"></p:outputLabel>
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">#{msgs.tituloUsuario} - 
+					#{msgs.promptTipoUsuario}</f:facet>
+					<p:outputLabel value="#{u.nomeUsuario} - #{u.tipoUsuario}"></p:outputLabel>
+				</p:column>
+				<p:column filterBy="#{u.situacao}" headerText="Situação"
+					footerText="equals" filterMatchMode="equals">
+					<f:facet name="header">#{msgs.promptUsuarioSituacao}</f:facet>
+					<f:facet name="filter">
+						<p:selectOneButton onchange="PF('UsuariosTable').filter()">
+							<f:selectItem itemLabel="ATIVO" itemValue="ATIVO" />
+							<f:selectItem itemLabel="INATIVO" itemValue="INATIVO" />
+						</p:selectOneButton>
+					</f:facet>
+					<p:outputLabel value="#{u.situacao}"></p:outputLabel>
+				</p:column>
+				<p:column width="300">
+					<f:facet name="header">Ações</f:facet>
+					<p:commandButton value="#{msgs.botaoAlterar}"
+						action="#{cadastroUsuarioMB.alterar}">
+					</p:commandButton> &nbsp;&nbsp;
+					
+					<p:commandButton value="#{msgs.botaoRemover}"
+						action="#{cadastroUsuarioMB.remover}">
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+		</h:form>
+
+		<br></br>
+		<br></br>
+
+		<p:panelGrid columns="1">
+			<f:facet name="footer">
+				<p:commandButton value="#{msgs.botaoCancelar}" immediate="true"
+					action="#{cadastroUsuarioMB.exibirIndex}" icon="ui-icon-close">
+				</p:commandButton>
+			</f:facet>
+		</p:panelGrid>
+	</h:form>
+	<!-- Verificar -->
+	<!-- <h:form id="msgs">
+		<p:dataTable editable="true" emptyMessage="#{msgs.cvmSemRegistros}"
+			widgetVar="UsuariosTable" value="#{cadastroUsuarioMB.usuarios}"
+			var="user">
+
+			<p:ajax event="rowEdit" listener="#{dtEditView.onRowEdit}"
+				update=":msgs" />
+			<p:ajax event="rowEditCancel" listener="#{dtEditView.onRowCancel}"
+				update=":msgs" />
+
+			<p:column headerText="#{msgs.labelCodigo}">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{user.codigo}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText id="modelInput" value="#{user.codigo}"
+							style="width:100%" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+
+			<p:column headerText="#{msgs.labelUsuarioNomeUsuario}">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{user.nomeUsuario}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{user.nomeUsuario}" style="width:100%"
+							label="#{msgs.labelNome}" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+
+			<p:column headerText="#{msgs.labelUsuarioSenha}">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{user.senha}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{user.senha}" style="width:100%"
+							label="#{msgs.labelSenha}" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+
+			<p:column headerText="#{msgs.promptTipoUsuario}">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{user.tipoUsuario}" />
+					</f:facet>
+					<f:facet name="input">
+						<h:selectOneMenu value="#{user.tipoUsuarios}" style="width:100%">
+							<f:selectItems value="#{cadastroUsuarioMB.tipoUsuarios}" var="u"
+								itemLabel="#{u}" itemValue="#{u}" />
+						</h:selectOneMenu>
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+
+			<p:column headerText="#{msgs.promptUsuarioSituacao}">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{user.situacao}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{user.situacao}" style="width:100%"
+							label="#{msgs.labelSituacao}" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+
+			<p:commandLink title="Excluir" update=":formUsuarios:Excluir"
+				oncomplete="confirmation.show()" immediate="true">
+				<p:graphicImage value="./imagens/del_icon.png" />
+				<f:setPropertyActionListener target="#{cadastroUsuarioMB.usuarios}"
+					value="#{usuarios}" />
+			</p:commandLink>
+
+			<p:column style="width:32px">
+				<p:rowEditor />
+			</p:column>
+		</p:dataTable>
+	</h:form> -->
+
+	<h:form id="formExcluir">
+		<p:confirmDialog id="Excluir"
+			message="Você gostaria de Deletar o #{cadastroUsuarioMB.entidade.nomeUsuario}?"
+			header="Excluir" severity="alert" widgetVar="confirmation">
+
+			<p:commandButton id="confirm" value="Sim"
+				oncomplete="confirmation.hide()"
+				actionListener="#{cadastroUsuarioMB.remover}" update=":formUsuarios" />
+			<p:commandButton id="decline" value="Não"
+				onclick="confirmation.hide()" type="button" />
+		</p:confirmDialog>
+	</h:form>
+</h:body>
+</html>

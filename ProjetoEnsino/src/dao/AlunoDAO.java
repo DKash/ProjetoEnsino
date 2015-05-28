@@ -5,12 +5,14 @@ package dao;
 
 import interfaces.dao.IAlunoDAO;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 import classesBasicas.Aluno;
+import classesBasicas.Situacao;
 import dao.generics.DAOGeneric;
-
 
 /**
  * @author Audry Martins
@@ -55,6 +57,22 @@ public class AlunoDAO extends DAOGeneric<Aluno> implements IAlunoDAO
 		try
 		{
 			return query.setMaxResults(1).getSingleResult();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public List<Aluno> consultarTodosAtivos()
+	{
+		TypedQuery<Aluno> query = this.entityManager.createNamedQuery(
+			"Aluno.findAllActives", this.classePersistente);
+		query.setParameter("situacao", Situacao.ATIVO);
+		
+		try
+		{
+			return query.getResultList();
 		}catch(Exception e)
 		{
 			e.printStackTrace();

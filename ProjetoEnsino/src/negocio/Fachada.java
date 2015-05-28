@@ -15,22 +15,19 @@ import java.util.List;
 
 import classesBasicas.Aluno;
 import classesBasicas.Coordenador;
+import classesBasicas.Criterio;
 import classesBasicas.Nota;
 import classesBasicas.Professor;
 import classesBasicas.Projeto;
+import classesBasicas.TipoProfessor;
 import classesBasicas.Usuario;
-import exceptions.AlunoExistenteException;
-import exceptions.AlunoInexistenteException;
-import exceptions.CoordenadorExistenteException;
-import exceptions.CoordenadorInexistenteException;
+import exceptions.LoginInvalidoException;
 import exceptions.NotaExistenteException;
 import exceptions.NotaInexistenteException;
-import exceptions.ProfessorExistenteException;
-import exceptions.ProfessorInexistenteException;
+import exceptions.PessoaExistenteException;
+import exceptions.PessoaInexistenteException;
 import exceptions.ProjetoExistenteException;
 import exceptions.ProjetoInexistenteException;
-import exceptions.UsuarioExistenteException;
-import exceptions.UsuarioInexistenteException;
 
 
 /**
@@ -40,21 +37,30 @@ import exceptions.UsuarioInexistenteException;
 public class Fachada implements IFachada
 {
 	// Atributos
-	
 	private static IFachada instancia;
+	
+	
 	private IControladorAluno controladorAluno;
+	
+	
 	private IControladorCoordenador controladorCoordenador;
+	
+	
 	private IControladorProfessor controladorProfessor;
+	
+	
 	private IControladorProjeto controladorProjeto;
+	
+	
 	private IControladorUsuario controladorUsuario;
+	
+	
 	private IControladorNota controladorNota;
 	
 	// Construtores
-	
 	public Fachada()
 	{
 		super();
-		
 		this.controladorAluno = new ControladorAluno();
 		this.controladorCoordenador = new ControladorCoordenador();
 		this.controladorProfessor = new ControladorProfessor();
@@ -77,7 +83,6 @@ public class Fachada implements IFachada
 		IControladorUsuario controladorUsuario, IControladorNota controladorNota)
 	{
 		super();
-		
 		this.controladorAluno = controladorAluno;
 		this.controladorCoordenador = controladorCoordenador;
 		this.controladorProfessor = controladorProfessor;
@@ -93,9 +98,9 @@ public class Fachada implements IFachada
 	 * @see interfaces.negocio.IFachada#inserirAluno(classesBasicas.Aluno)
 	 */
 	@Override
-	public void inserirAluno(Aluno entidade) throws AlunoExistenteException,
-		ProfessorExistenteException, CoordenadorExistenteException,
-		ProjetoExistenteException, UsuarioExistenteException, NotaExistenteException
+	public void inserirAluno(Aluno entidade) throws PessoaExistenteException,
+		ProjetoExistenteException, ProjetoInexistenteException,
+		NotaInexistenteException
 	{
 		controladorAluno.inserir(entidade);
 	}
@@ -106,9 +111,8 @@ public class Fachada implements IFachada
 	 * @see interfaces.negocio.IFachada#alterarAluno(classesBasicas.Aluno)
 	 */
 	@Override
-	public void alterarAluno(Aluno entidade) throws AlunoInexistenteException,
-		CoordenadorInexistenteException, ProjetoInexistenteException,
-		UsuarioInexistenteException, ProfessorInexistenteException, NotaInexistenteException
+	public void alterarAluno(Aluno entidade) throws PessoaInexistenteException,
+		ProjetoInexistenteException, NotaInexistenteException
 	{
 		controladorAluno.alterar(entidade);
 	}
@@ -119,9 +123,8 @@ public class Fachada implements IFachada
 	 * @see interfaces.negocio.IFachada#removerAluno(classesBasicas.Aluno)
 	 */
 	@Override
-	public void removerAluno(Aluno entidade) throws AlunoInexistenteException,
-		ProfessorInexistenteException, CoordenadorInexistenteException,
-		ProjetoInexistenteException, UsuarioInexistenteException, NotaInexistenteException
+	public void removerAluno(Aluno entidade) throws PessoaInexistenteException,
+		ProjetoInexistenteException, NotaInexistenteException
 	{
 		controladorAluno.remover(entidade);
 	}
@@ -133,8 +136,8 @@ public class Fachada implements IFachada
 	 */
 	@Override
 	public Aluno consultarAlunoPorId(Integer id)
-		throws AlunoInexistenteException, ProfessorInexistenteException,
-		ProjetoInexistenteException, UsuarioInexistenteException, CoordenadorInexistenteException, NotaInexistenteException
+		throws PessoaInexistenteException, ProjetoInexistenteException,
+		NotaInexistenteException
 	{
 		return controladorAluno.consultarPorId(id);
 	}
@@ -145,9 +148,9 @@ public class Fachada implements IFachada
 	 * @see interfaces.negocio.IFachada#consultarTodosAlunos()
 	 */
 	@Override
-	public List<Aluno> consultarTodosAlunos() throws AlunoInexistenteException,
-		ProfessorInexistenteException, ProjetoInexistenteException,
-		UsuarioInexistenteException, CoordenadorInexistenteException, NotaInexistenteException
+	public List<Aluno> consultarTodosAlunos()
+		throws PessoaInexistenteException, ProjetoInexistenteException,
+		NotaInexistenteException
 	{
 		return controladorAluno.consultarTodos();
 	}
@@ -160,9 +163,8 @@ public class Fachada implements IFachada
 	 */
 	@Override
 	public List<Aluno> consultarTodosAlunos(Integer indiceInicial,
-		Integer quantidade) throws AlunoInexistenteException,
-		ProfessorInexistenteException, ProjetoInexistenteException,
-		UsuarioInexistenteException, CoordenadorInexistenteException, NotaInexistenteException
+		Integer quantidade) throws PessoaInexistenteException,
+		ProjetoInexistenteException, NotaInexistenteException
 	{
 		return controladorAluno.consultarTodos(indiceInicial, quantidade);
 	}
@@ -173,11 +175,38 @@ public class Fachada implements IFachada
 	 * @see interfaces.negocio.IFachada#consultarTodosAlunosAtivos()
 	 */
 	@Override
-	public List<Aluno> consultarTodosAlunosAtivos() throws AlunoInexistenteException
+	public List<Aluno> consultarTodosAlunosAtivos()
+		throws PessoaInexistenteException, ProjetoInexistenteException,
+		NotaInexistenteException
 	{
 		return controladorAluno.consultarTodosAtivos();
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see interfaces.negocio.IFachada#consultarAlunoPorNome(java.lang.String)
+	 */
+	@Override
+	public Aluno consultarAlunoPorNome(String nome)
+		throws PessoaInexistenteException
+	{
+		return controladorAluno.consultarAlunoPorNome(nome);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see interfaces.negocio.IFachada#consultarAlunoPorCPF(java.lang.String)
+	 */
+	@Override
+	public Aluno consultarAlunoPorCPF(String cpf)
+		throws PessoaInexistenteException
+	{
+		return controladorAluno.consultarAlunoPorCPF(cpf);
+	}
+	
+	// Coordenador
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -187,9 +216,9 @@ public class Fachada implements IFachada
 	 */
 	@Override
 	public void inserirCoordenador(Coordenador entidade)
-		throws AlunoExistenteException, ProfessorExistenteException,
-		CoordenadorExistenteException, ProjetoExistenteException,
-		UsuarioExistenteException, NotaExistenteException
+		throws PessoaExistenteException, ProjetoExistenteException,
+		NotaExistenteException, ProjetoInexistenteException,
+		NotaInexistenteException
 	{
 		controladorCoordenador.inserir(entidade);
 	}
@@ -203,8 +232,8 @@ public class Fachada implements IFachada
 	 */
 	@Override
 	public void alterarCoordenador(Coordenador entidade)
-		throws AlunoInexistenteException, CoordenadorInexistenteException,
-		ProjetoInexistenteException, UsuarioInexistenteException, ProfessorInexistenteException, NotaInexistenteException
+		throws PessoaInexistenteException, ProjetoInexistenteException,
+		NotaInexistenteException
 	{
 		controladorCoordenador.alterar(entidade);
 	}
@@ -218,9 +247,8 @@ public class Fachada implements IFachada
 	 */
 	@Override
 	public void removerCoordenador(Coordenador entidade)
-		throws AlunoInexistenteException, ProfessorInexistenteException,
-		CoordenadorInexistenteException, ProjetoInexistenteException,
-		UsuarioInexistenteException, NotaInexistenteException
+		throws PessoaInexistenteException, ProjetoInexistenteException,
+		NotaInexistenteException
 	{
 		controladorCoordenador.remover(entidade);
 	}
@@ -233,8 +261,8 @@ public class Fachada implements IFachada
 	 */
 	@Override
 	public Coordenador consultarCoordenadorPorId(Integer id)
-		throws AlunoInexistenteException, ProfessorInexistenteException,
-		ProjetoInexistenteException, UsuarioInexistenteException, CoordenadorInexistenteException, NotaInexistenteException
+		throws PessoaInexistenteException, ProjetoInexistenteException,
+		NotaInexistenteException
 	{
 		return controladorCoordenador.consultarPorId(id);
 	}
@@ -246,8 +274,8 @@ public class Fachada implements IFachada
 	 */
 	@Override
 	public List<Coordenador> consultarTodosCoordenadores()
-		throws AlunoInexistenteException, ProfessorInexistenteException,
-		ProjetoInexistenteException, UsuarioInexistenteException, CoordenadorInexistenteException, NotaInexistenteException
+		throws PessoaInexistenteException, ProjetoInexistenteException,
+		NotaInexistenteException
 	{
 		return controladorCoordenador.consultarTodos();
 	}
@@ -261,13 +289,52 @@ public class Fachada implements IFachada
 	 */
 	@Override
 	public List<Coordenador> consultarTodosCoordenadores(Integer indiceInicial,
-		Integer quantidade) throws AlunoInexistenteException,
-		ProfessorInexistenteException, ProjetoInexistenteException,
-		UsuarioInexistenteException, CoordenadorInexistenteException, NotaInexistenteException
+		Integer quantidade) throws PessoaInexistenteException,
+		ProjetoInexistenteException, NotaInexistenteException
 	{
 		return controladorCoordenador.consultarTodos(indiceInicial, quantidade);
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see interfaces.negocio.IFachada#consultarTodosCoordenadoresAtivos()
+	 */
+	@Override
+	public List<Coordenador> consultarTodosCoordenadoresAtivos()
+		throws PessoaInexistenteException, ProjetoInexistenteException,
+		NotaInexistenteException
+	{
+		return controladorCoordenador.consultarTodosAtivos();
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * interfaces.negocio.IFachada#consultarCoordenadorPorNome(java.lang.String)
+	 */
+	@Override
+	public Coordenador consultarCoordenadorPorNome(String nome)
+		throws PessoaInexistenteException
+	{
+		return controladorCoordenador.consultarCoordenadorPorNome(nome);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * interfaces.negocio.IFachada#consultarCoordenadorPorCPF(java.lang.String)
+	 */
+	@Override
+	public Coordenador consultarCoordenadorPorCPF(String cpf)
+		throws PessoaInexistenteException
+	{
+		return controladorCoordenador.consultarCoordenadorPorCPF(cpf);
+	}
+	
+	// Professor
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -276,9 +343,9 @@ public class Fachada implements IFachada
 	 */
 	@Override
 	public void inserirProfessor(Professor entidade)
-		throws AlunoExistenteException, ProfessorExistenteException,
-		CoordenadorExistenteException, ProjetoExistenteException,
-		UsuarioExistenteException, NotaExistenteException
+		throws ProjetoExistenteException, NotaExistenteException,
+		PessoaExistenteException, ProjetoInexistenteException,
+		NotaInexistenteException
 	{
 		controladorProfessor.inserir(entidade);
 	}
@@ -291,8 +358,8 @@ public class Fachada implements IFachada
 	 */
 	@Override
 	public void alterarProfessor(Professor entidade)
-		throws AlunoInexistenteException, CoordenadorInexistenteException,
-		ProjetoInexistenteException, UsuarioInexistenteException, ProfessorInexistenteException, NotaInexistenteException
+		throws PessoaInexistenteException, ProjetoInexistenteException,
+		NotaInexistenteException
 	{
 		controladorProfessor.alterar(entidade);
 	}
@@ -305,9 +372,8 @@ public class Fachada implements IFachada
 	 */
 	@Override
 	public void removerProfessor(Professor entidade)
-		throws AlunoInexistenteException, ProfessorInexistenteException,
-		CoordenadorInexistenteException, ProjetoInexistenteException,
-		UsuarioInexistenteException, NotaInexistenteException
+		throws PessoaInexistenteException, ProjetoInexistenteException,
+		NotaInexistenteException
 	{
 		controladorProfessor.remover(entidade);
 	}
@@ -320,8 +386,8 @@ public class Fachada implements IFachada
 	 */
 	@Override
 	public Professor consultarProfessorPorId(Integer id)
-		throws AlunoInexistenteException, ProfessorInexistenteException,
-		ProjetoInexistenteException, UsuarioInexistenteException, CoordenadorInexistenteException, NotaInexistenteException
+		throws PessoaInexistenteException, ProjetoInexistenteException,
+		NotaInexistenteException
 	{
 		return controladorProfessor.consultarPorId(id);
 	}
@@ -333,8 +399,8 @@ public class Fachada implements IFachada
 	 */
 	@Override
 	public List<Professor> consultarTodosProfessores()
-		throws AlunoInexistenteException, ProfessorInexistenteException,
-		ProjetoInexistenteException, UsuarioInexistenteException, CoordenadorInexistenteException, NotaInexistenteException
+		throws PessoaInexistenteException, ProjetoInexistenteException,
+		NotaInexistenteException
 	{
 		return controladorProfessor.consultarTodos();
 	}
@@ -348,9 +414,8 @@ public class Fachada implements IFachada
 	 */
 	@Override
 	public List<Professor> consultarTodosProfessores(Integer indiceInicial,
-		Integer quantidade) throws AlunoInexistenteException,
-		ProfessorInexistenteException, ProjetoInexistenteException,
-		UsuarioInexistenteException, CoordenadorInexistenteException, NotaInexistenteException
+		Integer quantidade) throws PessoaInexistenteException,
+		ProjetoInexistenteException, NotaInexistenteException
 	{
 		return controladorProfessor.consultarTodos(indiceInicial, quantidade);
 	}
@@ -358,13 +423,63 @@ public class Fachada implements IFachada
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see interfaces.negocio.IFachada#consultarTodosProfessorAtivos()
+	 */
+	@Override
+	public List<Professor> consultarTodosProfessorAtivos()
+		throws PessoaInexistenteException, ProjetoInexistenteException,
+		NotaInexistenteException
+	{
+		return controladorProfessor.consultarTodosAtivos();
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * interfaces.negocio.IFachada#consultarProfessorPorNome(java.lang.String)
+	 */
+	@Override
+	public Professor consultarProfessorPorNome(String nome)
+		throws PessoaInexistenteException
+	{
+		return controladorProfessor.consultarProfessorPorNome(nome);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * interfaces.negocio.IFachada#consultarProfessorPorCPF(java.lang.String)
+	 */
+	@Override
+	public Professor consultarProfessorPorCPF(String cpf)
+		throws PessoaInexistenteException
+	{
+		return controladorProfessor.consultarProfessorPorCPF(cpf);
+	}
+	
+	/* (non-Javadoc)
+	 * @see interfaces.negocio.IFachada#consultarProfessorPorTipoProfessor(classesBasicas.TipoProfessor)
+	 */
+	@Override
+	public List<Professor> consultarProfessorPorTipoProfessor(
+		TipoProfessor tipoProfessor) throws PessoaInexistenteException
+	{
+		return controladorProfessor.consultarProfessorPorTipoProfessor(tipoProfessor);
+	}
+	
+	// Projeto
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see interfaces.negocio.IFachada#inserirProjeto(classesBasicas.Projeto)
 	 */
 	@Override
 	public void inserirProjeto(Projeto entidade)
-		throws AlunoExistenteException, ProfessorExistenteException,
-		CoordenadorExistenteException, ProjetoExistenteException,
-		UsuarioExistenteException, NotaExistenteException
+		throws PessoaExistenteException, ProjetoExistenteException,
+		NotaExistenteException, ProjetoInexistenteException,
+		NotaInexistenteException
 	{
 		controladorProjeto.inserir(entidade);
 	}
@@ -376,8 +491,8 @@ public class Fachada implements IFachada
 	 */
 	@Override
 	public void alterarProjeto(Projeto entidade)
-		throws AlunoInexistenteException, CoordenadorInexistenteException,
-		ProjetoInexistenteException, UsuarioInexistenteException, ProfessorInexistenteException, NotaInexistenteException
+		throws PessoaInexistenteException, ProjetoInexistenteException,
+		NotaInexistenteException
 	{
 		controladorProjeto.alterar(entidade);
 	}
@@ -389,9 +504,8 @@ public class Fachada implements IFachada
 	 */
 	@Override
 	public void removerProjeto(Projeto entidade)
-		throws AlunoInexistenteException, ProfessorInexistenteException,
-		CoordenadorInexistenteException, ProjetoInexistenteException,
-		UsuarioInexistenteException, NotaInexistenteException
+		throws PessoaInexistenteException, ProjetoInexistenteException,
+		NotaInexistenteException
 	{
 		controladorProjeto.remover(entidade);
 	}
@@ -403,8 +517,8 @@ public class Fachada implements IFachada
 	 */
 	@Override
 	public Projeto consultarProjetoPorId(Integer id)
-		throws AlunoInexistenteException, ProfessorInexistenteException,
-		ProjetoInexistenteException, UsuarioInexistenteException, CoordenadorInexistenteException, NotaInexistenteException
+		throws PessoaInexistenteException, ProjetoInexistenteException,
+		NotaInexistenteException
 	{
 		return controladorProjeto.consultarPorId(id);
 	}
@@ -416,8 +530,8 @@ public class Fachada implements IFachada
 	 */
 	@Override
 	public List<Projeto> consultarTodosProjetos()
-		throws AlunoInexistenteException, ProfessorInexistenteException,
-		ProjetoInexistenteException, UsuarioInexistenteException, CoordenadorInexistenteException, NotaInexistenteException
+		throws PessoaInexistenteException, ProjetoInexistenteException,
+		NotaInexistenteException
 	{
 		return controladorProjeto.consultarTodos();
 	}
@@ -431,13 +545,47 @@ public class Fachada implements IFachada
 	 */
 	@Override
 	public List<Projeto> consultarTodosProjetos(Integer indiceInicial,
-		Integer quantidade) throws AlunoInexistenteException,
-		ProfessorInexistenteException, ProjetoInexistenteException,
-		UsuarioInexistenteException, CoordenadorInexistenteException, NotaInexistenteException
+		Integer quantidade) throws PessoaInexistenteException,
+		ProjetoInexistenteException, NotaInexistenteException
 	{
 		return controladorProjeto.consultarTodos(indiceInicial, quantidade);
 	}
 	
+	public Projeto consultarProjetoPorNome(String nome)
+		throws ProjetoInexistenteException
+	{
+		return controladorProjeto.consultarProjetoPorNome(nome);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see interfaces.negocio.IFachada#consultarTodosProjetosAtivos()
+	 */
+	@Override
+	public List<Projeto> consultarTodosProjetosAtivos()
+		throws ProjetoInexistenteException, PessoaInexistenteException,
+		NotaInexistenteException
+	{
+		return controladorProjeto.consultarTodosAtivos();
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * interfaces.negocio.IFachada#consultarNotasPorProjetoAvaliador(classesBasicas
+	 * .Projeto, classesBasicas.Professor)
+	 */
+	@Override
+	public List<Projeto> consultarNotasPorProjetoAvaliador(Projeto projeto,
+		Professor avaliador) throws ProjetoInexistenteException
+	{
+		return controladorProjeto.consultarNotasPorProjetoAvaliador(projeto,
+			avaliador);
+	}
+	
+	// Usuario
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -445,9 +593,9 @@ public class Fachada implements IFachada
 	 */
 	@Override
 	public void inserirUsuario(Usuario entidade)
-		throws AlunoExistenteException, ProfessorExistenteException,
-		CoordenadorExistenteException, ProjetoExistenteException,
-		UsuarioExistenteException, NotaExistenteException
+		throws ProjetoExistenteException, NotaExistenteException,
+		PessoaExistenteException, ProjetoInexistenteException,
+		NotaInexistenteException
 	{
 		controladorUsuario.inserir(entidade);
 	}
@@ -459,8 +607,8 @@ public class Fachada implements IFachada
 	 */
 	@Override
 	public void alterarUsuario(Usuario entidade)
-		throws AlunoInexistenteException, CoordenadorInexistenteException,
-		ProjetoInexistenteException, UsuarioInexistenteException, ProfessorInexistenteException, NotaInexistenteException
+		throws PessoaInexistenteException, ProjetoInexistenteException,
+		NotaInexistenteException
 	{
 		controladorUsuario.alterar(entidade);
 	}
@@ -472,9 +620,8 @@ public class Fachada implements IFachada
 	 */
 	@Override
 	public void removerUsuario(Usuario entidade)
-		throws AlunoInexistenteException, ProfessorInexistenteException,
-		CoordenadorInexistenteException, ProjetoInexistenteException,
-		UsuarioInexistenteException, NotaInexistenteException
+		throws PessoaInexistenteException, ProjetoInexistenteException,
+		NotaInexistenteException
 	{
 		controladorUsuario.remover(entidade);
 	}
@@ -486,8 +633,8 @@ public class Fachada implements IFachada
 	 */
 	@Override
 	public Usuario consultarUsuarioPorId(Integer id)
-		throws AlunoInexistenteException, ProfessorInexistenteException,
-		ProjetoInexistenteException, UsuarioInexistenteException, CoordenadorInexistenteException, NotaInexistenteException
+		throws PessoaInexistenteException, ProjetoInexistenteException,
+		NotaInexistenteException
 	{
 		return controladorUsuario.consultarPorId(id);
 	}
@@ -499,8 +646,8 @@ public class Fachada implements IFachada
 	 */
 	@Override
 	public List<Usuario> consultarTodosUsuarios()
-		throws AlunoInexistenteException, ProfessorInexistenteException,
-		ProjetoInexistenteException, UsuarioInexistenteException, CoordenadorInexistenteException, NotaInexistenteException
+		throws PessoaInexistenteException, ProjetoInexistenteException,
+		NotaInexistenteException
 	{
 		return controladorUsuario.consultarTodos();
 	}
@@ -514,32 +661,60 @@ public class Fachada implements IFachada
 	 */
 	@Override
 	public List<Usuario> consultarTodosUsuarios(Integer indiceInicial,
-		Integer quantidade) throws AlunoInexistenteException,
-		ProfessorInexistenteException, ProjetoInexistenteException,
-		UsuarioInexistenteException, CoordenadorInexistenteException, NotaInexistenteException
+		Integer quantidade) throws PessoaInexistenteException,
+		ProjetoInexistenteException, NotaInexistenteException
 	{
 		return controladorUsuario.consultarTodos(indiceInicial, quantidade);
 	}
 	
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see interfaces.negocio.IFachada#efetuarLogin(classesBasicas.Usuario)
 	 */
 	@Override
-	public void efetuarLogin(Usuario usuario)
-		throws UsuarioInexistenteException
+	public Usuario efetuarLogin(Usuario usuario)
+		throws PessoaInexistenteException, LoginInvalidoException
 	{
-		controladorUsuario.efetuarLogin(usuario);
+		return controladorUsuario.efetuarLogin(usuario);
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see interfaces.negocio.IFachada#consultarTodosUsuariosAtivos()
+	 */
+	@Override
+	public List<Usuario> consultarTodosUsuariosAtivos()
+		throws PessoaInexistenteException, ProjetoInexistenteException,
+		NotaInexistenteException
+	{
+		return controladorUsuario.consultarTodosAtivos();
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * interfaces.negocio.IFachada#consultarUsuarioPorNome(java.lang.String)
+	 */
+	@Override
+	public Usuario consultarUsuarioPorNome(String nome)
+		throws PessoaInexistenteException
+	{
+		return controladorUsuario.consultarUsuarioPorNome(nome);
+	}
+	
+	// Nota
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see interfaces.negocio.IFachada#inserirNota(classesBasicas.Nota)
 	 */
 	@Override
-	public void inserirNota(Nota entidade) throws AlunoExistenteException,
-		ProfessorExistenteException, CoordenadorExistenteException,
-		ProjetoExistenteException, UsuarioExistenteException, NotaExistenteException
+	public void inserirNota(Nota entidade) throws PessoaExistenteException,
+		ProjetoExistenteException, ProjetoInexistenteException,
+		NotaInexistenteException
 	{
 		controladorNota.inserir(entidade);
 	}
@@ -550,9 +725,8 @@ public class Fachada implements IFachada
 	 * @see interfaces.negocio.IFachada#alterarNota(classesBasicas.Nota)
 	 */
 	@Override
-	public void alterarNota(Nota entidade) throws AlunoInexistenteException,
-		CoordenadorInexistenteException, ProjetoInexistenteException,
-		UsuarioInexistenteException, ProfessorInexistenteException, NotaInexistenteException
+	public void alterarNota(Nota entidade) throws PessoaInexistenteException,
+		ProjetoInexistenteException, NotaInexistenteException
 	{
 		controladorNota.alterar(entidade);
 	}
@@ -563,9 +737,8 @@ public class Fachada implements IFachada
 	 * @see interfaces.negocio.IFachada#removerNota(classesBasicas.Nota)
 	 */
 	@Override
-	public void removerNota(Nota entidade) throws AlunoInexistenteException,
-		ProfessorInexistenteException, CoordenadorInexistenteException,
-		ProjetoInexistenteException, UsuarioInexistenteException, NotaInexistenteException
+	public void removerNota(Nota entidade) throws PessoaInexistenteException,
+		ProjetoInexistenteException, NotaInexistenteException
 	{
 		controladorNota.remover(entidade);
 	}
@@ -577,8 +750,8 @@ public class Fachada implements IFachada
 	 */
 	@Override
 	public Nota consultarNotaPorId(Integer id)
-		throws AlunoInexistenteException, ProfessorInexistenteException,
-		ProjetoInexistenteException, UsuarioInexistenteException, CoordenadorInexistenteException, NotaInexistenteException
+		throws PessoaInexistenteException, ProjetoInexistenteException,
+		NotaInexistenteException
 	{
 		return controladorNota.consultarPorId(id);
 	}
@@ -589,9 +762,8 @@ public class Fachada implements IFachada
 	 * @see interfaces.negocio.IFachada#consultarTodosNota()
 	 */
 	@Override
-	public List<Nota> consultarTodosNota() throws AlunoInexistenteException,
-		ProfessorInexistenteException, ProjetoInexistenteException,
-		UsuarioInexistenteException, CoordenadorInexistenteException, NotaInexistenteException
+	public List<Nota> consultarTodosNota() throws PessoaInexistenteException,
+		ProjetoInexistenteException, NotaInexistenteException
 	{
 		return controladorNota.consultarTodos();
 	}
@@ -604,21 +776,125 @@ public class Fachada implements IFachada
 	 */
 	@Override
 	public List<Nota> consultarTodosNota(Integer indiceInicial,
-		Integer quantidade) throws AlunoInexistenteException,
-		ProfessorInexistenteException, ProjetoInexistenteException,
-		UsuarioInexistenteException, CoordenadorInexistenteException, NotaInexistenteException
+		Integer quantidade) throws PessoaInexistenteException,
+		ProjetoInexistenteException, NotaInexistenteException
 	{
 		return controladorNota.consultarTodos(indiceInicial, quantidade);
 	}
 	
-	/* (non-Javadoc)
-	 * @see interfaces.negocio.IFachada#consultarNotasPorProjeto(classesBasicas.Projeto)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * interfaces.negocio.IFachada#consultarNotasPorProjeto(classesBasicas.Projeto
+	 * )
 	 */
 	@Override
 	public List<Nota> consultarNotasPorProjeto(Projeto projeto)
 		throws NotaInexistenteException
 	{
 		return controladorNota.consultarNotasPorProjeto(projeto);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see interfaces.negocio.IFachada#consultarTodosNotasAtivas()
+	 */
+	@Override
+	public List<Nota> consultarTodosNotasAtivas()
+		throws NotaInexistenteException, PessoaInexistenteException,
+		ProjetoInexistenteException
+	{
+		return controladorNota.consultarTodosAtivos();
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * interfaces.negocio.IFachada#consultarNotasPorCriterio(java.lang.String)
+	 */
+	@Override
+	public List<Nota> consultarNotasPorCriterio(Criterio criterio)
+		throws NotaInexistenteException
+	{
+		return controladorNota.consultarNotasPorCriterio(criterio);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * interfaces.negocio.IFachada#consultarNotasPorProjetoCriterio(classesBasicas
+	 * .Projeto, java.lang.String)
+	 */
+	@Override
+	public List<Nota> consultarNotasPorProjetoCriterio(Projeto projeto,
+		Criterio criterio) throws NotaInexistenteException
+	{
+		return controladorNota.consultarNotasPorProjetoCriterio(projeto,
+			criterio);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see interfaces.negocio.IFachada#consultarNotasPorProfessorOrientador(
+	 * classesBasicas.Professor)
+	 */
+	@Override
+	public List<Nota> consultarNotasPorProfessorOrientador(Professor orientador)
+		throws NotaInexistenteException
+	{
+		return controladorNota.consultarNotasPorProfessorOrientador(orientador);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see interfaces.negocio.IFachada#consultarNotasPorProfessorAvaliador(
+	 * classesBasicas.Professor)
+	 */
+	@Override
+	public List<Nota> consultarNotasPorProfessorAvaliador(Professor avaliador)
+		throws NotaInexistenteException
+	{
+		return controladorNota.consultarNotasPorProfessorAvaliador(avaliador);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * interfaces.negocio.IFachada#consultarNotasPorProfessorOrientadorAvaliador
+	 * (classesBasicas.Professor, classesBasicas.Professor)
+	 */
+	@Override
+	public List<Nota> consultarNotasPorProfessorOrientadorAvaliador(
+		Professor orientador, Professor avaliador)
+		throws NotaInexistenteException
+	{
+		return controladorNota.consultarNotasPorProfessorOrientadorAvaliador(
+			orientador, avaliador);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see interfaces.negocio.IFachada#
+	 * consultarNotasPorProjetoCriterioOrientadorAvaliador
+	 * (classesBasicas.Projeto, java.lang.String, classesBasicas.Professor,
+	 * classesBasicas.Professor)
+	 */
+	@Override
+	public List<Nota> consultarNotasPorProjetoCriterioOrientadorAvaliador(
+		Projeto projeto, Criterio criterio, Professor orientador,
+		Professor avaliador) throws NotaInexistenteException
+	{
+		return controladorNota
+			.consultarNotasPorProjetoCriterioOrientadorAvaliador(projeto,
+				criterio, orientador, avaliador);
 	}
 	
 	// Gets e Sets

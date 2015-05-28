@@ -5,7 +5,7 @@ package interfaces.dao;
 
 import classesBasicas.Coordenador;
 import dao.generics.IDAOGeneric;
-import exceptions.CoordenadorInexistenteException;
+import exceptions.PessoaInexistenteException;
 
 /**
  * @author Audry Martins
@@ -13,9 +13,10 @@ import exceptions.CoordenadorInexistenteException;
  */
 public interface ICoordenadorDAO extends IDAOGeneric<Coordenador>
 {
-	//Métodos
+	// Métodos
+	Coordenador consultarCoordenadorPorNome(String nome)
+		throws PessoaInexistenteException;
 	
-	Coordenador consultarCoordenadorPorNome(String nome) throws CoordenadorInexistenteException;
-	
-	Coordenador consultarCoordenadorPorCPF(String cpf) throws CoordenadorInexistenteException;
+	Coordenador consultarCoordenadorPorCPF(String cpf)
+		throws PessoaInexistenteException;
 }

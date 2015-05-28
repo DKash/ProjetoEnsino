@@ -4,25 +4,23 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-<title>#{msgs.tituloMenuSobre}</title>
-</head>
-<body>
-	<h4 align="center">#{msgs.mensagemMenuSobre}</h4>
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>#{msgs.tituloMenuSobre}</title>
+</h:head>
+<h:body>
 
-	<p:blockUI animate="true" blocked="true"></p:blockUI>
+	<h:head>
+		<h2>#{msgs.tituloMenuSobre}</h2>
+	</h:head>
 
-	<p:confirm header="Confirme?" message="Do you Want Insert This Object?"></p:confirm>
+	<h3 align="center" style="margin-left: 200pt; margin-right: 235pt">#{msgs.mensagemMenuSobre}</h3>
 
-	<p:confirmDialog appendTo="Confirme?" closable="true"
-		hideEffect="false" message="Object Saved Sucessfuly" severity="FATAL"
-		width="350"></p:confirmDialog>
-
-	<h:outputText value="Name* "></h:outputText>
-	<h:inputText onblur="reset" value="" ></h:inputText>
-
-	<p:growl autoUpdate="true" severity="WARN"
-		showDetail="Name was'not fill outed"></p:growl>
-</body>
+	<div style="margin-top: 320pt">
+		<p:commandButton value="#{msgs.botaoCancelar}" immediate="true"
+			action="#{cadastroPessoaMB.exibirMenu}" icon="ui-icon-close">
+		</p:commandButton>
+	</div>
+	<p:messages errorStyle="font-color: red"></p:messages>
+</h:body>
 </html>

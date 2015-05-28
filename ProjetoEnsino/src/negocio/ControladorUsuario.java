@@ -12,18 +12,13 @@ import classesBasicas.Situacao;
 import classesBasicas.Usuario;
 import dao.UsuarioDAO;
 import dao.generics.DAOFactory;
-import exceptions.AlunoExistenteException;
-import exceptions.AlunoInexistenteException;
-import exceptions.CoordenadorExistenteException;
-import exceptions.CoordenadorInexistenteException;
-import exceptions.NotaExistenteException;
+import exceptions.LoginInvalidoException;
 import exceptions.NotaInexistenteException;
-import exceptions.ProfessorExistenteException;
-import exceptions.ProfessorInexistenteException;
+import exceptions.PessoaExistenteException;
+import exceptions.PessoaInexistenteException;
 import exceptions.ProjetoExistenteException;
 import exceptions.ProjetoInexistenteException;
-import exceptions.UsuarioExistenteException;
-import exceptions.UsuarioInexistenteException;
+
 
 /**
  * @author Audry Martins
@@ -32,15 +27,12 @@ import exceptions.UsuarioInexistenteException;
 public class ControladorUsuario implements IControladorUsuario
 {
 	// Atributos
-	
 	private IUsuarioDAO usuarioDAO;
 	
 	// Construtores
-	
 	public ControladorUsuario()
 	{
 		super();
-	
 		usuarioDAO = DAOFactory.getUsuarioDAO();
 	}
 	
@@ -50,7 +42,6 @@ public class ControladorUsuario implements IControladorUsuario
 	public ControladorUsuario(IUsuarioDAO usuarioDAO)
 	{
 		super();
-		
 		this.usuarioDAO = usuarioDAO;
 	}
 	
@@ -61,16 +52,15 @@ public class ControladorUsuario implements IControladorUsuario
 	 * @see dao.generics.IDAOGeneric#inserir(java.lang.Object)
 	 */
 	@Override
-	public void inserir(Usuario entidade) throws AlunoExistenteException,
-		ProfessorExistenteException, CoordenadorExistenteException,
-		ProjetoExistenteException, UsuarioExistenteException,
-		NotaExistenteException
+	public void inserir(Usuario entidade) throws PessoaExistenteException,
+		ProjetoExistenteException, ProjetoInexistenteException,
+		NotaInexistenteException
 	{
 		Boolean resultado = ((UsuarioDAO) usuarioDAO)
-			.verificarUsuarioExistentePorId(entidade.getCodigo());
+			.verificarUsuarioExistente(entidade);
 		if(resultado == true)
-			throw new UsuarioExistenteException();
-		
+			throw new PessoaExistenteException();
+		entidade.setSituacao(Situacao.ATIVO);
 		usuarioDAO.inserir(entidade);
 	}
 	
@@ -80,16 +70,13 @@ public class ControladorUsuario implements IControladorUsuario
 	 * @see dao.generics.IDAOGeneric#alterar(java.lang.Object)
 	 */
 	@Override
-	public void alterar(Usuario entidade) throws AlunoInexistenteException,
-		CoordenadorInexistenteException, ProjetoInexistenteException,
-		UsuarioInexistenteException, ProfessorInexistenteException,
-		NotaInexistenteException
+	public void alterar(Usuario entidade) throws PessoaInexistenteException,
+		ProjetoInexistenteException, NotaInexistenteException
 	{
 		Boolean resultado = ((UsuarioDAO) usuarioDAO)
 			.verificarUsuarioExistentePorId(entidade.getCodigo());
 		if(resultado == false)
-			throw new UsuarioInexistenteException();
-		
+			throw new PessoaInexistenteException();
 		usuarioDAO.alterar(entidade);
 	}
 	
@@ -99,16 +86,13 @@ public class ControladorUsuario implements IControladorUsuario
 	 * @see dao.generics.IDAOGeneric#remover(java.lang.Object)
 	 */
 	@Override
-	public void remover(Usuario entidade) throws AlunoInexistenteException,
-		CoordenadorInexistenteException, ProjetoInexistenteException,
-		UsuarioInexistenteException, ProfessorInexistenteException,
-		NotaInexistenteException
+	public void remover(Usuario entidade) throws PessoaInexistenteException,
+		ProjetoInexistenteException, NotaInexistenteException
 	{
 		Boolean resultado = ((UsuarioDAO) usuarioDAO)
 			.verificarUsuarioExistentePorId(entidade.getCodigo());
 		if(resultado == false)
-			throw new UsuarioInexistenteException();
-		
+			throw new PessoaInexistenteException();
 		entidade.setSituacao(Situacao.INATIVO);
 		usuarioDAO.alterar(entidade);
 	}
@@ -119,16 +103,14 @@ public class ControladorUsuario implements IControladorUsuario
 	 * @see dao.generics.IDAOGeneric#consultarPorId(java.lang.Integer)
 	 */
 	@Override
-	public Usuario consultarPorId(Integer id) throws AlunoInexistenteException,
-		ProfessorInexistenteException, ProjetoInexistenteException,
-		UsuarioInexistenteException, CoordenadorInexistenteException,
+	public Usuario consultarPorId(Integer id)
+		throws PessoaInexistenteException, ProjetoInexistenteException,
 		NotaInexistenteException
 	{
 		Boolean resultado = ((UsuarioDAO) usuarioDAO)
 			.verificarUsuarioExistentePorId(id);
 		if(resultado == false)
-			throw new UsuarioInexistenteException();
-		
+			throw new PessoaInexistenteException();
 		return usuarioDAO.consultarPorId(id);
 	}
 	
@@ -138,15 +120,12 @@ public class ControladorUsuario implements IControladorUsuario
 	 * @see dao.generics.IDAOGeneric#consultarTodos()
 	 */
 	@Override
-	public List<Usuario> consultarTodos() throws AlunoInexistenteException,
-		ProfessorInexistenteException, ProjetoInexistenteException,
-		UsuarioInexistenteException, CoordenadorInexistenteException,
-		NotaInexistenteException
+	public List<Usuario> consultarTodos() throws PessoaInexistenteException,
+		ProjetoInexistenteException, NotaInexistenteException
 	{
 		List<Usuario> usuarios = usuarioDAO.consultarTodos();
 		if(usuarios == null || usuarios.isEmpty())
-			throw new UsuarioInexistenteException();
-		
+			throw new PessoaInexistenteException();
 		return usuarios;
 	}
 	
@@ -158,32 +137,34 @@ public class ControladorUsuario implements IControladorUsuario
 	 */
 	@Override
 	public List<Usuario> consultarTodos(Integer indiceInicial,
-		Integer quantidade) throws AlunoInexistenteException,
-		ProfessorInexistenteException, ProjetoInexistenteException,
-		UsuarioInexistenteException, CoordenadorInexistenteException,
-		NotaInexistenteException
+		Integer quantidade) throws PessoaInexistenteException,
+		ProjetoInexistenteException, NotaInexistenteException
 	{
 		List<Usuario> usuarios = usuarioDAO.consultarTodos(indiceInicial,
 			quantidade);
 		if(usuarios == null || usuarios.isEmpty())
-			throw new UsuarioInexistenteException();
-		
+			throw new PessoaInexistenteException();
 		return usuarios;
 	}
 	
-
-	/* (non-Javadoc)
-	 * @see interfaces.negocio.IControladorUsuario#efetuarLogin(classesBasicas.Usuario)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * interfaces.negocio.IControladorUsuario#efetuarLogin(classesBasicas.Usuario
+	 * )
 	 */
 	@Override
-	public void efetuarLogin(Usuario usuario) throws UsuarioInexistenteException
+	public Usuario efetuarLogin(Usuario usuario)
+		throws PessoaInexistenteException, LoginInvalidoException
 	{
-		Usuario usuarioConsultado = usuarioDAO.consultarUsuarioPorNome(usuario.getNomeUsuario());
-		
+		Usuario usuarioConsultado = usuarioDAO.consultarUsuarioPorNome(usuario
+			.getNomeUsuario());
 		if(usuarioConsultado == null)
-			throw new UsuarioInexistenteException();
-		
-		usuarioDAO.efetuarLogin(usuario);
+			throw new PessoaInexistenteException();
+		if(!usuarioConsultado.getSenha().equals(usuario.getSenha()))
+			throw new LoginInvalidoException();
+		return usuarioDAO.efetuarLogin(usuario);
 	}
 	
 	/*
@@ -193,13 +174,28 @@ public class ControladorUsuario implements IControladorUsuario
 	 */
 	@Override
 	public Usuario consultarUsuarioPorNome(String nome)
-		throws UsuarioInexistenteException
+		throws PessoaInexistenteException
 	{
 		Usuario usuario = usuarioDAO.consultarUsuarioPorNome(nome);
 		if(usuario == null || usuario.getSituacao() != Situacao.ATIVO)
-			throw new UsuarioInexistenteException();
-		
+			throw new PessoaInexistenteException();
 		return usuario;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see dao.generics.IDAOGeneric#consultarTodosAtivos()
+	 */
+	@Override
+	public List<Usuario> consultarTodosAtivos()
+		throws PessoaInexistenteException, ProjetoInexistenteException,
+		NotaInexistenteException
+	{
+		List<Usuario> usuarios = usuarioDAO.consultarTodosAtivos();
+		if(usuarios == null || usuarios.isEmpty())
+			throw new PessoaInexistenteException();
+		return usuarios;
 	}
 	
 	// Gets e Sets
@@ -218,15 +214,5 @@ public class ControladorUsuario implements IControladorUsuario
 	public void setUsuarioDAO(IUsuarioDAO usuarioDAO)
 	{
 		this.usuarioDAO = usuarioDAO;
-	}
-
-	/* (non-Javadoc)
-	 * @see dao.generics.IDAOGeneric#consultarTodosAtivos()
-	 */
-	@Override
-	public List<Usuario> consultarTodosAtivos()
-		throws AlunoInexistenteException
-	{ 
-		return usuarioDAO.consultarTodosAtivos();
 	}
 }

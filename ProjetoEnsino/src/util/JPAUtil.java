@@ -12,6 +12,7 @@ public class JPAUtil
 	
 	public static final ThreadLocal<EntityManager> ENTITY_MANAGERS = new ThreadLocal<EntityManager>();
 	public static String UNIT_PERSISTENCE = "unitProjetoEnsino";
+	public static final String UNIT_PERSISTENCE_NAME = "unitProjetoEnsino";
 	
 	//Gets e Sets
 	

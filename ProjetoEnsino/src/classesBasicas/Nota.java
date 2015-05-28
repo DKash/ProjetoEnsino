@@ -5,18 +5,31 @@ package classesBasicas;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-
 
 /**
  * @author Audry Martins
  *
  */
-@NamedQuery(name="Nota.findNotesByProject", query = "SELECT n FROM Nota n WHERE n.projeto = :projeto")
+@NamedQueries({
+		@NamedQuery(name = "Nota.findNotesByProject", query = "SELECT n FROM Nota n WHERE n.projeto = :projeto"),
+		@NamedQuery(name = "Nota.findNotesByCriterio", query = "SELECT n FROM Nota n WHERE n.criterio = :criterio"),
+		@NamedQuery(name = "Nota.findNotesByProjectCriterio", query = "SELECT n FROM Nota n WHERE n.projeto = :projeto and n.criterio = :criterio"),
+		@NamedQuery(name = "Nota.findNotesByProfessorOrientador", query = "SELECT n FROM Nota n WHERE n.projeto.professorOrientador = :orientador"),
+		@NamedQuery(name = "Nota.findNotesByProfessorAvaliador", query = "SELECT n FROM Nota n WHERE n.professorAvaliador = :avaliador"),
+		@NamedQuery(name = "Nota.findNotesByProjetoCriterioAvaliador", query = "SELECT n FROM Nota n WHERE n.projeto = :projeto and "
+			+ " n.criterio = :criterio and n.professorAvaliador = :avaliador"),
+		@NamedQuery(name = "Nota.findNotesByProfessorOrientadorAvaliador", query = "SELECT n FROM Nota n WHERE "
+			+ "n.projeto.professorOrientador = :orientador and n.professorAvaliador = :avaliador"),
+		@NamedQuery(name = "Nota.findNotesByProjetoCriterioOrientadorAvaliador", query = "SELECT n FROM Nota n WHERE n.projeto = :projeto and "
+			+ " n.criterio = :criterio and n.projeto.professorOrientador = :orientador and n.professorAvaliador = :avaliador") })
 @Entity
 public class Nota
 {
@@ -27,8 +40,8 @@ public class Nota
 	@Column(length = 5, nullable = false)
 	private Integer codigo;
 	
-	@Column(length = 40, nullable = false)
-	private String criterio;
+	@Enumerated(EnumType.STRING)
+	private Criterio criterio;
 	
 	@Column(length = 5, nullable = false)
 	private Double nota;
@@ -36,6 +49,8 @@ public class Nota
 	@ManyToOne
 	private Projeto projeto;
 	
+	
+	@ManyToOne
 	@JoinColumn(nullable = false)
 	private Professor professorAvaliador;
 	
@@ -44,7 +59,7 @@ public class Nota
 	{
 		super();
 		
-		this.criterio = "";
+		this.criterio = null;
 		this.projeto = new Projeto();
 		this.professorAvaliador = new Professor();
 	}
@@ -55,8 +70,8 @@ public class Nota
 	 * @param nota
 	 * @param professorAvaliador
 	 */
-	public Nota(Integer codigo, String criterio, Double nota, Projeto projeto,
-		Professor professorAvaliador)
+	public Nota(Integer codigo, Criterio criterio, Double nota,
+		Projeto projeto, Professor professorAvaliador)
 	{
 		super();
 		
@@ -90,7 +105,7 @@ public class Nota
 	/**
 	 * @return the criterio
 	 */
-	public String getCriterio()
+	public Criterio getCriterio()
 	{
 		return criterio;
 	}
@@ -99,7 +114,7 @@ public class Nota
 	 * @param criterio
 	 *            the criterio to set
 	 */
-	public void setCriterio(String criterio)
+	public void setCriterio(Criterio criterio)
 	{
 		this.criterio = criterio;
 	}
@@ -129,16 +144,15 @@ public class Nota
 		return projeto;
 	}
 	
-
 	/**
-	 * @param projeto the projeto to set
+	 * @param projeto
+	 *            the projeto to set
 	 */
 	public void setProjeto(Projeto projeto)
 	{
 		this.projeto = projeto;
 	}
 	
-
 	/**
 	 * @return the professorAvaliador
 	 */

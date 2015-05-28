@@ -4,88 +4,80 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-<title>#{msgs.tituloCadastroProjeto}</title>
-<style type="text/css">
-body
-{
-	background: url(http://i62.tinypic.com/2poy70h.jpg) no-repeat;
-}
-</style>
-</head>
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>#{msgs.tituloCadastroProjeto}</title>
+</h:head>
 <h:body>
-	<h:form>
+	<h:form id="formNotas">
 	
 	#{MensagemInicial.mensagem}
-	
-		<iframe width="800" height="700"
-			src="https://www.youtube.com/embed/gG_dA32oH44" frameborder="0"
-			align="right" scrolling="no"></iframe>
 
-		<h:head>#{msgs.tituloProjeto}</h:head>
+		<h:head>
+			<h2>#{msgs.tituloProjeto}</h2>
+		</h:head>
 		<hr></hr>
 		<br></br>
 
 		<h3>#{msgs.tituloProjetoNota}</h3>
 
-		<h:panelGrid columns="3" id="notas">
-			<h:outputLabel value="#{msgs.labelProjetoCriterios}* "></h:outputLabel>
-			<h:inputText maxlength="10" required="true"
-				requiredMessage="#{msgs.vldProjetoCriterio}"
-				value="#{cadastroProjetoMB.entidade.notas.criterio}"></h:inputText>
+		<p:panelGrid columns="2" id="notas">
+			<p:outputLabel value="#{msgs.labelProjetoNome}* "></p:outputLabel>
+			<p:selectOneMenu maxlength="20" required="true"
+				requiredMessage="#{msgs.vldProjetoNome}"
+				converterMessage="#{msgs.cvmSelecioneCampo}"
+				value="#{cadastroNotaMB.entidade.projeto}">
+				<f:selectItem itemLabel="#{msgs.cvmSelecione}" itemValue="" />
+				<f:selectItems value="#{cadastroNotaMB.projetos}" var="#{proj}"
+					itemLabel="#{proj.nome}" itemValue="#{proj.codigo}" />
+			</p:selectOneMenu>
 
-			<h:outputLabel value="#{msgs.labelProjetoNota}* "></h:outputLabel>
-			<h:inputText maxlength="4" required="true"
+			<p:outputLabel value="#{msgs.labelProjetoNotaCriterio}* "></p:outputLabel>
+			<p:selectOneMenu maxlength="20" required="true"
+				requiredMessage="#{msgs.vldProjetoCriterio}"
+				converterMessage="#{msgs.cvmSelecioneCampo}"
+				value="#{cadastroNotaMB.entidade.criterio}">
+				<f:selectItem itemLabel="#{msgs.cvmSelecione}" itemValue="" />
+				<f:selectItems value="#{cadastroNotaMB.criterios}" />
+			</p:selectOneMenu>
+
+			<p:outputLabel value="#{msgs.labelProjetoNota}* "></p:outputLabel>
+			<p:inputText maxlength="4" required="true"
 				requiredMessage="#{msgs.vldProjetoNota}"
 				converterMessage="#{msgs.cvmApenasNumeros}"
-				value="#{cadastroProjetoMB.entidade.notas.nota}"></h:inputText>
+				value="#{cadastroNotaMB.entidade.nota}"
+				placeholder="#{msgs.labelProjetoNota}">
+				<f:convertNumber maxFractionDigits="1" maxIntegerDigits="2"
+					minFractionDigits="0" minIntegerDigits="1" pattern="0.0"
+					type="number"></f:convertNumber>
+			</p:inputText>
 
-			<f:facet name="footer">
-				<h:commandButton value="#{msgs.labelAddNota}"
-					actionListener="#{cadastroProjetoMB.addNota}">
-				</h:commandButton>
-			</f:facet>
-
-			<h:outputLabel value="#{msgs.promptProjetoProfessorAvaliador}* "></h:outputLabel>
-			<h:selectOneListbox size="1" maxlength="1" required="true"
+			<p:outputLabel value="#{msgs.promptProjetoProfessorAvaliador}* "></p:outputLabel>
+			<p:selectOneMenu maxlength="15" required="true"
 				requiredMessage="#{msgs.vldProjetoProfessorAvaliador}"
-				value="#{cadastroProjetoMB.entidade.notas.professorAvaliador}">
-				<f:selectItem value="CadastroProjetoMB.avaliadores" />
-				</h:selectOneListbox>
-		
-		</h:panelGrid>
-		
+				value="#{cadastroNotaMB.entidade.professorAvaliador}">
+				<f:selectItem itemLabel="#{msgs.cvmSelecione}" itemValue="" />
+				<f:selectItems value="#{CadastroProjetoMB.avaliadores}" var="#{ava}"
+					itemLabel="#{ava.nome}" itemValue="#{ava}" />
+			</p:selectOneMenu>
+		</p:panelGrid>
+
+		<br></br>
 		<br></br>
 
-		<h:panelGrid columns="3">
+		<p:panelGrid columns="3">
 			<f:facet name="footer">
-				<h:commandButton value="#{msgs.botaoCadastrar}"
-					action="#{cadastroProjetoMB.inserir}"></h:commandButton>
+				<p:commandButton value="#{msgs.botaoCadastrar}"
+					action="#{cadastroNotaMB.inserir}" icon="ui-icon-check"></p:commandButton>
 
-				<h:commandButton value="#{msgs.botaoAlterar}"
-					action="#{cadastroProjetoMB.alterar}"></h:commandButton>
+				<p:commandButton value="#{msgs.botaoCancelar}" immediate="true"
+					action="#{cadastroNotaMB.exibirMenu}" icon="ui-icon-close"></p:commandButton>
 
-				<h:commandButton value="#{msgs.botaoRemover}"
-					action="#{cadastroProjetoMB.remover}"></h:commandButton>
-
-				<h:commandButton value="#{msgs.botaoConsultarPorCodigo}"
-					action="#{cadastroProjetoMB.consultarPorId}"></h:commandButton>
-
-				<h:commandButton value="#{msgs.botaoConsultarTodos}"
-					action="#{cadastroProjetoMB.consultarTodos}"></h:commandButton>
-
-				<h:commandButton value="#{msgs.botaoConsultarTodosPorIndice}"
-					action="#{cadastroProjetoMB.consultarTodosComParametros}"></h:commandButton>
-
-				<h:commandButton value="#{msgs.botaoCancelar}" immediate="true"
-					action="#{msgs.urlMenu}"></h:commandButton>
-
-				<h:commandButton value="#{msgs.botaoLimpar}" immediate="true"
-					type="reset"></h:commandButton>
+				<p:commandButton value="#{msgs.botaoLimpar}" immediate="true"
+					type="reset" icon="ui-icon-cancel"></p:commandButton>
 			</f:facet>
-		</h:panelGrid>
-		<h:messages errorStyle="font-color: red"></h:messages>
+		</p:panelGrid>
+		<p:messages errorStyle="font-color: red"></p:messages>
 	</h:form>
 </h:body>
 </html>

@@ -5,7 +5,7 @@ package interfaces.dao;
 
 import classesBasicas.Aluno;
 import dao.generics.IDAOGeneric;
-import exceptions.AlunoInexistenteException;
+import exceptions.PessoaInexistenteException;
 
 /**
  * @author Audry Martins
@@ -13,9 +13,8 @@ import exceptions.AlunoInexistenteException;
  */
 public interface IAlunoDAO extends IDAOGeneric<Aluno>
 {
-	//Métodos
+	// Métodos
+	Aluno consultarAlunoPorNome(String nome) throws PessoaInexistenteException;
 	
-	Aluno consultarAlunoPorNome(String nome) throws AlunoInexistenteException;
-	
-	Aluno consultarAlunoPorCPF(String cpf) throws AlunoInexistenteException;
+	Aluno consultarAlunoPorCPF(String cpf) throws PessoaInexistenteException;
 }

@@ -7,24 +7,21 @@ import interfaces.negocio.IFachada;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
 import negocio.Fachada;
+import classesBasicas.TipoUsuario;
 import classesBasicas.Usuario;
-import exceptions.AlunoExistenteException;
-import exceptions.CoordenadorExistenteException;
-import exceptions.NotaExistenteException;
-import exceptions.ProfessorExistenteException;
-import exceptions.ProjetoExistenteException;
-import exceptions.UsuarioExistenteException;
-import exceptions.UsuarioInexistenteException;
-
+import exceptions.LoginInvalidoException;
+import exceptions.PessoaInexistenteException;
 
 /**
  * @author Audry Martins
  *
  */
 @ManagedBean
+@SessionScoped
 public class LoginMB
 {
 	// Atributos
@@ -32,77 +29,50 @@ public class LoginMB
 	private Usuario usuario = new Usuario();
 	private String mensagem;
 	private String senha2;
+	private Usuario usuarioLogado;
+	private Integer numero = 1200;
 	private IFachada fachada = Fachada.getInstancia();
 	
 	// Métodos
 	
 	public String efetuarLogin()
 	{
-		if(usuario.getSenha().equals(senha2))
+		try
 		{
-			try
-			{
-				fachada.efetuarLogin(usuario);
-				setMensagem("#{msgs.mensagemSucessoLogin}");
-				FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage("#{msgs.mensagemSucessoLogin}"));
-				return "/menu.xhtml?faces-redirect=true";
-			}catch(UsuarioInexistenteException e)
-			{
-				FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage("Usuario Inexistente, tente novamente"));
-				return "";
-			}
-		}
-		else
+			usuarioLogado = fachada.efetuarLogin(usuario);
+			setMensagem("#{msgs.mensagemSucessoLogin}");
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("#{msgs.mensagemSucessoLogin}"));
+			
+			return "/menu.xhtml?faces-redirect=true";
+		}catch(PessoaInexistenteException e)
+		{
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Usuario Inexistente, tente novamente"));
+			
+			return "";
+		}catch(LoginInvalidoException e)
 		{
 			setMensagem("#{msgs.mensagemFalhaLogin}");
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("#{msgs.mensagemFalhaLogin}"));
 		}
 		return mensagem;
 	}
 	
-	public String cadastrarUsuario()
+	public String logOut()
 	{
-		if(usuario.getSenha().equals(senha2))
-		{
-			try
-			{
-				fachada.inserirUsuario(usuario);
-				FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage("#{msgs.mensagemSucessoLogin}"));
-				return "index.xhtml";
-			}catch(AlunoExistenteException e)
-			{
-				e.printStackTrace();
-			}catch(ProfessorExistenteException e)
-			{
-				e.printStackTrace();
-			}catch(CoordenadorExistenteException e)
-			{
-				e.printStackTrace();
-			}catch(ProjetoExistenteException e)
-			{
-				e.printStackTrace();
-			}catch(UsuarioExistenteException e)
-			{
-				e.printStackTrace();
-				FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage("Usuario Existente, tente novamente"));
-				return "index.xhtml";
-			}catch(NotaExistenteException e)
-			{
-				e.printStackTrace();
-			}
-		}
-		else
-		{
-			setMensagem("#{msgs.mensagemFalhaLogin}");
-			return "index.xhtml";
-		}
-		return mensagem;
+		usuarioLogado = null;
+		return "/index.xhtml";
+	}
+	
+	public void decrement()
+	{
+		numero--;
 	}
 	
 	// Gets e Sets
+	
 	/**
 	 * @return the usuario
 	 */
@@ -169,5 +139,88 @@ public class LoginMB
 	public void setFachada(IFachada fachada)
 	{
 		this.fachada = fachada;
+	}
+	
+	/**
+	 * @return the usuarioLogado
+	 */
+	public Usuario getUsuarioLogado()
+	{
+		return usuarioLogado;
+	}
+	
+	/**
+	 * @param usuarioLogado
+	 *            the usuarioLogado to set
+	 */
+	public void setUsuarioLogado(Usuario usuarioLogado)
+	{
+		this.usuarioLogado = usuarioLogado;
+	}
+	
+	public boolean isMostrarTelasAdmin()
+	{
+		if(usuario.getTipoUsuario() != null
+			&& usuario.getTipoUsuario() == TipoUsuario.Admin)
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean isMostrarTelasAluno()
+	{
+		if(usuario.getTipoUsuario() != null
+			&& usuario.getTipoUsuario() == TipoUsuario.Aluno)
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean isMostrarTelasOrientador()
+	{
+		if(usuario.getTipoUsuario() != null
+			&& usuario.getTipoUsuario() == TipoUsuario.Orientador)
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean isMostrarTelasAvaliador()
+	{
+		if(usuario.getTipoUsuario() != null
+			&& usuario.getTipoUsuario() == TipoUsuario.Avaliador)
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean isMostrarTelasCoordenador()
+	{
+		if(usuario.getTipoUsuario() != null
+			&& usuario.getTipoUsuario() == TipoUsuario.Coordenador)
+		{
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * @return the numero
+	 */
+	public Integer getNumero()
+	{
+		return (numero/60);
+	}
+
+	/**
+	 * @param numero the numero to set
+	 */
+	public void setNumero(Integer numero)
+	{
+		this.numero = numero;
 	}
 }

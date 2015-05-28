@@ -8,9 +8,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 
-import classesBasicas.Situacao;
-
-
 /**
  * @author Audry Martins
  *
@@ -18,10 +15,11 @@ import classesBasicas.Situacao;
 public abstract class DAOGeneric<Entidade> implements IDAOGeneric<Entidade>
 {
 	// Atributos
+	
 	protected EntityManager entityManager;
-	
-	
 	protected Class<Entidade> classePersistente;
+	
+	//Construtores
 	
 	@SuppressWarnings("unchecked")
 	public DAOGeneric(EntityManager em)
@@ -187,24 +185,6 @@ public abstract class DAOGeneric<Entidade> implements IDAOGeneric<Entidade>
 				classePersistente);
 			query = query.setFirstResult(indiceInicial).setMaxResults(
 				quantidade);
-			return query.getResultList();
-		}catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
-	public List<Entidade> consultarTodosAtivos()
-	{
-		try
-		{
-			classePersistente.getSimpleName();
-			String sql = "from " + classePersistente.getSimpleName()
-				+ " where "
-				+ String.valueOf(Situacao.ATIVO);
-			TypedQuery<Entidade> query = entityManager.createQuery(sql,
-				classePersistente);
 			return query.getResultList();
 		}catch(Exception e)
 		{

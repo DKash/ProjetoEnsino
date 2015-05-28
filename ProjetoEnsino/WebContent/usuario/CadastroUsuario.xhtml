@@ -4,90 +4,65 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-<title>#{msgs.tituloCadastroUsuario}</title>
-<style type="text/css">
-body {
-	background: url(http://i62.tinypic.com/2poy70h.jpg) no-repeat;
-}
-</style>
-</head>
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>#{msgs.tituloCadastroUsuario}</title>
+</h:head>
 <h:body>
-	<h:form>
-	
-	#{MensagemInicial.mensagem}
-	
-		<iframe width="800" height="700"
-			src="https://www.youtube.com/embed/gG_dA32oH44" frameborder="0"
-			align="right" scrolling="no"></iframe>
-
-		<h:head>#{msgs.tituloUsuario}</h:head>
+	<h:form id="formUsuarios">
+		<h:head>
+			<h2>#{msgs.tituloUsuario}</h2>
+		</h:head>
 		<hr></hr>
 		<br></br>
 
-		<h:panelGrid columns="2" border="1">
-			<h:outputLabel value="#{msgs.labelUsuarioNomeUsuario}* "></h:outputLabel>
-			<h:inputText maxlength="15" required="true"
+		<p:panelGrid columns="2" border="1">
+			<p:outputLabel value="#{msgs.labelUsuarioNomeUsuario}* "></p:outputLabel>
+			<p:inputText maxlength="15" required="true"
 				requiredMessage="#{msgs.vldUsuarioNomeUsuario}"
-				value="#{cadastroUsuarioMB.entidade.usuario.nomeUsuario}"></h:inputText>
+				value="#{cadastroUsuarioMB.entidade.nomeUsuario}"
+				placeholder="#{msgs.labelUsuarioNomeUsuario}"></p:inputText>
 
-			<h:outputLabel value="#{msgs.labelUsuarioSenha}* "></h:outputLabel>
-			<h:inputSecret maxlength="15" required="true"
+			<p:outputLabel value="#{msgs.labelUsuarioSenha}* ">
+			</p:outputLabel>
+			<p:password maxlength="15" required="true"
 				requiredMessage="#{msgs.vldUsuarioSenha}"
-				value="#{cadastroUsuarioMB.entidade.usuario.senha}"></h:inputSecret>
+				value="#{cadastroUsuarioMB.entidade.senha}"
+				placeholder="#{msgs.labelUsuarioSenha}"></p:password>
 
-			<h:outputLabel value="#{msgs.labelUsuarioSenhaConfirmacao}* "></h:outputLabel>
-			<h:inputSecret maxlength="15" required="true"
-				requiredMessage="#{msgs.vldUsuarioSenhaConfirmacao}"></h:inputSecret>
+			<p:outputLabel value="#{msgs.labelUsuarioSenhaConfirmacao}* "></p:outputLabel>
+			<p:password maxlength="15" required="true"
+				requiredMessage="#{msgs.vldUsuarioSenhaConfirmacao}"
+				placeholder="#{msgs.labelUsuarioSenhaConfirmacao}"></p:password>
 
-			<h:outputLabel value="#{msgs.labelUsuarioDica} "></h:outputLabel>
-			<h:inputText maxlength="10" required="false"
-				value="#{cadastroUsuarioMB.entidade.usuario.dica}"></h:inputText>
+			<p:outputLabel value="#{msgs.labelUsuarioDica} "></p:outputLabel>
+			<p:inputText maxlength="15" required="false"
+				value="#{cadastroUsuarioMB.entidade.dica}"
+				placeholder="#{msgs.labelUsuarioDica}"></p:inputText>
 
-			<h:outputLabel value="#{msgs.labelUsuarioSituacao} "></h:outputLabel>
-			<h:selectOneMenu maxlength="10" required="true"
-				requiredMessage="#{msgs.vldUsuarioSituacao}"
-				converterMessage="#{msgs.cvmSelecioneCampo}"
-				value="#{cadastroUsuarioMB.entidade.usuario.situacao}">
-				<f:selectItems
-					value="#{cadastroPessoaMB.situacao}" />
-			</h:selectOneMenu>
-		</h:panelGrid>
+			<p:outputLabel value="#{msgs.promptTipoUsuario}"></p:outputLabel>
+			<p:selectOneMenu value="#{cadastroUsuarioMB.entidade.tipoUsuario}">
+				<f:selectItem itemLabel="Selecione" itemValue="-1" />
+				<f:selectItems value="#{cadastroUsuarioMB.tipoUsuarios}" var="u"
+					itemLabel="#{u}" itemValue="#{u}" />
+			</p:selectOneMenu>
+		</p:panelGrid>
 
 		<br></br>
 
-		<h:panelGrid columns="3">
-			<f:facet name="footer">
-				<h:commandButton value="#{msgs.botaoCadastrar}"
-					action="#{cadastroUsuarioMB.inserir}"></h:commandButton>
+		<p:panelGrid columns="3">
+			<p:commandButton value="#{msgs.botaoCadastrar}" type="submit"
+				action="#{cadastroUsuarioMB.inserir}" icon="ui-icon-check">
+			</p:commandButton>
 
-				<h:commandButton value="#{msgs.botaoAlterar}"
-					action="#{cadastroUsuarioMB.alterar}"></h:commandButton>
+			<p:commandButton value="#{msgs.botaoCancelar}" immediate="true"
+				action="#{cadastroUsuarioMB.exibirMenu}" icon="ui-icon-close">
+			</p:commandButton>
 
-				<h:commandButton value="#{msgs.botaoRemover}"
-					action="#{cadastroUsuarioMB.remover}"></h:commandButton>
-
-				<h:commandButton value="#{msgs.botaoConsultarPorCodigo}"
-					action="#{cadastroUsuarioMB.consultarPorId}"></h:commandButton>
-
-				<h:commandButton value="#{msgs.botaoConsultarTodos}"
-					action="#{cadastroUsuarioMB.consultarTodos}"></h:commandButton>
-
-				<h:commandButton value="#{msgs.botaoConsultarPorIndice}"
-					action="#{cadastroUsuarioMB.consultarTodosComParametros}"></h:commandButton>
-
-				<h:commandButton value="#{msgs.botaoConsultarPorNome}"
-					action="#{cadastroUsuarioMB.consultarPorNome}"></h:commandButton>
-
-				<h:commandButton value="#{msgs.botaoCancelar}" immediate="true"
-					action="#{msgs.urlMenu}"></h:commandButton>
-
-				<h:commandButton value="#{msgs.botaoLimpar}" immediate="true"
-					type="reset"></h:commandButton>
-			</f:facet>
-		</h:panelGrid>
-		<h:messages errorStyle="font-color: red"></h:messages>
+			<p:commandButton value="#{msgs.botaoLimpar}" immediate="true"
+				icon="ui-icon-cancel" type="reset"></p:commandButton>
+		</p:panelGrid>
+		<p:messages errorStyle="font-color: red"></p:messages>
 	</h:form>
 </h:body>
 </html>

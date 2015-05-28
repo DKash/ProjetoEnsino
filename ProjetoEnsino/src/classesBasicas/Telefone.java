@@ -5,6 +5,7 @@ package classesBasicas;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -19,9 +20,10 @@ public class Telefone
 	// Atributos
 	
 	@Id @GeneratedValue
+	@Column(name="codigoTelefone")
 	private Integer codigo;
 
-	@Column(length = 10, nullable = false, unique = true)
+	@Column(length = 10, nullable = false)
 	private String codigoPais;
 	
 	@Column(length = 10, nullable = false)
@@ -30,7 +32,7 @@ public class Telefone
 	@Column(length = 15, nullable = false)
 	private String numero;
 	
-	@Enumerated
+	@Enumerated(EnumType.STRING)
 	private Operadora operadora;
 	
 	// Construtores

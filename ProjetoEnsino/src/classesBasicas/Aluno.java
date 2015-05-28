@@ -7,12 +7,12 @@ import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
-
 /**
  * @author Audry Martins
  *
  */
 @NamedQueries({
+	@NamedQuery(name = "Aluno.findAllActives" , query = "SELECT a FROM Aluno a WHERE a.situacao =:situacao"),
 		@NamedQuery(name = "Aluno.findByName", query = "SELECT a FROM Aluno a WHERE a.nome LIKE :nome"),
 		@NamedQuery(name = "Aluno.findByCPF", query = "SELECT a FROM Aluno a WHERE a.cpf = :cpf")
 })

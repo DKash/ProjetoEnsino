@@ -5,7 +5,8 @@ package interfaces.negocio;
 
 import interfaces.dao.IUsuarioDAO;
 import classesBasicas.Usuario;
-import exceptions.UsuarioInexistenteException;
+import exceptions.LoginInvalidoException;
+import exceptions.PessoaInexistenteException;
 
 /**
  * @author Audry Martins
@@ -13,7 +14,7 @@ import exceptions.UsuarioInexistenteException;
  */
 public interface IControladorUsuario extends IUsuarioDAO
 {
-	//Métodos
-	
-	void efetuarLogin(Usuario usuario) throws UsuarioInexistenteException;
+	// Métodos
+	Usuario efetuarLogin(Usuario usuario) throws PessoaInexistenteException,
+		LoginInvalidoException;
 }

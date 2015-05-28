@@ -3,43 +3,37 @@
  */
 package gui;
 
-import interfaces.negocio.IFachada;
-
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 
-import negocio.Fachada;
 import classesBasicas.Coordenador;
-import exceptions.AlunoExistenteException;
-import exceptions.AlunoInexistenteException;
-import exceptions.CoordenadorExistenteException;
-import exceptions.CoordenadorInexistenteException;
 import exceptions.NotaExistenteException;
 import exceptions.NotaInexistenteException;
-import exceptions.ProfessorExistenteException;
-import exceptions.ProfessorInexistenteException;
+import exceptions.PessoaExistenteException;
+import exceptions.PessoaInexistenteException;
 import exceptions.ProjetoExistenteException;
 import exceptions.ProjetoInexistenteException;
-import exceptions.UsuarioExistenteException;
-import exceptions.UsuarioInexistenteException;
+
 
 /**
  * @author Audry Martins
  *
  */
+@ManagedBean
 public class CadastroCoordenadorMB extends CadastroPessoaMB
 {
-	//Atributos
+	// Atributos
 	
 	private Coordenador entidade = new Coordenador();
 	private List<Coordenador> coordenadores;
-	private IFachada fachada = Fachada.getInstancia();
 	
-	//Métodos
-	
-	/* (non-Javadoc)
+	// Métodos
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see manangedBeans.CadastroPessoaMB#inserir()
 	 */
 	@Override
@@ -48,31 +42,32 @@ public class CadastroCoordenadorMB extends CadastroPessoaMB
 		try
 		{
 			fachada.inserirCoordenador(entidade);
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Coordenador salvo com sucesso"));
-		}catch(AlunoExistenteException e)
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Coordenador salvo com sucesso"));
+		}catch(PessoaExistenteException e)
 		{
 			e.printStackTrace();
-		}catch(ProfessorExistenteException e)
-		{
-			e.printStackTrace();
-		}catch(CoordenadorExistenteException e)
-		{
-			e.printStackTrace();
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Coordenador Inexistente"));
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Coordenador Existente"));
 		}catch(ProjetoExistenteException e)
 		{
-			e.printStackTrace();
-		}catch(UsuarioExistenteException e)
-		{
-			e.printStackTrace();
+			/* e.printStackTrace(); */
 		}catch(NotaExistenteException e)
 		{
-			e.printStackTrace();
+			/* e.printStackTrace(); */
+		}catch(ProjetoInexistenteException e)
+		{
+			/*e.printStackTrace();*/
+		}catch(NotaInexistenteException e)
+		{
+			/*e.printStackTrace();*/
 		}
 		return null;
 	}
 	
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see manangedBeans.CadastroPessoaMB#alterar()
 	 */
 	@Override
@@ -81,31 +76,26 @@ public class CadastroCoordenadorMB extends CadastroPessoaMB
 		try
 		{
 			fachada.alterarCoordenador(entidade);
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Coordenador salvo com sucesso"));
-		}catch(AlunoInexistenteException e)
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Coordenador alterado com sucesso"));
+		}catch(PessoaInexistenteException e)
 		{
 			e.printStackTrace();
-		}catch(CoordenadorInexistenteException e)
-		{
-			e.printStackTrace();
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Coordenador Inexistente"));
-		}catch(ProfessorInexistenteException e)
-		{
-			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Coordenador Inexistente"));
 		}catch(ProjetoInexistenteException e)
 		{
-			e.printStackTrace();
-		}catch(UsuarioInexistenteException e)
-		{
-			e.printStackTrace();
+			/* e.printStackTrace(); */
 		}catch(NotaInexistenteException e)
 		{
-			e.printStackTrace();
+			/* e.printStackTrace(); */
 		}
 		return null;
 	}
 	
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see manangedBeans.CadastroPessoaMB#remover()
 	 */
 	@Override
@@ -114,31 +104,26 @@ public class CadastroCoordenadorMB extends CadastroPessoaMB
 		try
 		{
 			fachada.removerCoordenador(entidade);
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Coordenador excluído com sucesso"));
-		}catch(AlunoInexistenteException e)
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Coordenador excluído com sucesso"));
+		}catch(PessoaInexistenteException e)
 		{
 			e.printStackTrace();
-		}catch(CoordenadorInexistenteException e)
-		{
-			e.printStackTrace();
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Coordenador Inexistente"));
-		}catch(ProfessorInexistenteException e)
-		{
-			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Coordenador Inexistente"));
 		}catch(ProjetoInexistenteException e)
 		{
-			e.printStackTrace();
-		}catch(UsuarioInexistenteException e)
-		{
-			e.printStackTrace();
+			/* e.printStackTrace(); */
 		}catch(NotaInexistenteException e)
 		{
-			e.printStackTrace();
+			/* e.printStackTrace(); */
 		}
 		return null;
 	}
 	
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see manangedBeans.CadastroPessoaMB#consultarPorId()
 	 */
 	@Override
@@ -147,30 +132,24 @@ public class CadastroCoordenadorMB extends CadastroPessoaMB
 		try
 		{
 			fachada.consultarCoordenadorPorId(entidade.getCodigo());
-		}catch(AlunoInexistenteException e)
+		}catch(PessoaInexistenteException e)
 		{
 			e.printStackTrace();
-		}catch(CoordenadorInexistenteException e)
-		{
-			e.printStackTrace();
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Coordenador Inexistente"));
-		}catch(ProfessorInexistenteException e)
-		{
-			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Coordenador Inexistente"));
 		}catch(ProjetoInexistenteException e)
 		{
-			e.printStackTrace();
-		}catch(UsuarioInexistenteException e)
-		{
-			e.printStackTrace();
+			/* e.printStackTrace(); */
 		}catch(NotaInexistenteException e)
 		{
-			e.printStackTrace();
+			/* e.printStackTrace(); */
 		}
 		return null;
 	}
 	
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see manangedBeans.CadastroPessoaMB#consultarTodos()
 	 */
 	@Override
@@ -179,30 +158,24 @@ public class CadastroCoordenadorMB extends CadastroPessoaMB
 		try
 		{
 			fachada.consultarTodosCoordenadores();
-		}catch(AlunoInexistenteException e)
+		}catch(PessoaInexistenteException e)
 		{
 			e.printStackTrace();
-		}catch(CoordenadorInexistenteException e)
-		{
-			e.printStackTrace();
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Coordenador Inexistente"));
-		}catch(ProfessorInexistenteException e)
-		{
-			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Coordenador Inexistente"));
 		}catch(ProjetoInexistenteException e)
 		{
-			e.printStackTrace();
-		}catch(UsuarioInexistenteException e)
-		{
-			e.printStackTrace();
+			/* e.printStackTrace(); */
 		}catch(NotaInexistenteException e)
 		{
-			e.printStackTrace();
+			/* e.printStackTrace(); */
 		}
 		return null;
 	}
 	
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see manangedBeans.CadastroPessoaMB#consultarTodosComParametros()
 	 */
 	@Override
@@ -211,30 +184,101 @@ public class CadastroCoordenadorMB extends CadastroPessoaMB
 		try
 		{
 			fachada.consultarTodosCoordenadores(0, 1);
-		}catch(AlunoInexistenteException e)
+		}catch(PessoaInexistenteException e)
 		{
 			e.printStackTrace();
-		}catch(CoordenadorInexistenteException e)
-		{
-			e.printStackTrace();
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Coordenador Inexistente"));
-		}catch(ProfessorInexistenteException e)
-		{
-			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Coordenador Inexistente"));
 		}catch(ProjetoInexistenteException e)
 		{
-			e.printStackTrace();
-		}catch(UsuarioInexistenteException e)
-		{
-			e.printStackTrace();
+			/* e.printStackTrace(); */
 		}catch(NotaInexistenteException e)
 		{
-			e.printStackTrace();
+			/* e.printStackTrace(); */
 		}
 		return null;
 	}
 	
-	//Gets e Sets
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see gui.CadastroPessoaMB#consultarPorNome()
+	 */
+	@Override
+	public String consultarPorNome()
+	{
+		try
+		{
+			fachada.consultarCoordenadorPorNome(entidade.getNome());
+		}catch(PessoaInexistenteException e)
+		{
+			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Coordenador Inexistente"));
+		}
+		return null;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see gui.CadastroPessoaMB#consultarPorCPF()
+	 */
+	@Override
+	public String consultarPorCPF()
+	{
+		try
+		{
+			fachada.consultarCoordenadorPorCPF(entidade.getCpf());
+		}catch(PessoaInexistenteException e)
+		{
+			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Coordenador Inexistente"));
+		}
+		return null;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see gui.ObjetoMB#consultarTodosAtivos()
+	 */
+	@Override
+	public String consultarTodosAtivos()
+	{
+		try
+		{
+			fachada.consultarTodosCoordenadoresAtivos();
+		}catch(PessoaInexistenteException e)
+		{
+			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Coordenador Inexistente"));
+		}catch(ProjetoInexistenteException e)
+		{
+			/*e.printStackTrace();*/
+		}catch(NotaInexistenteException e)
+		{
+			/*e.printStackTrace();*/
+		}
+		return null;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see gui.ObjetoMB#novo()
+	 */
+	@Override
+	public String novo()
+	{
+		entidade = new Coordenador();
+		return "/coordenador/CadastroCoordenador.xhtml";
+		//return "#{msgs.urlCadastroCoordenador}";
+	}
+	
+	// Gets e Sets
 	/**
 	 * @return the entidade
 	 */
@@ -242,15 +286,16 @@ public class CadastroCoordenadorMB extends CadastroPessoaMB
 	{
 		return entidade;
 	}
-
+	
 	/**
-	 * @param entidade the entidade to set
+	 * @param entidade
+	 *            the entidade to set
 	 */
 	public void setEntidade(Coordenador entidade)
 	{
 		this.entidade = entidade;
 	}
-
+	
 	/**
 	 * @return the coordenadores
 	 */
@@ -258,32 +303,25 @@ public class CadastroCoordenadorMB extends CadastroPessoaMB
 	{
 		try
 		{
-			return fachada.consultarTodosCoordenadores();
-		}catch(AlunoInexistenteException e)
+			coordenadores = fachada.consultarTodosCoordenadores();
+		}catch(PessoaInexistenteException e)
 		{
 			e.printStackTrace();
-		}catch(CoordenadorInexistenteException e)
-		{
-			e.printStackTrace();
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Coordenador Inexistente"));
-		}catch(ProfessorInexistenteException e)
-		{
-			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Coordenador Inexistente"));
 		}catch(ProjetoInexistenteException e)
 		{
-			e.printStackTrace();
-		}catch(UsuarioInexistenteException e)
-		{
-			e.printStackTrace();
+			/*e.printStackTrace();*/
 		}catch(NotaInexistenteException e)
 		{
-			e.printStackTrace();
+			/*e.printStackTrace();*/
 		}
 		return coordenadores;
 	}
-
+	
 	/**
-	 * @param coordenadores the coordenadores to set
+	 * @param coordenadores
+	 *            the coordenadores to set
 	 */
 	public void setCoordenadores(List<Coordenador> coordenadores)
 	{

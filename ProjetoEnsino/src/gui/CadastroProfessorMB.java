@@ -3,43 +3,34 @@
  */
 package gui;
 
-import interfaces.negocio.IFachada;
-
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 
-import negocio.Fachada;
 import classesBasicas.Professor;
 import classesBasicas.TipoProfessor;
-import exceptions.AlunoExistenteException;
-import exceptions.AlunoInexistenteException;
-import exceptions.CoordenadorExistenteException;
-import exceptions.CoordenadorInexistenteException;
 import exceptions.NotaExistenteException;
 import exceptions.NotaInexistenteException;
-import exceptions.ProfessorExistenteException;
-import exceptions.ProfessorInexistenteException;
+import exceptions.PessoaExistenteException;
+import exceptions.PessoaInexistenteException;
 import exceptions.ProjetoExistenteException;
 import exceptions.ProjetoInexistenteException;
-import exceptions.UsuarioExistenteException;
-import exceptions.UsuarioInexistenteException;
 
 /**
  * @author Audry Martins
  *
  */
+@ManagedBean
 public class CadastroProfessorMB extends CadastroPessoaMB
 {
 	// Atributos
 	
-	private Professor entidade;
+	private Professor entidade = new Professor();
 	private List<Professor> professores;
-	private IFachada fachada = Fachada.getInstancia();
 	
 	// Métodos
-	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -51,26 +42,25 @@ public class CadastroProfessorMB extends CadastroPessoaMB
 		try
 		{
 			fachada.inserirProfessor(entidade);
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Professor salvo com sucesso"));
-		}catch(AlunoExistenteException e)
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Professor salvo com sucesso"));
+		}catch(PessoaExistenteException e)
 		{
 			e.printStackTrace();
-		}catch(ProfessorExistenteException e)
-		{
-			e.printStackTrace();
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Professor Inexistente"));
-		}catch(CoordenadorExistenteException e)
-		{
-			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Professor Inexistente"));
 		}catch(ProjetoExistenteException e)
 		{
-			e.printStackTrace();
-		}catch(UsuarioExistenteException e)
-		{
-			e.printStackTrace();
+			/* e.printStackTrace(); */
 		}catch(NotaExistenteException e)
 		{
+			/* e.printStackTrace(); */
+		}catch(ProjetoInexistenteException e)
+		{
 			e.printStackTrace();
+		}catch(NotaInexistenteException e)
+		{
+			/*e.printStackTrace();*/
 		}
 		return null;
 	}
@@ -86,26 +76,19 @@ public class CadastroProfessorMB extends CadastroPessoaMB
 		try
 		{
 			fachada.alterarProfessor(entidade);
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Professor salvo com sucesso"));
-		}catch(AlunoInexistenteException e)
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Professor alterado com sucesso"));
+		}catch(PessoaInexistenteException e)
 		{
 			e.printStackTrace();
-		}catch(CoordenadorInexistenteException e)
-		{
-			e.printStackTrace();
-		}catch(ProfessorInexistenteException e)
-		{
-			e.printStackTrace();
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Professor Inexistente"));
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Professor Inexistente"));
 		}catch(ProjetoInexistenteException e)
 		{
-			e.printStackTrace();
-		}catch(UsuarioInexistenteException e)
-		{
-			e.printStackTrace();
+			/* e.printStackTrace(); */
 		}catch(NotaInexistenteException e)
 		{
-			e.printStackTrace();
+			/* e.printStackTrace(); */
 		}
 		return null;
 	}
@@ -121,26 +104,19 @@ public class CadastroProfessorMB extends CadastroPessoaMB
 		try
 		{
 			fachada.removerProfessor(entidade);
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Professor excluído com sucesso"));
-		}catch(AlunoInexistenteException e)
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Professor excluído com sucesso"));
+		}catch(PessoaInexistenteException e)
 		{
 			e.printStackTrace();
-		}catch(CoordenadorInexistenteException e)
-		{
-			e.printStackTrace();
-		}catch(ProfessorInexistenteException e)
-		{
-			e.printStackTrace();
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Professor Inexistente"));
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Professor Inexistente"));
 		}catch(ProjetoInexistenteException e)
 		{
-			e.printStackTrace();
-		}catch(UsuarioInexistenteException e)
-		{
-			e.printStackTrace();
+			/* e.printStackTrace(); */
 		}catch(NotaInexistenteException e)
 		{
-			e.printStackTrace();
+			/* e.printStackTrace(); */
 		}
 		return null;
 	}
@@ -156,25 +132,17 @@ public class CadastroProfessorMB extends CadastroPessoaMB
 		try
 		{
 			fachada.consultarProfessorPorId(entidade.getCodigo());
-		}catch(AlunoInexistenteException e)
+		}catch(PessoaInexistenteException e)
 		{
 			e.printStackTrace();
-		}catch(CoordenadorInexistenteException e)
-		{
-			e.printStackTrace();
-		}catch(ProfessorInexistenteException e)
-		{
-			e.printStackTrace();
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Professor Inexistente"));
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Professor Inexistente"));
 		}catch(ProjetoInexistenteException e)
 		{
-			e.printStackTrace();
-		}catch(UsuarioInexistenteException e)
-		{
-			e.printStackTrace();
+			/* e.printStackTrace(); */
 		}catch(NotaInexistenteException e)
 		{
-			e.printStackTrace();
+			/* e.printStackTrace(); */
 		}
 		return null;
 	}
@@ -190,25 +158,17 @@ public class CadastroProfessorMB extends CadastroPessoaMB
 		try
 		{
 			fachada.consultarTodosProfessores();
-		}catch(AlunoInexistenteException e)
+		}catch(PessoaInexistenteException e)
 		{
 			e.printStackTrace();
-		}catch(CoordenadorInexistenteException e)
-		{
-			e.printStackTrace();
-		}catch(ProfessorInexistenteException e)
-		{
-			e.printStackTrace();
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Professor Inexistente"));
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Professor Inexistente"));
 		}catch(ProjetoInexistenteException e)
 		{
-			e.printStackTrace();
-		}catch(UsuarioInexistenteException e)
-		{
-			e.printStackTrace();
+			/* e.printStackTrace(); */
 		}catch(NotaInexistenteException e)
 		{
-			e.printStackTrace();
+			/* e.printStackTrace(); */
 		}
 		return null;
 	}
@@ -224,29 +184,100 @@ public class CadastroProfessorMB extends CadastroPessoaMB
 		try
 		{
 			fachada.consultarTodosProfessores(0, 1);
-		}catch(AlunoInexistenteException e)
+		}catch(PessoaInexistenteException e)
 		{
 			e.printStackTrace();
-		}catch(CoordenadorInexistenteException e)
-		{
-			e.printStackTrace();
-		}catch(ProfessorInexistenteException e)
-		{
-			e.printStackTrace();
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Professor Inexistente"));
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Professor Inexistente"));
 		}catch(ProjetoInexistenteException e)
 		{
-			e.printStackTrace();
-		}catch(UsuarioInexistenteException e)
-		{
-			e.printStackTrace();
+			/* e.printStackTrace(); */
 		}catch(NotaInexistenteException e)
 		{
-			e.printStackTrace();
+			/* e.printStackTrace(); */
 		}
 		return null;
 	}
-
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see gui.CadastroPessoaMB#consultarPorNome()
+	 */
+	@Override
+	public String consultarPorNome()
+	{
+		try
+		{
+			fachada.consultarProfessorPorNome(entidade.getNome());
+		}catch(PessoaInexistenteException e)
+		{
+			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Professor Inexistente"));
+		}
+		return null;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see gui.CadastroPessoaMB#consultarPorCPF()
+	 */
+	@Override
+	public String consultarPorCPF()
+	{
+		try
+		{
+			fachada.consultarProfessorPorCPF(entidade.getCpf());
+		}catch(PessoaInexistenteException e)
+		{
+			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Professor Inexistente"));
+		}
+		return null;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see gui.ObjetoMB#consultarTodosAtivos()
+	 */
+	@Override
+	public String consultarTodosAtivos()
+	{
+		try
+		{
+			fachada.consultarTodosProfessores();
+		}catch(PessoaInexistenteException e)
+		{
+			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Professor Inexistente"));
+		}catch(ProjetoInexistenteException e)
+		{
+			/*e.printStackTrace();*/
+		}catch(NotaInexistenteException e)
+		{
+			/*e.printStackTrace();*/
+		}
+		return null;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see gui.ObjetoMB#novo()
+	 */
+	@Override
+	public String novo()
+	{
+		entidade = new Professor();
+		return "/professor/CadastroProfessor.xhtml";
+		//return "#{msgs.urlCadastroProfessor}";
+	}
+	
 	// Gets e Sets
 	/**
 	 * @return the entidade
@@ -255,9 +286,10 @@ public class CadastroProfessorMB extends CadastroPessoaMB
 	{
 		return entidade;
 	}
-
+	
 	/**
-	 * @param entidade the entidade to set
+	 * @param entidade
+	 *            the entidade to set
 	 */
 	public void setEntidade(Professor entidade)
 	{
@@ -268,7 +300,7 @@ public class CadastroProfessorMB extends CadastroPessoaMB
 	{
 		return TipoProfessor.values();
 	}
-
+	
 	/**
 	 * @return the professores
 	 */
@@ -276,32 +308,25 @@ public class CadastroProfessorMB extends CadastroPessoaMB
 	{
 		try
 		{
-			return fachada.consultarTodosProfessores();
-		}catch(AlunoInexistenteException e)
+			professores = fachada.consultarTodosProfessorAtivos();
+		}catch(PessoaInexistenteException e)
 		{
 			e.printStackTrace();
-		}catch(CoordenadorInexistenteException e)
-		{
-			e.printStackTrace();
-		}catch(ProfessorInexistenteException e)
-		{
-			e.printStackTrace();
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Professor Inexistente"));
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Professor Inexistente"));
 		}catch(ProjetoInexistenteException e)
 		{
-			e.printStackTrace();
-		}catch(UsuarioInexistenteException e)
-		{
-			e.printStackTrace();
+			/* e.printStackTrace(); */
 		}catch(NotaInexistenteException e)
 		{
-			e.printStackTrace();
+			/* e.printStackTrace(); */
 		}
 		return professores;
 	}
-
+	
 	/**
-	 * @param professores the professores to set
+	 * @param professores
+	 *            the professores to set
 	 */
 	public void setProfessores(List<Professor> professores)
 	{

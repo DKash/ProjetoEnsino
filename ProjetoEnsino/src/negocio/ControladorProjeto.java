@@ -5,22 +5,16 @@ import interfaces.negocio.IControladorProjeto;
 
 import java.util.List;
 
+import classesBasicas.Professor;
 import classesBasicas.Projeto;
 import classesBasicas.Situacao;
 import dao.ProjetoDAO;
 import dao.generics.DAOFactory;
-import exceptions.AlunoExistenteException;
-import exceptions.AlunoInexistenteException;
-import exceptions.CoordenadorExistenteException;
-import exceptions.CoordenadorInexistenteException;
-import exceptions.NotaExistenteException;
 import exceptions.NotaInexistenteException;
-import exceptions.ProfessorExistenteException;
-import exceptions.ProfessorInexistenteException;
+import exceptions.PessoaExistenteException;
+import exceptions.PessoaInexistenteException;
 import exceptions.ProjetoExistenteException;
 import exceptions.ProjetoInexistenteException;
-import exceptions.UsuarioExistenteException;
-import exceptions.UsuarioInexistenteException;
 
 
 /**
@@ -55,10 +49,9 @@ public class ControladorProjeto implements IControladorProjeto
 	 * @see dao.generics.IDAOGeneric#inserir(java.lang.Object)
 	 */
 	@Override
-	public void inserir(Projeto entidade) throws AlunoExistenteException,
-		ProjetoExistenteException, ProfessorExistenteException,
-		CoordenadorExistenteException, UsuarioExistenteException,
-		NotaExistenteException
+	public void inserir(Projeto entidade) throws PessoaExistenteException,
+		ProjetoExistenteException, ProjetoInexistenteException,
+		NotaInexistenteException
 	{
 		Boolean resultado = ((ProjetoDAO) projetoDAO)
 			.verificarProjetoExistentePorId(entidade.getCodigo());
@@ -74,10 +67,8 @@ public class ControladorProjeto implements IControladorProjeto
 	 * @see dao.generics.IDAOGeneric#alterar(java.lang.Object)
 	 */
 	@Override
-	public void alterar(Projeto entidade) throws AlunoInexistenteException,
-		ProjetoInexistenteException, CoordenadorInexistenteException,
-		UsuarioInexistenteException, ProfessorInexistenteException,
-		NotaInexistenteException
+	public void alterar(Projeto entidade) throws PessoaInexistenteException,
+		ProjetoInexistenteException, NotaInexistenteException
 	{
 		Boolean resultado = ((ProjetoDAO) projetoDAO)
 			.verificarProjetoExistentePorId(entidade.getCodigo());
@@ -92,10 +83,8 @@ public class ControladorProjeto implements IControladorProjeto
 	 * @see dao.generics.IDAOGeneric#remover(java.lang.Object)
 	 */
 	@Override
-	public void remover(Projeto entidade) throws AlunoInexistenteException,
-		ProjetoInexistenteException, CoordenadorInexistenteException,
-		UsuarioInexistenteException, ProfessorInexistenteException,
-		NotaInexistenteException
+	public void remover(Projeto entidade) throws PessoaInexistenteException,
+		ProjetoInexistenteException, NotaInexistenteException
 	{
 		Boolean resultado = ((ProjetoDAO) projetoDAO)
 			.verificarProjetoExistentePorId(entidade.getCodigo());
@@ -114,13 +103,14 @@ public class ControladorProjeto implements IControladorProjeto
 	 * @see dao.generics.IDAOGeneric#consultarPorId(java.lang.Integer)
 	 */
 	@Override
-	public Projeto consultarPorId(Integer id) throws AlunoInexistenteException,
-		ProjetoInexistenteException
+	public Projeto consultarPorId(Integer id)
+		throws PessoaInexistenteException, ProjetoInexistenteException,
+		NotaInexistenteException
 	{
-		Projeto projetoConsultado = consultarPorId(id);
-		if(projetoConsultado == null || projetoConsultado.getSituacao() != Situacao.ATIVO)
+		Projeto projetoConsultado = projetoDAO.consultarPorId(id);
+		if(projetoConsultado == null
+			|| projetoConsultado.getSituacao() != Situacao.ATIVO)
 			throw new ProjetoInexistenteException();
-		
 		return projetoConsultado;
 	}
 	
@@ -130,15 +120,12 @@ public class ControladorProjeto implements IControladorProjeto
 	 * @see dao.generics.IDAOGeneric#consultarTodos()
 	 */
 	@Override
-	public List<Projeto> consultarTodos() throws AlunoInexistenteException,
-		ProjetoInexistenteException, ProfessorInexistenteException,
-		UsuarioInexistenteException, CoordenadorInexistenteException,
-		NotaInexistenteException
+	public List<Projeto> consultarTodos() throws PessoaInexistenteException,
+		ProjetoInexistenteException, NotaInexistenteException
 	{
 		List<Projeto> projetos = projetoDAO.consultarTodos();
 		if(projetos == null || projetos.isEmpty())
 			throw new ProjetoInexistenteException();
-		
 		return projetos;
 	}
 	
@@ -150,16 +137,13 @@ public class ControladorProjeto implements IControladorProjeto
 	 */
 	@Override
 	public List<Projeto> consultarTodos(Integer indiceInicial,
-		Integer quantidade) throws AlunoInexistenteException,
-		ProjetoInexistenteException, ProfessorInexistenteException,
-		UsuarioInexistenteException, CoordenadorInexistenteException,
-		NotaInexistenteException
+		Integer quantidade) throws PessoaInexistenteException,
+		ProjetoInexistenteException, NotaInexistenteException
 	{
 		List<Projeto> projetos = projetoDAO.consultarTodos(indiceInicial,
 			quantidade);
 		if(projetos == null || projetos.isEmpty())
 			throw new ProjetoInexistenteException();
-		
 		return projetos;
 	}
 	
@@ -170,13 +154,46 @@ public class ControladorProjeto implements IControladorProjeto
 	 */
 	@Override
 	public Projeto consultarProjetoPorNome(String nome)
-		throws AlunoInexistenteException, ProjetoInexistenteException
+		throws ProjetoInexistenteException
 	{
 		Projeto projetoConsultado = projetoDAO.consultarProjetoPorNome(nome);
 		if(projetoConsultado == null)
 			throw new ProjetoInexistenteException();
-		
 		return projetoConsultado;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * interfaces.dao.IProjetoDAO#consultarNotasPorProjetoAvaliador(classesBasicas
+	 * .Projeto, classesBasicas.Professor)
+	 */
+	@Override
+	public List<Projeto> consultarNotasPorProjetoAvaliador(Projeto projeto,
+		Professor avaliador) throws ProjetoInexistenteException
+	{
+		List<Projeto> projetos = projetoDAO.consultarNotasPorProjetoAvaliador(
+			projeto, avaliador);
+		if(projetos == null || projetos.isEmpty())
+			throw new ProjetoInexistenteException();
+		return projetos;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see dao.generics.IDAOGeneric#consultarTodosAtivos()
+	 */
+	@Override
+	public List<Projeto> consultarTodosAtivos()
+		throws PessoaInexistenteException, ProjetoInexistenteException,
+		NotaInexistenteException
+	{
+		List<Projeto> projetos = projetoDAO.consultarTodosAtivos();
+		if(projetos == null || projetos.isEmpty())
+			throw new ProjetoInexistenteException();
+		return projetos;
 	}
 	
 	// Gets e Sets
@@ -195,15 +212,5 @@ public class ControladorProjeto implements IControladorProjeto
 	public void setProjetoDAO(IProjetoDAO projetoDAO)
 	{
 		this.projetoDAO = projetoDAO;
-	}
-
-	/* (non-Javadoc)
-	 * @see dao.generics.IDAOGeneric#consultarTodosAtivos()
-	 */
-	@Override
-	public List<Projeto> consultarTodosAtivos()
-		throws AlunoInexistenteException
-	{
-		return projetoDAO.consultarTodosAtivos();
 	}
 }

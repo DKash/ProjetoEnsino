@@ -7,53 +7,64 @@
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 	<title>#{msgs.tituloJanelaIndex}</title>
-	<style type="text/css">
-body {
-	background: url(\images\principal.png) no-repeat;
-}
-</style>
 </h:head>
 <h:body>
+	<div align="right" class="bandeiras" id="bandeirasDiv">
+		<p:graphicImage alt="brasil" height="30px" width="30px"
+			onclick="#{localeMB.chooseLocaleFromLink}" library="images"
+			name="brasil.png" />
 
-	<div align="right" class="bandeiras" id="bandeirass" style="bandeiras">
-		<p:graphicImage library="\images" value="brasil.png"></p:graphicImage>
-		<p:graphicImage library="\images" value="espanha.png"></p:graphicImage>
-		<p:graphicImage library="\images" value="franca.png"></p:graphicImage>
-		<p:graphicImage library="\images" value="japao.png"></p:graphicImage>
-		<p:graphicImage library="\images" value="usa.png"></p:graphicImage>
-		<p:graphicImage library="\images" url="\brasil.png" value="brasil.png"></p:graphicImage>
+		<p:graphicImage alt="usa" height="30px" width="30px"
+			onclick="#{localeMB.chooseLocaleFromLink}" library="images"
+			name="usa.png" />
+
+		<p:graphicImage alt="espanha" height="30px" width="30px"
+			onclick="#{localeMB.chooseLocaleFromLink}" library="images"
+			name="espanha.png" />
+
+		<p:graphicImage alt="frança" height="30px" width="30px"
+			onclick="#{localeMB.chooseLocaleFromLink}" library="images"
+			name="franca.png" />
+
+		<p:graphicImage alt="alemanha" height="30px" width="30px"
+			onclick="#{localeMB.chooseLocaleFromLink}" library="images"
+			name="alemanha.png" />
+
+		<p:graphicImage alt="japao" height="30px" width="30px"
+			onclick="#{localeMB.chooseLocaleFromLink}" library="images"
+			name="japao.png" />
 	</div>
 
 	<div align="center" style="margin-top: 130pt">
 		<h2 align="center">#{msgs.tituloPaginaIndex}</h2>
 	</div>
-	<h:form>
-		<div align="center" id="divMenu" style="margin-top: 20pt;">
-			<h:panelGrid columns="2" border="1">
-#{msgs.labelUsuarioNomeUsuario} <h:inputText required="true"
-					value="#{loginMB.usuario.nomeUsuario}"></h:inputText>
-				
-#{msgs.labelUsuarioSenha} <h:inputSecret required="true"
-					value="#{loginMB.usuario.senha}"></h:inputSecret>
 
-#{msgs.labelUsuarioSenhaConfirmacao} <h:inputSecret required="true"
-					value="#{loginMB.senha2}"></h:inputSecret>
-				
-#{msgs.labelUsuarioDica} <h:inputText value="#{loginMB.usuario.dica}"></h:inputText>
-			</h:panelGrid>
+	<h:form>
+		<p:messages id="msgs" />
+		<div align="center" id="divMenu" style="margin-top: 20pt;">
+			<p:panelGrid columns="2" border="2">
+				<p:outputLabel value="#{msgs.labelUsuarioNomeUsuario}"></p:outputLabel>
+				<p:inputText required="true" value="#{loginMB.usuario.nomeUsuario}"
+					placeholder="#{msgs.labelUsuarioNomeUsuario}"></p:inputText>
+
+				<p:outputLabel value="#{msgs.labelUsuarioSenha}"></p:outputLabel>
+				<p:password required="true" value="#{loginMB.usuario.senha}"
+					placeholder="#{msgs.labelUsuarioSenha}"></p:password>
+			</p:panelGrid>
 		</div>
 
 		<div align="center">
 			<br></br>
-			<h:commandButton value="#{msgs.botaoLogin}"
-				action="#{loginMB.efetuarLogin}"></h:commandButton>
+			<p:commandButton value="#{msgs.botaoLogin}"
+				action="#{loginMB.efetuarLogin}">
+			</p:commandButton>
 
 			<br></br> <br></br> <a dir="rtl" name="Registro"
 				href="usuario/CadastroUsuario.xhtml" title="Registre-se"
 				accesskey="Registre-se" shape="poly">Ainda não é Cadastrado?
 				Registre-se aqui</a> <br></br> <br></br> #{loginMB.mensagem}
 		</div>
-		<h:messages></h:messages>
+		<p:messages></p:messages>
 	</h:form>
 </h:body>
 </html>

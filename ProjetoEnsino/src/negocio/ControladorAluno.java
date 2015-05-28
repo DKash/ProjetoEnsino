@@ -13,18 +13,11 @@ import classesBasicas.Situacao;
 import dao.AlunoDAO;
 import dao.generics.DAOFactory;
 import dao.generics.DAOGeneric;
-import exceptions.AlunoExistenteException;
-import exceptions.AlunoInexistenteException;
-import exceptions.CoordenadorExistenteException;
-import exceptions.CoordenadorInexistenteException;
-import exceptions.NotaExistenteException;
 import exceptions.NotaInexistenteException;
-import exceptions.ProfessorExistenteException;
-import exceptions.ProfessorInexistenteException;
+import exceptions.PessoaExistenteException;
+import exceptions.PessoaInexistenteException;
 import exceptions.ProjetoExistenteException;
 import exceptions.ProjetoInexistenteException;
-import exceptions.UsuarioExistenteException;
-import exceptions.UsuarioInexistenteException;
 
 
 /**
@@ -34,15 +27,12 @@ import exceptions.UsuarioInexistenteException;
 public class ControladorAluno implements IControladorAluno
 {
 	// Atributos
-	
 	private IAlunoDAO alunoDAO;
 	
 	// Construtores
-	
 	public ControladorAluno()
 	{
 		super();
-	
 		alunoDAO = DAOFactory.getAlunoDAO();
 	}
 	
@@ -52,7 +42,6 @@ public class ControladorAluno implements IControladorAluno
 	public ControladorAluno(IAlunoDAO alunoDAO)
 	{
 		super();
-		
 		this.alunoDAO = alunoDAO;
 	}
 	
@@ -63,16 +52,14 @@ public class ControladorAluno implements IControladorAluno
 	 * @see dao.generics.IDAOGeneric#inserir(java.lang.Object)
 	 */
 	@Override
-	public void inserir(Aluno entidade) throws AlunoExistenteException,
-		ProfessorExistenteException, CoordenadorExistenteException,
-		ProjetoExistenteException, UsuarioExistenteException,
-		NotaExistenteException
+	public void inserir(Aluno entidade) throws PessoaExistenteException,
+		ProjetoExistenteException, ProjetoInexistenteException,
+		NotaInexistenteException
 	{
 		Boolean resultado = ((AlunoDAO) alunoDAO)
 			.verificarAlunoExistente(entidade);
 		if(resultado == true)
-			throw new AlunoExistenteException();
-		
+			throw new PessoaExistenteException();
 		entidade.setSituacao(Situacao.ATIVO);
 		alunoDAO.inserir(entidade);
 	}
@@ -83,16 +70,13 @@ public class ControladorAluno implements IControladorAluno
 	 * @see dao.generics.IDAOGeneric#alterar(java.lang.Object)
 	 */
 	@Override
-	public void alterar(Aluno entidade) throws AlunoInexistenteException,
-		CoordenadorInexistenteException, ProjetoInexistenteException,
-		UsuarioInexistenteException, ProfessorInexistenteException,
-		NotaInexistenteException
+	public void alterar(Aluno entidade) throws PessoaInexistenteException,
+		ProjetoInexistenteException, NotaInexistenteException
 	{
 		Boolean resultado = ((AlunoDAO) alunoDAO)
 			.verificarAlunoExistente(entidade);
 		if(resultado == false)
-			throw new AlunoInexistenteException();
-		
+			throw new PessoaInexistenteException();
 		alunoDAO.alterar(entidade);
 	}
 	
@@ -102,16 +86,13 @@ public class ControladorAluno implements IControladorAluno
 	 * @see dao.generics.IDAOGeneric#remover(java.lang.Object)
 	 */
 	@Override
-	public void remover(Aluno entidade) throws AlunoInexistenteException,
-		CoordenadorInexistenteException, ProjetoInexistenteException,
-		UsuarioInexistenteException, ProfessorInexistenteException,
-		NotaInexistenteException
+	public void remover(Aluno entidade) throws PessoaInexistenteException,
+		ProjetoInexistenteException, NotaInexistenteException
 	{
 		Aluno alunoConsultado = alunoDAO
 			.consultarAlunoPorCPF(entidade.getCpf());
 		if(alunoConsultado == null)
-			throw new AlunoInexistenteException();
-		
+			throw new PessoaInexistenteException();
 		entidade.setCodigo(alunoConsultado.getCodigo());
 		entidade.setSituacao(Situacao.INATIVO);
 		alunoDAO.alterar(entidade);
@@ -123,16 +104,13 @@ public class ControladorAluno implements IControladorAluno
 	 * @see dao.generics.IDAOGeneric#consultarPorId(java.lang.Integer)
 	 */
 	@Override
-	public Aluno consultarPorId(Integer id) throws AlunoInexistenteException,
-		ProfessorInexistenteException, ProjetoInexistenteException,
-		UsuarioInexistenteException, CoordenadorInexistenteException,
-		NotaInexistenteException
+	public Aluno consultarPorId(Integer id) throws PessoaInexistenteException,
+		ProjetoInexistenteException, NotaInexistenteException
 	{
 		Aluno alunoConsultado = (Aluno) alunoDAO.consultarPorId(id);
 		if(alunoConsultado == null
 			|| alunoConsultado.getSituacao() != Situacao.ATIVO)
-			throw new AlunoInexistenteException();
-		
+			throw new PessoaInexistenteException();
 		return alunoConsultado;
 	}
 	
@@ -142,15 +120,12 @@ public class ControladorAluno implements IControladorAluno
 	 * @see dao.generics.IDAOGeneric#consultarTodos()
 	 */
 	@Override
-	public List<Aluno> consultarTodos() throws AlunoInexistenteException,
-		ProfessorInexistenteException, ProjetoInexistenteException,
-		UsuarioInexistenteException, CoordenadorInexistenteException,
-		NotaInexistenteException
+	public List<Aluno> consultarTodos() throws PessoaInexistenteException,
+		ProjetoInexistenteException, NotaInexistenteException
 	{
 		List<Aluno> alunos = alunoDAO.consultarTodos();
 		if(alunos == null || alunos.isEmpty())
-			throw new AlunoInexistenteException();
-			
+			throw new PessoaInexistenteException();
 		return alunos;
 	}
 	
@@ -162,31 +137,29 @@ public class ControladorAluno implements IControladorAluno
 	 */
 	@Override
 	public List<Aluno> consultarTodos(Integer indiceInicial, Integer quantidade)
-		throws AlunoInexistenteException, ProfessorInexistenteException,
-		ProjetoInexistenteException, UsuarioInexistenteException,
-		CoordenadorInexistenteException, NotaInexistenteException
+		throws PessoaInexistenteException, ProjetoInexistenteException,
+		NotaInexistenteException
 	{
 		List<Aluno> alunos = alunoDAO.consultarTodos(indiceInicial, quantidade);
 		if(alunos == null || alunos.isEmpty())
-			throw new AlunoInexistenteException();
-			
+			throw new PessoaInexistenteException();
 		return alunos;
 	}
 	
-
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see dao.generics.IDAOGeneric#consultarTodos()
 	 */
-
 	@SuppressWarnings("unchecked")
-	public List<Aluno> consultarTodosAtivos() throws AlunoInexistenteException
+	public List<Aluno> consultarTodosAtivos()
+		throws PessoaInexistenteException, ProjetoInexistenteException,
+		NotaInexistenteException
 	{
-		List<Aluno> alunos = ((DAOGeneric<Aluno>) alunoDAO).consultarTodosAtivos();
+		List<Aluno> alunos = ((DAOGeneric<Aluno>) alunoDAO)
+			.consultarTodosAtivos();
 		if(alunos == null || alunos.isEmpty())
-			throw new AlunoInexistenteException();
-			
+			throw new PessoaInexistenteException();
 		return alunos;
 	}
 	
@@ -197,12 +170,11 @@ public class ControladorAluno implements IControladorAluno
 	 */
 	@Override
 	public Aluno consultarAlunoPorNome(String nome)
-		throws AlunoInexistenteException
+		throws PessoaInexistenteException
 	{
 		Aluno aluno = alunoDAO.consultarAlunoPorNome(nome);
 		if(aluno == null || aluno.getSituacao() != Situacao.ATIVO)
-			throw new AlunoInexistenteException();
-		
+			throw new PessoaInexistenteException();
 		return aluno;
 	}
 	
@@ -213,13 +185,12 @@ public class ControladorAluno implements IControladorAluno
 	 */
 	@Override
 	public Aluno consultarAlunoPorCPF(String cpf)
-		throws AlunoInexistenteException
+		throws PessoaInexistenteException
 	{
 		Aluno alunoConsultado = alunoDAO.consultarAlunoPorCPF(cpf);
 		if(alunoConsultado == null
 			|| alunoConsultado.getSituacao() != Situacao.ATIVO)
-			throw new AlunoInexistenteException();
-		
+			throw new PessoaInexistenteException();
 		return alunoConsultado;
 	}
 	

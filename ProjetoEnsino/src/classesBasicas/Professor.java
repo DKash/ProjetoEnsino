@@ -4,9 +4,9 @@
 package classesBasicas;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -16,15 +16,17 @@ import javax.persistence.NamedQuery;
  *
  */
 @NamedQueries({
+	@NamedQuery(name = "Professor.findAllActives" , query="SELECT p FROM Professor p WHERE p.situacao =:situacao"),
 	@NamedQuery(name = "Professor.findByName", query = "SELECT p FROM Professor p WHERE p.nome LIKE :nome"),
-	@NamedQuery(name = "Professor.findByCPF", query = "SELECT p FROM Professor p WHERE p.cpf = :cpf")
+	@NamedQuery(name = "Professor.findByCPF", query = "SELECT p FROM Professor p WHERE p.cpf = :cpf"),
+	@NamedQuery(name = "Professor.findByTipoProfessor", query = "SELECT p FROM Professor p WHERE p.tipoProfessor = :tipoProfessor"),
 })
 @Entity
 public class Professor extends Pessoa
 {
 	//Atributos
 	
-	@Enumerated
+	@Enumerated(EnumType.STRING)
 	private TipoProfessor tipoProfessor;
 
 	//Construtores
@@ -47,9 +49,9 @@ public class Professor extends Pessoa
 	 */
 	public Professor(Integer codigo, String nome, String cpf,
 		Date dataNascimento, String emailprincipal, Sexo sexo, Usuario usuario,
-		List<Telefone> telefones, Endereco endereco, String nacionalidade, Situacao situacao)
+		Telefone telefone, Endereco endereco, String nacionalidade, Situacao situacao)
 	{
-		super(codigo, nome, cpf, dataNascimento, emailprincipal, sexo, usuario, telefones,
+		super(codigo, nome, cpf, dataNascimento, emailprincipal, sexo, usuario, telefone,
 			endereco, nacionalidade, situacao);
 	}	
 	
@@ -65,10 +67,8 @@ public class Professor extends Pessoa
 
 	//Métodos
 	
-	//Gets e Sets	//Construtores
+	//Gets e Sets
 	
-
-
 	/**
 	 * @return the tipoProfessor
 	 */

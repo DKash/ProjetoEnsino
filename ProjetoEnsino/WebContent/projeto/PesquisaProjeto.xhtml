@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>#{msgs.tituloPesquisaProjeto}</title>
+</h:head>
+<h:body>
+	<h:form id="formPesquisaProjetos">
+		
+	#{MensagemInicial.mensagem}
+
+		<h:head>
+			<h2>#{msgs.tituloPesquisaProjeto}</h2>
+		</h:head>
+		<hr></hr>
+		<br></br>
+
+		<p:panelGrid columns="3" cellpadding="5">
+
+			<p:outputLabel value="#{msgs.botaoConsultarPorCodigo}"></p:outputLabel>
+			<p:inputText value="#{CadastroProjetoMB.entidade.codigo}"></p:inputText>
+			<p:commandButton value="#{msgs.botaoConsultarPorCodigo}"
+				action="#{CadastroProjetoMB.consultarPorId}"
+				update="formPesquisaProjetos, msgs" icon="ui-icon-search"></p:commandButton>
+
+			<p:outputLabel value="#{msgs.botaoConsultarPorNome}"></p:outputLabel>
+			<p:inputText value="#{CadastroProjetoMB.entidade.nome}"></p:inputText>
+			<p:commandButton value="#{msgs.botaoConsultarPorNome}"
+				action="#{CadastroProjetoMB.consultarPorNome}"
+				update="formPesquisaProjetos, msgs" icon="ui-icon-search"></p:commandButton>
+
+			<p:outputLabel value="#{msgs.botaoConsultarPorCPF}"></p:outputLabel>
+			<p:inputText value="#{CadastroProjetoMB.entidade.cpf}"></p:inputText>
+			<p:commandButton value="#{msgs.botaoConsultarPorCPF}"
+				action="#{CadastroProjetoMB.consultarPorCPF}"
+				update="formPesquisaProjetos, msgs" icon="ui-icon-search"></p:commandButton>
+		</p:panelGrid>
+
+		<br></br>
+
+		<p:growl id="msgs" showDetail="true" />
+
+		<p:commandButton value="#{msgs.botaoNovo}" immediate="true"
+			action="#{cadastroProjetoMB.novo}" type="button" icon="ui-icon-star"></p:commandButton>
+
+		<br></br>
+		<br></br>
+
+		<h:form id="formProjetos">
+			<p:dataTable var="p" value="#{cadastroProjetoMB.projetos}"
+				editable="true" style="margin-bottom:20px" rows="10"
+				paginator="true"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+				{PreviousPageLink} {PageLinks} 
+				{NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="5,10" emptyMessage="#{msgs.cvmSemRegistros}"
+				tableStyle="width=100%">
+				<f:facet name="header">
+           #{msgs.tituloPesquisaProjeto}           
+       </f:facet>
+				<p:ajax event="rowEdit" listener="#{cadastroProjetoMB.onRowEdit}"
+					update="msgs" />
+				<p:ajax event="rowEditCancel"
+					listener="#{cadastroProjetoMB.onRowCancel}" update="msgs" />
+
+				<p:column headerText="#{msgs.labelCodigo}">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{p.codigo}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText id="modelInput" value="#{p.codigo}"
+								style="width:100%" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column headerText="#{msgs.labelProjetoNome}">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{p.nome}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{p.nome}" style="width:100%"
+								label="#{msgs.labelProjetoNome}" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column headerText="#{msgs.labelProjetoDescricao}">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{p.descricao}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{p.descricao}" style="width:100%"
+								label="#{msgs.labelProjetoDescricao}" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column headerText="#{msgs.promptProjetoAlunos}">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{p.alunos}" />
+						</f:facet>
+						<f:facet name="input">
+							<h:selectOneMenu value="#{p.alunos}" style="width:100%">
+								<f:selectItems value="#{cadastroProjetoMB.alunos}" var="a"
+									itemLabel="#{a.nome}" itemValue="#{a}" />
+							</h:selectOneMenu>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column headerText="#{msgs.promptProjetoProfessorOrientador}">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{p.professorOrientador}" />
+						</f:facet>
+						<f:facet name="input">
+							<h:selectOneMenu value="#{p.professorOrientador}"
+								style="width:100%">
+								<f:selectItems value="#{cadastroProjetoMB.orientadores}"
+									var="po" itemLabel="#{po.nome}" itemValue="#{po}" />
+							</h:selectOneMenu>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column headerText="#{msgs.promptProjetoProfessoresAvaliadores}">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{p.professoresAvaliadores}" />
+						</f:facet>
+						<f:facet name="input">
+							<h:selectManyMenu value="#{p.professoresAvaliadores}"
+								style="width:100%">
+								<f:selectItems value="#{cadastroProjetoMB.avaliadores}" var="pa"
+									itemLabel="#{pa.nome}" itemValue="#{pa}" />
+							</h:selectManyMenu>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column width="300">
+					<f:facet name="header">#{msgs.labelPesquisaAcoes}</f:facet>
+					
+					<p:commandButton value="#{msgs.botaoAlterar}"
+						action="#{cadastroProjetoMB.alterar}" icon="ui-icon-refresh">
+					</p:commandButton> &nbsp;&nbsp;
+					
+					<p:commandButton value="{msgs.botaoRemover}"
+						action="#{cadastroProjetoMB.remover}" icon="ui-icon-exclude">
+					</p:commandButton>
+				</p:column>
+
+				<p:commandLink title="Excluir" update="formProjetos:Excluir"
+					oncomplete="confirmation.show()" immediate="true">
+					<p:graphicImage value="./imagens/del_icon.png" />
+					<f:setPropertyActionListener target="#{cadastroProjetoMB.projetos}"
+						value="#{projetos}" />
+				</p:commandLink>
+			</p:dataTable>
+		</h:form>
+
+		<br></br>
+		<br></br>
+
+		<h:form id="formExcluir">
+			<p:confirmDialog id="Excluir"
+				message="Você gostaria de Deletar o #{cadastroProjetoMB.entidade.nome}?"
+				header="Excluir" severity="alert" widgetVar="confirmation">
+
+				<p:commandButton id="confirm" value="Sim"
+					oncomplete="confirmation.hide()"
+					actionListener="#{cadastroProjetoMB.remover}" update="formProjetos" />
+				<p:commandButton id="decline" value="Não"
+					onclick="confirmation.hide()" type="button" />
+			</p:confirmDialog>
+
+			<p:contextMenu for="Proje" widgetVar="cMenuProjeto">
+				<p:menuitem value="Edit Cell" icon="ui-icon-search"
+					onclick="PF('ProjetosTable').showCellEditor();return false;" />
+				<p:menuitem value="Hide Menu" icon="ui-icon-close"
+					onclick="PF('cMenuProjeto').hide()" />
+			</p:contextMenu>
+		</h:form>
+		
+		<br></br>
+		<br></br>
+		
+		<p:panelGrid columns="1">
+			<f:facet name="footer">
+				<p:commandButton value="#{msgs.botaoCancelar}" immediate="true"
+					icon="ui-icon-close" action="#{cadastroProjetoMB.exibirMenu}">
+				</p:commandButton>
+			</f:facet>
+		</p:panelGrid>
+		<p:messages errorStyle="font-color: red"></p:messages>
+	</h:form>
+</h:body>
+</html>

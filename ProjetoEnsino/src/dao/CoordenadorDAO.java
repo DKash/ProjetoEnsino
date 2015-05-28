@@ -5,10 +5,13 @@ package dao;
 
 import interfaces.dao.ICoordenadorDAO;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 import classesBasicas.Coordenador;
+import classesBasicas.Situacao;
 import dao.generics.DAOGeneric;
 
 /**
@@ -72,6 +75,22 @@ public class CoordenadorDAO extends DAOGeneric<Coordenador> implements ICoordena
 			return true;
 		}
 		return false;
+	}
+	
+	public List<Coordenador> consultarTodosAtivos()
+	{
+		TypedQuery<Coordenador> query = this.entityManager.createNamedQuery(
+			"Coordenador.findAllActives", this.classePersistente);
+		query.setParameter("situacao", Situacao.ATIVO);
+		
+		try
+		{
+			return query.getResultList();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	public Boolean verificarCoordenadorExistente(Coordenador coordenador)
