@@ -124,7 +124,7 @@ public interface IFachada
 	Professor consultarProfessorPorCPF(String cpf)
 		throws PessoaInexistenteException;
 	
-	List<Professor> consultarTodosProfessorAtivos()
+	List<Professor> consultarTodosProfessoresAtivos()
 		throws PessoaInexistenteException, ProjetoInexistenteException,
 		NotaInexistenteException;
 	

@@ -6,6 +6,7 @@ package gui;
 import javax.faces.bean.ManagedBean;
 
 import classesBasicas.Operadora;
+import classesBasicas.Pessoa;
 import classesBasicas.Sexo;
 import classesBasicas.Situacao;
 import classesBasicas.TipoLogradouro;
@@ -16,7 +17,7 @@ import classesBasicas.UF;
  *
  */
 @ManagedBean
-public class CadastroPessoaMB extends ObjetoMB
+public class CadastroPessoaMB extends ObjetoMB<Pessoa>
 {
 	// Atributos
 	
@@ -60,7 +61,7 @@ public class CadastroPessoaMB extends ObjetoMB
 	 * @see gui.ObjetoMB#consultarPorId()
 	 */
 	@Override
-	public String consultarPorId()
+	public String consultarPorId(int codigo)
 	{
 		return null;
 	}
@@ -93,7 +94,7 @@ public class CadastroPessoaMB extends ObjetoMB
 	 * @see gui.ObjetoMB#consultarPorNome()
 	 */
 	@Override
-	public String consultarPorNome()
+	public String consultarPorNome(String nome)
 	{
 		return null;
 	}
@@ -104,7 +105,7 @@ public class CadastroPessoaMB extends ObjetoMB
 	 * @see gui.ObjetoMB#consultarPorCPF()
 	 */
 	@Override
-	public String consultarPorCPF()
+	public String consultarPorCPF(String cpf)
 	{
 		return null;
 	}
@@ -130,25 +131,7 @@ public class CadastroPessoaMB extends ObjetoMB
 	{
 		return null;
 	}
-	
-	/* (non-Javadoc)
-	 * @see gui.ObjetoMB#exibirIndex()
-	 */
-	@Override
-	public String exibirIndex()
-	{
-		return "/index.xhtml?faces-redirect=true";
-	}
-	
-	/* (non-Javadoc)
-	 * @see gui.ObjetoMB#exibirMenu()
-	 */
-	@Override
-	public String exibirMenu()
-	{
-		return "/menu.xhtml?faces-redirect=true";
-	}
-	
+		
 	// Gets e Sets
 	/**
 	 * @return the sexos

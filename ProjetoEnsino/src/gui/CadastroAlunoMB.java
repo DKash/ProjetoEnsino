@@ -16,12 +16,13 @@ import exceptions.PessoaInexistenteException;
 import exceptions.ProjetoExistenteException;
 import exceptions.ProjetoInexistenteException;
 
+
 /**
  * @author Audry Martins
  *
  */
 @ManagedBean
-public class CadastroAlunoMB extends CadastroPessoaMB
+public class CadastroAlunoMB extends ObjetoMB<Aluno>
 {
 	// Atributos
 	
@@ -49,15 +50,15 @@ public class CadastroAlunoMB extends CadastroPessoaMB
 				new FacesMessage("Aluno Inexistente"));
 		}catch(ProjetoExistenteException e)
 		{
-			/*e.printStackTrace();*/
+			/* e.printStackTrace(); */
 		}catch(ProjetoInexistenteException e)
 		{
-			/*e.printStackTrace();*/
+			/* e.printStackTrace(); */
 		}catch(NotaInexistenteException e)
 		{
-			/*e.printStackTrace();*/
+			/* e.printStackTrace(); */
 		}
-		return null;
+		return "#{msgs.urlCadastroAluno}";
 	}
 	
 	/*
@@ -80,10 +81,10 @@ public class CadastroAlunoMB extends CadastroPessoaMB
 				new FacesMessage("Aluno Inexistente"));
 		}catch(ProjetoInexistenteException e)
 		{
-			/*e.printStackTrace();*/
+			/* e.printStackTrace(); */
 		}catch(NotaInexistenteException e)
 		{
-			/*e.printStackTrace();*/
+			/* e.printStackTrace(); */
 		}
 		return null;
 	}
@@ -108,10 +109,10 @@ public class CadastroAlunoMB extends CadastroPessoaMB
 				new FacesMessage("Aluno Inexistente"));
 		}catch(ProjetoInexistenteException e)
 		{
-			/*e.printStackTrace();*/
+			/* e.printStackTrace(); */
 		}catch(NotaInexistenteException e)
 		{
-			/*e.printStackTrace();*/
+			/* e.printStackTrace(); */
 		}
 		return null;
 	}
@@ -122,7 +123,7 @@ public class CadastroAlunoMB extends CadastroPessoaMB
 	 * @see manangedBeans.CadastroPessoaMB#consultarPorId()
 	 */
 	@Override
-	public String consultarPorId()
+	public String consultarPorId(int codigo)
 	{
 		try
 		{
@@ -134,10 +135,10 @@ public class CadastroAlunoMB extends CadastroPessoaMB
 				new FacesMessage("Aluno Inexistente"));
 		}catch(ProjetoInexistenteException e)
 		{
-			/*e.printStackTrace();*/
+			/* e.printStackTrace(); */
 		}catch(NotaInexistenteException e)
 		{
-			/*e.printStackTrace();*/
+			/* e.printStackTrace(); */
 		}
 		return null;
 	}
@@ -160,10 +161,10 @@ public class CadastroAlunoMB extends CadastroPessoaMB
 				new FacesMessage("Aluno Inexistente"));
 		}catch(ProjetoInexistenteException e)
 		{
-			/*e.printStackTrace();*/
+			/* e.printStackTrace(); */
 		}catch(NotaInexistenteException e)
 		{
-			/*e.printStackTrace();*/
+			/* e.printStackTrace(); */
 		}
 		return null;
 	}
@@ -186,33 +187,28 @@ public class CadastroAlunoMB extends CadastroPessoaMB
 				new FacesMessage("Aluno Inexistente"));
 		}catch(ProjetoInexistenteException e)
 		{
-			/*e.printStackTrace();*/
+			/* e.printStackTrace(); */
 		}catch(NotaInexistenteException e)
 		{
-			/*e.printStackTrace();*/
+			/* e.printStackTrace(); */
 		}
 		return null;
 	}
 	
-	/*public String consultarAlunosPorNome()
-	{
-		try
-		{
-			fachada.consultarAlunoPorNome(entidade.getNome());
-		}catch(PessoaInexistenteException e)
-		{
-			e.printStackTrace();
-			FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage("Aluno Inexistente"));
-		}
-		return null;
-	}*/
-	
-	/* (non-Javadoc)
+	/*
+	 * public String consultarAlunosPorNome() { try {
+	 * fachada.consultarAlunoPorNome(entidade.getNome());
+	 * }catch(PessoaInexistenteException e) { e.printStackTrace();
+	 * FacesContext.getCurrentInstance().addMessage(null, new
+	 * FacesMessage("Aluno Inexistente")); } return null; }
+	 */
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see gui.CadastroPessoaMB#consultarPorNome()
 	 */
 	@Override
-	public String consultarPorNome()
+	public String consultarPorNome(String nome)
 	{
 		try
 		{
@@ -225,12 +221,14 @@ public class CadastroAlunoMB extends CadastroPessoaMB
 		}
 		return null;
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see gui.CadastroPessoaMB#consultarPorCPF()
 	 */
 	@Override
-	public String consultarPorCPF()
+	public String consultarPorCPF(String cpf)
 	{
 		try
 		{
@@ -244,7 +242,9 @@ public class CadastroAlunoMB extends CadastroPessoaMB
 		return null;
 	}
 	
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see gui.ObjetoMB#consultarTodosAtivos()
 	 */
 	@Override
@@ -260,10 +260,10 @@ public class CadastroAlunoMB extends CadastroPessoaMB
 				new FacesMessage("Aluno Inexistente"));
 		}catch(ProjetoInexistenteException e)
 		{
-			/*e.printStackTrace();*/
+			/* e.printStackTrace(); */
 		}catch(NotaInexistenteException e)
 		{
-			/*e.printStackTrace();*/
+			/* e.printStackTrace(); */
 		}
 		return "";
 	}
@@ -271,8 +271,7 @@ public class CadastroAlunoMB extends CadastroPessoaMB
 	public String novo()
 	{
 		entidade = new Aluno();
-		return "/aluno/CadastroAluno.xhtml";
-		//return "#{msgs.urlCadastroAluno}";
+		return "/aluno/CadastroAluno.xhtml?faces-redirect=true";
 	}
 	
 	// Gets e Sets
@@ -309,18 +308,18 @@ public class CadastroAlunoMB extends CadastroPessoaMB
 	{
 		try
 		{
-			alunos = fachada.consultarTodosAlunos();
+			alunos = fachada.consultarTodosAlunosAtivos();
 		}catch(PessoaInexistenteException e)
 		{
-			e.printStackTrace();
+			/*e.printStackTrace();
 			FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage("Aluno Inexistente"));
+				new FacesMessage("Aluno Inexistente"));*/
 		}catch(ProjetoInexistenteException e)
 		{
-			/*e.printStackTrace();*/
+			/* e.printStackTrace(); */
 		}catch(NotaInexistenteException e)
 		{
-			/*e.printStackTrace();*/
+			/* e.printStackTrace(); */
 		}
 		return alunos;
 	}

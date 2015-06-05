@@ -23,19 +23,20 @@
 			<p:outputLabel value="#{msgs.botaoConsultarPorCodigo}"></p:outputLabel>
 			<p:inputText value="#{cadastroCoordenadorMB.entidade.codigo}"></p:inputText>
 			<p:commandButton value="#{msgs.botaoConsultarPorCodigo}"
-				action="#{cadastroCoordenadorMB.consultarPorId}"
+				action="#{cadastroCoordenadorMB.consultarPorId(c.codigo)}"
 				update="formCoordenadores" icon="ui-icon-search"></p:commandButton>
 
 			<p:outputLabel value="#{msgs.botaoConsultarPorNome}"></p:outputLabel>
 			<p:inputText value="#{cadastroCoordenadorMB.entidade.nome}"></p:inputText>
 			<p:commandButton value="#{msgs.botaoConsultarPorNome}"
-				action="#{cadastroCoordenadorMB.consultarPorNome}"
+				action="#{cadastroCoordenadorMB.consultarPorNome(c.nome)}"
 				update="formCoordenadores" icon="ui-icon-search"></p:commandButton>
 
 			<p:outputLabel value="#{msgs.botaoConsultarPorCPF}"></p:outputLabel>
-			<p:inputText value="#{cadastroCoordenadorMB.entidade.cpf}"></p:inputText>
+			<p:inputMask value="#{cadastroCoordenadorMB.entidade.cpf}"
+				mask="999.999.999-99"></p:inputMask>
 			<p:commandButton value="#{msgs.botaoConsultarPorCPF}"
-				action="#{cadastroCoordenadorMB.consultarPorCPF}"
+				action="#{cadastroCoordenadorMB.consultarPorCPF(c.cpf)}"
 				update="formCoordenadores" icon="ui-icon-search"></p:commandButton>
 		</p:panelGrid>
 
@@ -49,84 +50,280 @@
 		<br></br>
 
 		<h:form id="formCoordenadores">
-			<h:dataTable value="#{cadastroCoordenadorMB.coordenadores}"
-				var="coordenador" rendered="#{cadastroCoordenadorMB.coordenadores}"
-				border="1" width="400">
+			<p:dataTable id="tbCoordenadores" var="c"
+				value="#{cadastroCoordenadorMB.coordenadores}" editable="true"
+				style="margin-bottom:20px" rows="5" paginator="true"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+				{PreviousPageLink} {PageLinks} 
+				{NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="2,5" emptyMessage="#{msgs.cvmSemRegistros}"
+				tableStyle="width=100%" widgetVar="CoordenadoresTable">
 
-				<h:column>
-					<f:facet name="#{msgs.tituloMenuCoordenador}"></f:facet>
-				#{cadastroCoordenadorMB.entidade.nome}
-			</h:column>
+				<f:facet name="header">#{msgs.tituloPesquisaCoordenador}</f:facet>
+				<p:column width="55">
+					<f:facet name="header">#{msgs.labelCodigo}</f:facet>
+					<p:outputLabel value="#{c.codigo}"></p:outputLabel>
+				</p:column>
 
-				<h:column>
-					<f:facet name="CPF"></f:facet>
-				#{cadastroCoordenadorMB.entidade.cpf}
-				<h:outputText value="#{cadastroCoordenadorMB.entidade.cpf}">
-					</h:outputText>
-				</h:column>
+				<p:column filterBy="#{c.nome}" headerText="#{msgs.labelNome}"
+					footerText="contains" filterMatchMode="contains">
+					<f:facet name="header">#{msgs.labelNome}</f:facet>
+					<p:outputLabel value="#{c.nome}"></p:outputLabel>
+				</p:column>
 
-				<h:column>
-					<f:facet name="Sexo"></f:facet>
-				#{cadastroCoordenadorMB.entidade.sexo}
-				<h:outputText value="#{cadastroCoordenadorMB.entidade.sexo}">
-					</h:outputText>
-				</h:column>
+				<p:column filterBy="#{c.cpf}" headerText="CPF" footerText="contains"
+					filterMatchMode="contains" width="130">
+					<f:facet name="header">#{msgs.labelCPF}</f:facet>
+					<p:outputLabel value="#{c.cpf}"></p:outputLabel>
+				</p:column>
 
-				<h:column>
-					<f:facet name="Email"></f:facet>
-				#{cadastroCoordenadorMB.entidade.email}
-				<h:outputText value="#{cadastroCoordenadorMB.entidade.email}">
-					</h:outputText>
-				</h:column>
+				<p:column>
+					<f:facet name="header">#{msgs.tituloTelefone}</f:facet>
+					<p:outputLabel
+						value="#{c.telefone.codigoPais} 
+					(#{c.telefone.ddd}) #{c.telefone.numero}"></p:outputLabel>
+				</p:column>
 
-				<h:column>
-					<f:facet name="Nacionalidade"></f:facet>
-				#{cadastroCoordenadorMB.entidade.nacionalidade}
-				<h:outputText
-						value="#{cadastroCoordenadorMB.entidade.nacionalidade}">
-					</h:outputText>
-				</h:column>
+				<p:column>
+					<f:facet name="header">#{msgs.tituloUsuario} - 
+					#{msgs.promptTipoUsuario}</f:facet>
+					<p:outputLabel
+						value="#{c.usuario.nomeUsuario} - #{c.usuario.tipoUsuario}"></p:outputLabel>
+				</p:column>
 
-				<h:column>
-					<f:facet name="Data de Nascimento"></f:facet>
-					<h:outputText
-						value="#{cadastroCoordenadorMB.entidade.dataNascimento}">
-						<f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
-					</h:outputText>
-				</h:column>
+				<p:column width="100">
+					<f:facet name="header">#{msgs.promptUsuarioSituacao}</f:facet>
+					<p:outputLabel value="#{c.situacao}"></p:outputLabel>
+				</p:column>
 
-				<h:column>
-					<f:facet name="Situacao"></f:facet>
-				#{cadastroCoordenadorMB.entidade.situacao}
-			</h:column>
-				<h:column>
-				<f:facet name="header">#{msgs.labelPesquisaAcoes}</f:facet>
-					<p:commandButton value="#{msgs.botaoAlterar}"
-						action="#{cadastroCoordenadorMB.alterar}"
-						update="formCoordenadores" icon="ui-icon-refresh"></p:commandButton>
+				<p:column width="50">
+					<f:facet name="header">#{msgs.labelPesquisaAcoes}</f:facet>
 
-					<p:commandButton value="#{msgs.botaoRemover}"
-						action="#{cadastroCoordenadorMB.remover}"
-						update="formCoordenadores" icon="ui-icon-remove"></p:commandButton>
-				</h:column>
-			</h:dataTable>
+					<p:commandButton id="editar"
+						oncomplete="PF('coordenadorDialog').show()" update=":update"
+						icon="ui-icon-pencil">
+						<f:setPropertyActionListener
+							target="#{cadastroCoordenadorMB.entidade}" value="#{c}" />
+						<p:tooltip for="editar">#{msgs.botaoAlterar}</p:tooltip>
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
 		</h:form>
 
-		<br></br>
-		<br></br>
-
-		<p:panelGrid columns="2">
+		<p:panelGrid columns="1">
 			<f:facet name="footer">
 				<p:commandButton value="#{msgs.botaoCancelar}" immediate="true"
-					action="#{cadastroCoordenadorMB.exibirMenu}"
-					icon="ui-icon-close">
+					action="#{cadastroCoordenadorMB.exibirMenu}" icon="ui-icon-close">
 				</p:commandButton>
-
-				<p:commandButton value="#{msgs.botaoLimpar}" immediate="true"
-					type="reset" icon="ui-icon-cancel"></p:commandButton>
 			</f:facet>
 		</p:panelGrid>
-		<p:messages errorStyle="font-color: red"></p:messages>
 	</h:form>
+
+	<h:form id="update">
+		<p:dialog header="#{msgs.botaoAlterar} #{msgs.tituloMenuCoordenador}"
+			widgetVar="coordenadorDialog" modal="true" showEffect="fade"
+			hideEffect="fade" resizable="false" height="500px">
+			<p:outputPanel id="coordenadorDetail" style="width:0 auto">
+
+				<p:panelGrid columns="2" border="2" columnClasses="label,value">
+					<p:outputLabel value="#{msgs.labelCodigo}* "></p:outputLabel>
+					<p:inputText readonly="true" disabled="true"
+						value="#{cadastroCoordenadorMB.entidade.codigo}" />
+				</p:panelGrid>
+
+				<br></br>
+
+				<p:panelGrid columns="4" border="2" cellspacing="4"
+					style="margin:0 auto;" id="alterarCoordenador">
+
+					<p:outputLabel value="#{msgs.labelNome}* "></p:outputLabel>
+					<p:inputText id="Nome" maxlength="30" required="true"
+						requiredMessage="#{msgs.vldNome}"
+						converterMessage="#{msgs.cvmApenasLetras}" autocomplete="true"
+						value="#{cadastroCoordenadorMB.entidade.nome}"
+						placeholder="#{msgs.labelNome}">
+					</p:inputText>
+
+					<p:outputLabel value="#{msgs.labelCPF}* "></p:outputLabel>
+					<p:inputMask size="11" maxlength="11" required="true"
+						requiredMessage="#{msgs.vldCPF}" mask="999.999.999-99"
+						converterMessage="#{msgs.cvmApenasNumeros}"
+						value="#{cadastroCoordenadorMB.entidade.cpf}"
+						placeholder="#{msgs.labelCPF}"></p:inputMask>
+
+					<p:outputLabel value="#{msgs.labelDataNascimento}* "></p:outputLabel>
+					<p:calendar id="mask" size="10" maxlength="10" required="true"
+						requiredMessage="#{msgs.vldDataNascimento}"
+						converterMessage="#{msgs.cvmApenasNumeros}"
+						value="#{cadastroCoordenadorMB.entidade.dataNascimento}"
+						pattern="dd/MM/yyyy" mask="true" mindate="01/01/1920"
+						maxdate="Calendar.Today()" effect="slide" placeholder="dd/MM/aaaa">
+						<f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
+					</p:calendar>
+
+					<p:outputLabel value="#{msgs.promptEmail}* "></p:outputLabel>
+					<p:inputText maxlength="30" required="true"
+						requiredMessage="#{msgs.vldEmail}"
+						converterMessage="#{msgs.cvmApenasLetras}"
+						value="#{cadastroCoordenadorMB.entidade.email}"
+						placeholder="#{msgs.promptEmail}"></p:inputText>
+
+					<p:outputLabel value="#{msgs.promptSexo}* "></p:outputLabel>
+					<p:selectOneRadio maxlength="9" required="true"
+						requiredMessage="#{msgs.vldSexo}"
+						value="#{cadastroCoordenadorMB.entidade.sexo}">
+						<f:selectItems value="#{cadastroPessoaMB.sexos}" />
+					</p:selectOneRadio>
+
+					<p:outputLabel value="#{msgs.labelNacionalidade}* "></p:outputLabel>
+					<p:inputText maxlength="30" required="true"
+						requiredMessage="#{msgs.vldNacionalidade}"
+						converterMessage="#{msgs.cvmApenasLetras}"
+						value="#{cadastroCoordenadorMB.entidade.nacionalidade}"
+						placeholder="#{msgs.labelNacionalidade}"></p:inputText>
+				</p:panelGrid>
+
+				<h3>#{msgs.tituloTelefone}</h3>
+
+				<p:panelGrid columns="4" border="4" cellspacing="4">
+					<p:outputLabel value="#{msgs.labelTelefoneCodigoPais}* "></p:outputLabel>
+					<p:inputText maxlength="5" required="true"
+						requiredMessage="#{msgs.vldTelefoneCodigoPais}"
+						value="#{cadastroCoordenadorMB.entidade.telefone.codigoPais}"
+						placeholder="#{msgs.labelTelefoneCodigoPais}"></p:inputText>
+
+					<p:outputLabel value="#{msgs.labelTelefoneDDD}* "></p:outputLabel>
+					<p:inputText maxlength="3" required="true"
+						requiredMessage="#{msgs.vldTelefoneDDD}"
+						converterMessage="#{msgs.cvmApenasNumeros}"
+						value="#{cadastroCoordenadorMB.entidade.telefone.ddd}"
+						placeholder="#{msgs.labelTelefoneDDD}"></p:inputText>
+
+					<p:outputLabel value="#{msgs.labelNumero}* "></p:outputLabel>
+					<p:inputMask maxlength="10" required="true" mask="9 9999-9999"
+						requiredMessage="#{msgs.vldTelefoneNumero}"
+						converterMessage="#{msgs.cvmApenasNumeros}"
+						value="#{cadastroCoordenadorMB.entidade.telefone.numero}"
+						placeholder="#{msgs.labelNumero}"></p:inputMask>
+
+					<p:outputLabel value="#{msgs.labelTelefoneOperadora}* "></p:outputLabel>
+					<p:selectOneMenu maxlength="5" required="true"
+						requiredMessage="#{msgs.vldTelefoneOperadora}"
+						value="#{cadastroCoordenadorMB.entidade.telefone.operadora}">
+						<f:selectItem itemLabel="#{msgs.cvmSelecione}" itemValue="" />
+						<f:selectItems value="#{cadastroPessoaMB.operadoras}" />
+					</p:selectOneMenu>
+				</p:panelGrid>
+
+				<h3>#{msgs.tituloEndereco}</h3>
+
+				<p:panelGrid columns="4" cellpadding="5">
+					<p:outputLabel value="#{msgs.promptEnderecoTipoLogradouro}* "></p:outputLabel>
+					<p:selectOneMenu maxlength="10" required="true"
+						requiredMessage="#{msgs.vldEnderecoTipoLogradouro}"
+						value="#{cadastroCoordenadorMB.entidade.endereco.tipoLogradouro}">
+						<f:selectItem itemLabel="#{msgs.cvmSelecione}" itemValue="" />
+						<f:selectItems value="#{cadastroPessoaMB.tipoLogradouros}" />
+					</p:selectOneMenu>
+
+					<p:outputLabel value="#{msgs.labelEnderecoLogradouro}* "></p:outputLabel>
+					<p:inputText maxlength="30" required="true"
+						requiredMessage="#{msgs.vldEnderecoLogradouro}"
+						converterMessage="#{msgs.cvmApenasLetras}"
+						value="#{cadastroCoordenadorMB.entidade.endereco.logradouro}"
+						placeholder="#{msgs.labelEnderecoLogradouro}"></p:inputText>
+
+					<p:outputLabel value="#{msgs.labelNumero}* "></p:outputLabel>
+					<p:inputText size="5" maxlength="5" required="true"
+						requiredMessage="#{msgs.vldEnderecoNumero}"
+						value="#{cadastroCoordenadorMB.entidade.endereco.numero}"
+						placeholder="#{msgs.labelNumero}"></p:inputText>
+
+					<p:outputLabel value="#{msgs.labelEnderecoComplemento} "></p:outputLabel>
+					<p:inputText maxlength="20" required="false"
+						converterMessage="#{msgs.cvmApenasLetras}"
+						value="#{cadastroCoordenadorMB.entidade.endereco.complemento}"
+						placeholder="#{msgs.labelEnderecoComplemento}"></p:inputText>
+
+					<p:outputLabel value="#{msgs.labelEnderecoBairro}* "></p:outputLabel>
+					<p:inputText size="10" maxlength="20" required="true"
+						requiredMessage="#{msgs.vldEnderecoBairro}"
+						converterMessage="#{msgs.cvmApenasLetras}"
+						value="#{cadastroCoordenadorMB.entidade.endereco.bairro}"
+						placeholder="#{msgs.labelEnderecoBairro}"></p:inputText>
+
+					<p:outputLabel value="#{msgs.labelEnderecoCidade}* "></p:outputLabel>
+					<p:inputText maxlength="20" required="true"
+						requiredMessage="#{msgs.vldEnderecoCidade}"
+						converterMessage="#{msgs.cvmApenasLetras}"
+						value="#{cadastroCoordenadorMB.entidade.endereco.cidade}"
+						placeholder="#{msgs.labelEnderecoCidade}"></p:inputText>
+
+					<p:outputLabel value="#{msgs.promptEnderecoUF}* "></p:outputLabel>
+					<p:selectOneMenu size="2" maxlength="2" required="true"
+						requiredMessage="#{msgs.vldEnderecoUF}"
+						converterMessage="#{msgs.cvmSelecioneCampo}"
+						value="#{cadastroCoordenadorMB.entidade.endereco.estado}">
+						<f:selectItem itemLabel="#{msgs.cvmSelecione}" itemValue="" />
+						<f:selectItems value="#{cadastroPessoaMB.UFs}" />
+					</p:selectOneMenu>
+
+					<p:outputLabel value="#{msgs.labelEnderecoPais}* "></p:outputLabel>
+					<p:inputText maxlength="20" required="true"
+						requiredMessage="#{msgs.vldEnderecoPais}"
+						converterMessage="#{msgs.cvmApenasLetras}"
+						value="#{cadastroCoordenadorMB.entidade.endereco.pais}"
+						placeholder="#{msgs.labelEnderecoPais}"></p:inputText>
+				</p:panelGrid>
+
+				<h3>#{msgs.tituloUsuario}</h3>
+
+				<p:panelGrid columns="2">
+					<p:outputLabel value="#{msgs.tituloUsuario}* "></p:outputLabel>
+					<p:selectOneMenu required="true"
+						requiredMessage="#{msgs.vldUsuario}"
+						converterMessage="#{msgs.cvmSelecioneCampo}"
+						value="#{cadastroCoordenadorMB.entidade.usuario.codigo}">
+						<f:selectItem itemLabel="#{msgs.cvmSelecione}" itemValue="" />
+						<f:selectItems value="#{cadastroUsuarioMB.usuarios}" var="user"
+							itemLabel="#{user.nomeUsuario} - #{user.tipoUsuario}"
+							itemValue="#{user.codigo}" />
+					</p:selectOneMenu>
+				</p:panelGrid>
+
+				<br></br>
+
+				<p:panelGrid columns="2">
+					<f:facet name="footer">
+						<p:commandButton value="#{msgs.botaoAlterar}"
+							oncomplete="PF('coordenadorDialog').hide()" icon="ui-icon-pencil"
+							action="#{cadastroCoordenadorMB.alterar}" /> &nbsp;&nbsp;
+							
+						<p:commandButton value="#{msgs.botaoRemover}"
+							oncomplete="PF('coordenadorDialog').hide()" icon="ui-icon-trash"
+							action="#{cadastroCoordenadorMB.remover}" /> &nbsp;&nbsp;
+
+						<p:commandButton value="#{msgs.botaoCancelar}" immediate="true"
+							oncomplete="PF('coordenadorDialog').hide()" icon="ui-icon-close" />
+					</f:facet>
+				</p:panelGrid>
+			</p:outputPanel>
+		</p:dialog>
+	</h:form>
+
+	<h:form id="remover">
+		<p:confirmDialog id="removerCoordenador"
+			message="#{msgs.labelConfirmaçãoRemover}?"
+			header="#{msgs.botaoRemover} #{msgs.tituloMenuCoordenador}"
+			severity="alert" widgetVar="removerCoordenador">
+
+			<p:commandButton ajax="true" id="excluirCoordenador" value="Sim"
+				oncomplete="PF('removerCoordenador').hide()"
+				action="#{cadastroCoordenadorMB.remover}" />
+			<p:commandButton id="declineExcluir" value="Cancelar"
+				onclick="PF('removerCoordenador').hide()" type="button" />
+		</p:confirmDialog>
+	</h:form>
+	<p:messages errorStyle="font-color: red" autoUpdate="true"></p:messages>
 </h:body>
 </html>

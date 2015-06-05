@@ -11,9 +11,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
-import org.primefaces.event.CellEditEvent;
-import org.primefaces.event.RowEditEvent;
-
 import classesBasicas.Aluno;
 import classesBasicas.Professor;
 import classesBasicas.Projeto;
@@ -32,7 +29,7 @@ import exceptions.ProjetoInexistenteException;
  */
 @ManagedBean
 @ViewScoped
-public class CadastroProjetoMB extends CadastroPessoaMB
+public class CadastroProjetoMB extends ObjetoMB<Projeto>
 {
 	// Atributos
 	
@@ -41,27 +38,16 @@ public class CadastroProjetoMB extends CadastroPessoaMB
 	private List<Professor> orientadores;
 	private List<Professor> avaliadores;
 	private List<Aluno> alunos;
+	private Integer[] codigosAlunos;
+	private Integer[] codigosAvaliadores;
 	
 	@PostConstruct
 	public void init()
 	{
-		/*try
-		{
-			projetos = fachada.consultarTodosProjetos();	
-		}catch(ProjetoInexistenteException e)
-		{
-			e.printStackTrace();
-			FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage("Projeto Inexistente"));
-		}catch(PessoaInexistenteException e)
-		{
-			e.printStackTrace();
-			FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage("Pessoa Inexistente"));
-		}catch(NotaInexistenteException e)
-		{
-			e.printStackTrace();
-		}*/
+		projetos = getProjetos();
+		alunos = getAlunos();
+		orientadores = getOrientadores();
+		avaliadores = getAvaliadores();
 	}
 	
 	// Métodos
@@ -75,7 +61,26 @@ public class CadastroProjetoMB extends CadastroPessoaMB
 	{
 		try
 		{
+			for(Integer i : getCodigosAlunos())
+			{
+				Aluno a = new Aluno();
+				
+				a.setCodigo(i);
+				
+				entidade.getAlunos().add(a);
+			}
+			
+			for(Integer j : getCodigosAvaliadores())
+			{
+				Professor p = new Professor();
+				
+				p.setCodigo(j);
+				
+				entidade.getProfessoresAvaliadores().add(p);
+			}
+			
 			fachada.inserirProjeto(entidade);
+			
 			FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage("Projeto salvo com sucesso"));
 		}catch(ProjetoExistenteException e)
@@ -110,7 +115,7 @@ public class CadastroProjetoMB extends CadastroPessoaMB
 	public String alterar()
 	{
 		try
-		{
+		{			
 			fachada.alterarProjeto(entidade);
 			FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage("Projeto alterado com sucesso"));
@@ -138,7 +143,7 @@ public class CadastroProjetoMB extends CadastroPessoaMB
 	public String remover()
 	{
 		try
-		{
+		{			
 			fachada.removerProjeto(entidade);
 			FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage("Projeto excluído com sucesso"));
@@ -163,7 +168,7 @@ public class CadastroProjetoMB extends CadastroPessoaMB
 	 * @see manangedBeans.CadastroPessoaMB#consultarPorId()
 	 */
 	@Override
-	public String consultarPorId()
+	public String consultarPorId(int codigo)
 	{
 		try
 		{
@@ -269,7 +274,7 @@ public class CadastroProjetoMB extends CadastroPessoaMB
 	 * @see gui.CadastroPessoaMB#consultarPorNome()
 	 */
 	@Override
-	public String consultarPorNome()
+	public String consultarPorNome(String nome)
 	{
 		try
 		{
@@ -289,7 +294,7 @@ public class CadastroProjetoMB extends CadastroPessoaMB
 	 * @see gui.CadastroPessoaMB#consultarPorCPF()
 	 */
 	@Override
-	public String consultarPorCPF()
+	public String consultarPorCPF(String cpf)
 	{
 		return null;
 	}
@@ -304,76 +309,13 @@ public class CadastroProjetoMB extends CadastroPessoaMB
 	{
 		entidade = new Projeto();
 		return "/projeto/CadastroProjeto.xhtml?faces-redirect=true";
-		/*return "#{msgs.urlCadastroProjeto}";*/
 	}
 	
-	// Métodos
-	public void onRowEdit(RowEditEvent event)
+	public void exibirNomeAlunos(Projeto entidade)
 	{
-		try
+		for(Aluno a : entidade.getAlunos())
 		{
-			fachada.alterarProjeto((Projeto) event.getObject());
-			FacesMessage msg = new FacesMessage("Projeto Editado",
-				((Projeto) event.getObject()).getCodigo().toString());
-			FacesContext.getCurrentInstance().addMessage(null, msg);
-		}catch(PessoaInexistenteException e)
-		{
-			e.printStackTrace();
-			FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage("Pessoa Inexistente"));
-		}catch(ProjetoInexistenteException e)
-		{
-			e.printStackTrace();
-			FacesMessage msg = new FacesMessage("Não foi possível alterar ",
-				((Projeto) event.getObject()).getNome());
-			FacesContext.getCurrentInstance().addMessage(null, msg);
-		}catch(NotaInexistenteException e)
-		{
-			/* e.printStackTrace(); */
-		}
-	}
-	
-	public void onRowRemove(RowEditEvent event)
-	{
-		try
-		{
-			fachada.removerProjeto((Projeto) event.getObject());
-			FacesMessage msg = new FacesMessage("Projeto Removido",
-				((Projeto) event.getObject()).getNome());
-			FacesContext.getCurrentInstance().addMessage(null, msg);
-		}catch(PessoaInexistenteException e)
-		{
-			e.printStackTrace();
-			FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage("Pessoa Inexistente"));
-		}catch(ProjetoInexistenteException e)
-		{
-			e.printStackTrace();
-			FacesMessage msg = new FacesMessage("Não foi possível remover ",
-				((Projeto) event.getObject()).getNome());
-			FacesContext.getCurrentInstance().addMessage(null, msg);
-		}catch(NotaInexistenteException e)
-		{
-			/* e.printStackTrace(); */
-		}
-	}
-	
-	public void onRowCancel(RowEditEvent event)
-	{
-		FacesMessage msg = new FacesMessage("Edição Cancelada",
-			((Projeto) event.getObject()).getCodigo().toString());
-		FacesContext.getCurrentInstance().addMessage(null, msg);
-	}
-	
-	public void onCellEdit(CellEditEvent event)
-	{
-		Object oldValue = event.getOldValue();
-		Object newValue = event.getNewValue();
-		if(newValue != null && !newValue.equals(oldValue))
-		{
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
-				"Cell Changed", "Old: " + oldValue + ", New:" + newValue);
-			FacesContext.getCurrentInstance().addMessage(null, msg);
+			a.getNome();
 		}
 	}
 	
@@ -429,12 +371,12 @@ public class CadastroProjetoMB extends CadastroPessoaMB
 	{
 		try
 		{
-			projetos = fachada.consultarTodosProjetos();
+			projetos = fachada.consultarTodosProjetosAtivos();
 		}catch(ProjetoInexistenteException e)
 		{
-			e.printStackTrace();
+			/*e.printStackTrace();
 			FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage("Projeto Inexistente"));
+				new FacesMessage("Projeto Inexistente"));*/
 		}catch(PessoaInexistenteException e)
 		{
 			e.printStackTrace();
@@ -468,7 +410,7 @@ public class CadastroProjetoMB extends CadastroPessoaMB
 	{
 		try
 		{
-			return fachada.consultarTodosAlunos();
+			alunos = fachada.consultarTodosAlunos();
 		}catch(PessoaInexistenteException e)
 		{
 			e.printStackTrace();
@@ -518,5 +460,37 @@ public class CadastroProjetoMB extends CadastroPessoaMB
 	public void setOrientadores(List<Professor> orientadores)
 	{
 		this.orientadores = orientadores;
+	}
+
+	/**
+	 * @return the codigosAlunos
+	 */
+	public Integer[] getCodigosAlunos()
+	{
+		return codigosAlunos;
+	}
+
+	/**
+	 * @param codigosAlunos the codigosAlunos to set
+	 */
+	public void setCodigosAlunos(Integer[] codigosAlunos)
+	{
+		this.codigosAlunos = codigosAlunos;
+	}
+
+	/**
+	 * @return the codigosAvaliadores
+	 */
+	public Integer[] getCodigosAvaliadores()
+	{
+		return codigosAvaliadores;
+	}
+
+	/**
+	 * @param codigosAvaliadores the codigosAvaliadores to set
+	 */
+	public void setCodigosAvaliadores(Integer[] codigosAvaliadores)
+	{
+		this.codigosAvaliadores = codigosAvaliadores;
 	}
 }

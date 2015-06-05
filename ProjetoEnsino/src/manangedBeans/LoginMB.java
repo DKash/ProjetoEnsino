@@ -16,6 +16,7 @@ import classesBasicas.Usuario;
 import exceptions.LoginInvalidoException;
 import exceptions.PessoaInexistenteException;
 
+
 /**
  * @author Audry Martins
  *
@@ -25,16 +26,24 @@ import exceptions.PessoaInexistenteException;
 public class LoginMB
 {
 	// Atributos
-	
 	private Usuario usuario = new Usuario();
+	
+	
 	private String mensagem;
+	
+	
 	private String senha2;
+	
+	
 	private Usuario usuarioLogado;
-	private Integer numero = 1200;
+	
+	
+	private Integer numero = 20;
+	
+	
 	private IFachada fachada = Fachada.getInstancia();
 	
 	// Métodos
-	
 	public String efetuarLogin()
 	{
 		try
@@ -43,13 +52,11 @@ public class LoginMB
 			setMensagem("#{msgs.mensagemSucessoLogin}");
 			FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage("#{msgs.mensagemSucessoLogin}"));
-			
 			return "/menu.xhtml?faces-redirect=true";
 		}catch(PessoaInexistenteException e)
 		{
 			FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage("Usuario Inexistente, tente novamente"));
-			
 			return "";
 		}catch(LoginInvalidoException e)
 		{
@@ -67,12 +74,19 @@ public class LoginMB
 	}
 	
 	public void decrement()
-	{
-		numero--;
+	{		if(this.numero != 0)
+		{
+			numero--;
+		}
+		else
+		{
+			logOut();
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Sessão Expirada, Faça login Novamente"));
+		}
 	}
 	
 	// Gets e Sets
-	
 	/**
 	 * @return the usuario
 	 */
@@ -129,6 +143,8 @@ public class LoginMB
 	 */
 	public IFachada getFachada()
 	{
+		if(fachada == null)
+			fachada = new Fachada();
 		return fachada;
 	}
 	
@@ -207,17 +223,18 @@ public class LoginMB
 		}
 		return false;
 	}
-
+	
 	/**
 	 * @return the numero
 	 */
 	public Integer getNumero()
 	{
-		return (numero/60);
+		return numero;
 	}
-
+	
 	/**
-	 * @param numero the numero to set
+	 * @param numero
+	 *            the numero to set
 	 */
 	public void setNumero(Integer numero)
 	{

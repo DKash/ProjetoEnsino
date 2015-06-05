@@ -23,13 +23,13 @@ import exceptions.ProjetoInexistenteException;
  *
  */
 @ManagedBean
-public class CadastroProfessorMB extends CadastroPessoaMB
+public class CadastroProfessorMB extends ObjetoMB<Professor>
 {
 	// Atributos
 	
 	private Professor entidade = new Professor();
 	private List<Professor> professores;
-	
+
 	// Métodos
 	/*
 	 * (non-Javadoc)
@@ -60,7 +60,7 @@ public class CadastroProfessorMB extends CadastroPessoaMB
 			e.printStackTrace();
 		}catch(NotaInexistenteException e)
 		{
-			/*e.printStackTrace();*/
+			/* e.printStackTrace(); */
 		}
 		return null;
 	}
@@ -74,7 +74,7 @@ public class CadastroProfessorMB extends CadastroPessoaMB
 	public String alterar()
 	{
 		try
-		{
+		{			
 			fachada.alterarProfessor(entidade);
 			FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage("Professor alterado com sucesso"));
@@ -93,16 +93,10 @@ public class CadastroProfessorMB extends CadastroPessoaMB
 		return null;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see manangedBeans.CadastroPessoaMB#remover()
-	 */
-	@Override
 	public String remover()
 	{
 		try
-		{
+		{			
 			fachada.removerProfessor(entidade);
 			FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage("Professor excluído com sucesso"));
@@ -127,7 +121,7 @@ public class CadastroProfessorMB extends CadastroPessoaMB
 	 * @see manangedBeans.CadastroPessoaMB#consultarPorId()
 	 */
 	@Override
-	public String consultarPorId()
+	public String consultarPorId(int codigo)
 	{
 		try
 		{
@@ -205,7 +199,7 @@ public class CadastroProfessorMB extends CadastroPessoaMB
 	 * @see gui.CadastroPessoaMB#consultarPorNome()
 	 */
 	@Override
-	public String consultarPorNome()
+	public String consultarPorNome(String nome)
 	{
 		try
 		{
@@ -225,7 +219,7 @@ public class CadastroProfessorMB extends CadastroPessoaMB
 	 * @see gui.CadastroPessoaMB#consultarPorCPF()
 	 */
 	@Override
-	public String consultarPorCPF()
+	public String consultarPorCPF(String cpf)
 	{
 		try
 		{
@@ -249,7 +243,7 @@ public class CadastroProfessorMB extends CadastroPessoaMB
 	{
 		try
 		{
-			fachada.consultarTodosProfessores();
+			fachada.consultarTodosProfessoresAtivos();
 		}catch(PessoaInexistenteException e)
 		{
 			e.printStackTrace();
@@ -257,10 +251,10 @@ public class CadastroProfessorMB extends CadastroPessoaMB
 				new FacesMessage("Professor Inexistente"));
 		}catch(ProjetoInexistenteException e)
 		{
-			/*e.printStackTrace();*/
+			/* e.printStackTrace(); */
 		}catch(NotaInexistenteException e)
 		{
-			/*e.printStackTrace();*/
+			/* e.printStackTrace(); */
 		}
 		return null;
 	}
@@ -274,8 +268,28 @@ public class CadastroProfessorMB extends CadastroPessoaMB
 	public String novo()
 	{
 		entidade = new Professor();
-		return "/professor/CadastroProfessor.xhtml";
-		//return "#{msgs.urlCadastroProfessor}";
+		return "/professor/CadastroProfessor.xhtml?faces-redirect=true";
+	}
+	
+	public String consultarPorTipoProfessor(TipoProfessor tipoProfessor)
+	{
+		try
+		{
+			fachada.consultarProfessorPorTipoProfessor(tipoProfessor);
+		}catch(PessoaInexistenteException e)
+		{
+			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Professor Inexistente"));
+		}
+		return "";
+	}
+	
+	public String editar(Professor entidade)
+	{
+		this.entidade = entidade;
+		
+		return "/professor/CadastroProfessor.xhtml?faces-redirect=true";
 	}
 	
 	// Gets e Sets
@@ -308,18 +322,18 @@ public class CadastroProfessorMB extends CadastroPessoaMB
 	{
 		try
 		{
-			professores = fachada.consultarTodosProfessorAtivos();
+			professores = fachada.consultarTodosProfessoresAtivos();
 		}catch(PessoaInexistenteException e)
 		{
-			e.printStackTrace();
+			/*e.printStackTrace();
 			FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage("Professor Inexistente"));
+				new FacesMessage("Professor Inexistente"));*/
 		}catch(ProjetoInexistenteException e)
 		{
-			/* e.printStackTrace(); */
+			/*e.printStackTrace();*/
 		}catch(NotaInexistenteException e)
 		{
-			/* e.printStackTrace(); */
+			/*e.printStackTrace();*/
 		}
 		return professores;
 	}

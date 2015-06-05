@@ -24,5 +24,5 @@ public enum UF
 	
 	//Região Sul
 	
-	PR, SC, RG  
+	PR, SC, RS 
 }

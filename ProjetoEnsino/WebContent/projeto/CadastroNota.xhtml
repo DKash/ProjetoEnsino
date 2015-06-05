@@ -6,7 +6,7 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-	<title>#{msgs.tituloCadastroProjeto}</title>
+	<title>#{msgs.tituloCadastroNota}</title>
 </h:head>
 <h:body>
 	<h:form id="formNotas">
@@ -14,21 +14,19 @@
 	#{MensagemInicial.mensagem}
 
 		<h:head>
-			<h2>#{msgs.tituloProjeto}</h2>
+			<h2>#{msgs.tituloCadastroNota}</h2>
 		</h:head>
 		<hr></hr>
 		<br></br>
-
-		<h3>#{msgs.tituloProjetoNota}</h3>
 
 		<p:panelGrid columns="2" id="notas">
 			<p:outputLabel value="#{msgs.labelProjetoNome}* "></p:outputLabel>
 			<p:selectOneMenu maxlength="20" required="true"
 				requiredMessage="#{msgs.vldProjetoNome}"
 				converterMessage="#{msgs.cvmSelecioneCampo}"
-				value="#{cadastroNotaMB.entidade.projeto}">
+				value="#{cadastroNotaMB.entidade.projeto.codigo}">
 				<f:selectItem itemLabel="#{msgs.cvmSelecione}" itemValue="" />
-				<f:selectItems value="#{cadastroNotaMB.projetos}" var="#{proj}"
+				<f:selectItems value="#{cadastroNotaMB.projetos}" var="proj"
 					itemLabel="#{proj.nome}" itemValue="#{proj.codigo}" />
 			</p:selectOneMenu>
 
@@ -55,10 +53,10 @@
 			<p:outputLabel value="#{msgs.promptProjetoProfessorAvaliador}* "></p:outputLabel>
 			<p:selectOneMenu maxlength="15" required="true"
 				requiredMessage="#{msgs.vldProjetoProfessorAvaliador}"
-				value="#{cadastroNotaMB.entidade.professorAvaliador}">
+				value="#{cadastroNotaMB.entidade.professorAvaliador.codigo}">
 				<f:selectItem itemLabel="#{msgs.cvmSelecione}" itemValue="" />
-				<f:selectItems value="#{CadastroProjetoMB.avaliadores}" var="#{ava}"
-					itemLabel="#{ava.nome}" itemValue="#{ava}" />
+				<f:selectItems value="#{cadastroProjetoMB.avaliadores}" var="ava"
+					itemLabel="#{ava.nome}" itemValue="#{ava.codigo}" />
 			</p:selectOneMenu>
 		</p:panelGrid>
 
@@ -68,16 +66,18 @@
 		<p:panelGrid columns="3">
 			<f:facet name="footer">
 				<p:commandButton value="#{msgs.botaoCadastrar}"
-					action="#{cadastroNotaMB.inserir}" icon="ui-icon-check"></p:commandButton>
+					action="#{cadastroNotaMB.inserir}" icon="ui-icon-check">
+				</p:commandButton> &nbsp;&nbsp;
 
 				<p:commandButton value="#{msgs.botaoCancelar}" immediate="true"
-					action="#{cadastroNotaMB.exibirMenu}" icon="ui-icon-close"></p:commandButton>
+					action="#{cadastroNotaMB.exibirMenu}" icon="ui-icon-close">
+				</p:commandButton> &nbsp;&nbsp;
 
 				<p:commandButton value="#{msgs.botaoLimpar}" immediate="true"
 					type="reset" icon="ui-icon-cancel"></p:commandButton>
 			</f:facet>
 		</p:panelGrid>
-		<p:messages errorStyle="font-color: red"></p:messages>
+		<p:messages errorStyle="font-color: red" autoUpdate="true"></p:messages>
 	</h:form>
 </h:body>
 </html>

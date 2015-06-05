@@ -18,7 +18,6 @@ public class MensagemInicialMB
 	// Atributos
 	
 	private String mensagem;
-	private LoginMB usuario = new LoginMB();
 	
 	// Métodos
 	
@@ -34,31 +33,28 @@ public class MensagemInicialMB
 		
 		if(horaAtual < 12)
 		{
-			setMensagem("#{msgs.mensagemBomDia}" + ", "
-				+ "#{msgs.mensagemDiaSemana}" + " "
+			setMensagem("Bom dia" + ", "
+				+ "hoje é" + " "
 				+ sdf.format(c.getTime()) + ". "
-				+ "#{msgs.mensagemBoasVindas}" + " "
-				+ usuario.getUsuario().getNomeUsuario() + ".");
+				+ "Seja bem vindo.");
 		}
 		else
 		{
 			if(horaAtual >= 12 && horaAtual < 19)
 			{
-				setMensagem("#{msgs.mensagemBoaTarde}" + ", "
-					+ "#{msgs.mensagemDiaSemana}" + " "
+				setMensagem("Boa tarde" + ", "
+					+ "hoje é" + " "
 					+ sdf.format(c.getTime()) + ". "
-					+ "#{msgs.mensagemBoasVindas}" + " "
-					+ usuario.getUsuario().getNomeUsuario()+ ".");
+					+ "Seja bem vindo.");
 			}
 			else
 			{
 				if(horaAtual >= 19 && horaAtual <= 24)
 				{
-					setMensagem("#{msgs.mensagemBoaNoite}" + ", "
-						+ "#{msgs.mensagemDiaSemana}" + " "
+					setMensagem("Boa noite" + ", "
+						+ "hoje é" + " "
 						+ sdf.format(c.getTime()) + ". "
-						+ "#{msgs.mensagemBoasVindas}" + " "
-						+ usuario.getUsuario().getNomeUsuario() + ".") ;
+						+ "Seja bem vindo.") ;
 				}
 			}
 		}

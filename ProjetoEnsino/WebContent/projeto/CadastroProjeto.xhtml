@@ -14,7 +14,7 @@
 	#{MensagemInicial.mensagem}
 
 		<h:head>
-			<h2>#{msgs.tituloProjeto}</h2>
+			<h2>#{msgs.tituloCadastroProjeto}</h2>
 		</h:head>
 		<hr></hr>
 		<br></br>
@@ -41,34 +41,35 @@
 
 		<p:panelGrid columns="2" border="2">
 			<p:outputLabel value="#{msgs.promptProjetoAlunos}* "></p:outputLabel>
-			<p:selectManyMenu maxlength="10" required="true"
+			<p:selectManyMenu required="true"
 				requiredMessage="#{msgs.vldProjetoAlunos}"
 				converterMessage="#{msgs.cvmSelecioneCampo}"
-				value="#{cadastroProjetoMB.entidade.alunos}">
+				value="#{cadastroProjetoMB.codigosAlunos}">
 				<f:selectItem itemLabel="#{msgs.cvmSelecione}" itemValue="" />
-				<f:selectItems value="#{cadastroProjetoMB.alunos}" var="#{a}"
+				<f:selectItems value="#{cadastroProjetoMB.alunos}" var="a"
 					itemLabel="#{a.nome}" itemValue="#{a.codigo}" />
 			</p:selectManyMenu>
 
 			<p:outputLabel value="#{msgs.promptProjetoProfessorOrientador}* "></p:outputLabel>
-			<p:selectOneMenu maxlength="1" required="true"
+			<p:selectOneMenu required="false"
 				requiredMessage="#{msgs.vldProjetoProfessorOrientador}"
-				converterMessage="#{msgs.cvmSelecioneCampo}"
-				value="#{cadastroProjetoMB.entidade.professorOrientador}">
+				value="#{cadastroProjetoMB.entidade.professorOrientador.codigo}">
 				<f:selectItem itemLabel="#{msgs.cvmSelecione}" itemValue="" />
-				<f:selectItems value="#{cadastroProjetoMB.orientadores}" />
+				<f:selectItems value="#{cadastroProjetoMB.orientadores}" var="po"
+					itemLabel="#{po.nome}" itemValue="#{po.codigo}" />
 			</p:selectOneMenu>
 
 			<p:outputLabel value="#{msgs.promptProjetoProfessoresAvaliadores}* "></p:outputLabel>
-			<p:selectManyMenu maxlength="10" required="true"
+			<p:selectManyMenu required="true"
 				requiredMessage="#{msgs.vldProjetoProfessoresAvaliadores}"
-				value="#{cadastroProjetoMB.entidade.professoresAvaliadores}">
+				value="#{cadastroProjetoMB.codigosAvaliadores}">
 				<f:selectItem itemLabel="#{msgs.cvmSelecione}" itemValue="" />
-				<f:selectItems value="#{cadastroProjetoMB.avaliadores}" />
+				<f:selectItems value="#{cadastroProjetoMB.avaliadores}" var="pa"
+					itemLabel="#{pa.nome}" itemValue="#{pa.codigo}" />
 			</p:selectManyMenu>
 
 			<p:outputLabel value="#{msgs.promptProjetoResultado}* "></p:outputLabel>
-			<p:selectOneMenu size="7" maxlength="9" required="true"
+			<p:selectOneMenu required="true"
 				requiredMessage="#{msgs.vldProjetoResultado}"
 				value="#{cadastroProjetoMB.entidade.resultado}">
 				<f:selectItem itemLabel="#{msgs.cvmSelecione}" itemValue="" />
@@ -81,16 +82,18 @@
 		<p:panelGrid columns="3">
 			<f:facet name="footer">
 				<p:commandButton value="#{msgs.botaoCadastrar}"
-					action="#{cadastroProjetoMB.inserir}" icon="ui-icon-check"></p:commandButton>
+					action="#{cadastroProjetoMB.inserir}" icon="ui-icon-check">
+				</p:commandButton> &nbsp;&nbsp;
 
 				<p:commandButton value="#{msgs.botaoCancelar}" immediate="true"
-					action="#{cadastroProjetoMB.exibirMenu}" icon="ui-icon-close"></p:commandButton>
+					action="#{cadastroProjetoMB.exibirMenu}" icon="ui-icon-close">
+				</p:commandButton> &nbsp;&nbsp;
 
 				<p:commandButton value="#{msgs.botaoLimpar}" immediate="true"
 					type="reset" icon="ui-icon-cancel"></p:commandButton>
 			</f:facet>
 		</p:panelGrid>
-		<p:messages errorStyle="font-color: red"></p:messages>
+		<p:messages errorStyle="font-color: red" autoUpdate="true"></p:messages>
 	</h:form>
 </h:body>
 </html>

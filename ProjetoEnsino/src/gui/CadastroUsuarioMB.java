@@ -8,10 +8,8 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-
-import org.primefaces.event.CellEditEvent;
-import org.primefaces.event.RowEditEvent;
 
 import classesBasicas.TipoUsuario;
 import classesBasicas.Usuario;
@@ -27,7 +25,8 @@ import exceptions.ProjetoInexistenteException;
  *
  */
 @ManagedBean
-public class CadastroUsuarioMB extends CadastroPessoaMB
+@SessionScoped
+public class CadastroUsuarioMB extends ObjetoMB<Usuario>
 {
 	// Atributos
 	
@@ -38,22 +37,6 @@ public class CadastroUsuarioMB extends CadastroPessoaMB
 	public void init()
 	{
 		usuarios = getUsuarios();
-				
-		/*try
-		{
-			usuarios = fachada.consultarTodosUsuarios();
-		}catch(PessoaInexistenteException e)
-		{
-			e.printStackTrace();
-			FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage("Usuario Inexistente"));
-		}catch(ProjetoInexistenteException e)
-		{
-			 e.printStackTrace(); 
-		}catch(NotaInexistenteException e)
-		{
-			 e.printStackTrace(); 
-		}*/
 	}
 	
 	// Métodos
@@ -102,7 +85,7 @@ public class CadastroUsuarioMB extends CadastroPessoaMB
 	public String alterar()
 	{
 		try
-		{
+		{			
 			fachada.alterarUsuario(entidade);
 			FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage("Usuário alterado com sucesso"));
@@ -130,7 +113,7 @@ public class CadastroUsuarioMB extends CadastroPessoaMB
 	public String remover()
 	{
 		try
-		{
+		{		
 			fachada.removerUsuario(entidade);
 			FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage("Usuário excluído com sucesso"));
@@ -155,7 +138,7 @@ public class CadastroUsuarioMB extends CadastroPessoaMB
 	 * @see manangedBeans.CadastroPessoaMB#consultarPorId()
 	 */
 	@Override
-	public String consultarPorId()
+	public String consultarPorId(int codigo)
 	{
 		try
 		{
@@ -233,7 +216,7 @@ public class CadastroUsuarioMB extends CadastroPessoaMB
 	 * @see gui.CadastroPessoaMB#consultarPorNome()
 	 */
 	@Override
-	public String consultarPorNome()
+	public String consultarPorNome(String nome)
 	{
 		try
 		{
@@ -253,7 +236,7 @@ public class CadastroUsuarioMB extends CadastroPessoaMB
 	 * @see gui.CadastroPessoaMB#consultarPorCPF()
 	 */
 	@Override
-	public String consultarPorCPF()
+	public String consultarPorCPF(String cpf)
 	{
 		return "";
 	}
@@ -293,74 +276,8 @@ public class CadastroUsuarioMB extends CadastroPessoaMB
 	public String novo()
 	{
 		entidade = new Usuario();
-		return "/usuario/Cadastrousuario.xhtml?faces-redirect=true";
+		return "/usuario/CadastroUsuario.xhtml?faces-redirect=true";
 		//return "#{msgs.urlCadastroUsuario}";
-	}
-	
-	// Métodos
-	public void onRowEdit(RowEditEvent event)
-	{
-		try
-		{
-			fachada.alterarUsuario((Usuario) event.getObject());
-			FacesMessage msg = new FacesMessage("Usuario Editado",
-				((Usuario) event.getObject()).getCodigo().toString());
-			FacesContext.getCurrentInstance().addMessage(null, msg);
-		}catch(PessoaInexistenteException e)
-		{
-			e.printStackTrace();
-			FacesMessage msg = new FacesMessage("Não foi possível alterar ",
-				((Usuario) event.getObject()).getNomeUsuario());
-			FacesContext.getCurrentInstance().addMessage(null, msg);
-		}catch(ProjetoInexistenteException e)
-		{
-			/* e.printStackTrace(); */
-		}catch(NotaInexistenteException e)
-		{
-			/* e.printStackTrace(); */
-		}
-	}
-	
-	public void onRowEditRemove(RowEditEvent event)
-	{
-		try
-		{
-			fachada.removerUsuario((Usuario) event.getObject());
-			FacesMessage msg = new FacesMessage("Usuario Removido",
-				((Usuario) event.getObject()).getNomeUsuario());
-			FacesContext.getCurrentInstance().addMessage(null, msg);
-		}catch(PessoaInexistenteException e)
-		{
-			e.printStackTrace();
-			FacesMessage msg = new FacesMessage("Não foi possível remover ",
-				((Usuario) event.getObject()).getNomeUsuario());
-			FacesContext.getCurrentInstance().addMessage(null, msg);
-		}catch(ProjetoInexistenteException e)
-		{
-			/* e.printStackTrace(); */
-		}catch(NotaInexistenteException e)
-		{
-			/* e.printStackTrace(); */
-		}
-	}
-	
-	public void onRowCancel(RowEditEvent event)
-	{
-		FacesMessage msg = new FacesMessage("Edição Cancelada",
-			((Usuario) event.getObject()).getCodigo().toString());
-		FacesContext.getCurrentInstance().addMessage(null, msg);
-	}
-	
-	public void onCellEdit(CellEditEvent event)
-	{
-		Object oldValue = event.getOldValue();
-		Object newValue = event.getNewValue();
-		if(newValue != null && !newValue.equals(oldValue))
-		{
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
-				"Cell Changed", "Old: " + oldValue + ", New:" + newValue);
-			FacesContext.getCurrentInstance().addMessage(null, msg);
-		}
 	}
 	
 	// Gets e Sets
@@ -388,7 +305,7 @@ public class CadastroUsuarioMB extends CadastroPessoaMB
 	{
 		try
 		{
-			return fachada.consultarTodosUsuarios();
+			return fachada.consultarTodosUsuariosAtivos();
 		}catch(PessoaInexistenteException e)
 		{
 			e.printStackTrace();
@@ -420,4 +337,22 @@ public class CadastroUsuarioMB extends CadastroPessoaMB
 	{
 		return TipoUsuario.values();
 	}
+
+	/**
+	 * @return the lista
+	 *//*
+	public DataModel<Usuario> getLista()
+	{
+		lista = new ListDataModel<Usuario>(getUsuarios());
+		
+		return lista;
+	}
+
+	*//**
+	 * @param lista the lista to set
+	 *//*
+	public void setLista(DataModel<Usuario> lista)
+	{
+		this.lista = lista;
+	}*/
 }

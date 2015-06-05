@@ -54,6 +54,7 @@ public class AlunoDAO extends DAOGeneric<Aluno> implements IAlunoDAO
 		TypedQuery<Aluno> query = this.entityManager.createNamedQuery(
 			"Aluno.findByCPF", this.classePersistente);
 		query.setParameter("cpf", cpf);
+		System.out.println("valor do cpf: " + cpf);
 		try
 		{
 			return query.setMaxResults(1).getSingleResult();
@@ -93,7 +94,9 @@ public class AlunoDAO extends DAOGeneric<Aluno> implements IAlunoDAO
 	
 	public Boolean verificarAlunoExistente(Aluno aluno)
 	{	
-		if(consultarAlunoPorCPF(aluno.getCpf()) != null)
+		Aluno consultado = consultarAlunoPorCPF(aluno.getCpf());
+		
+		if(consultado != null)
 		{
 			return true;
 		}

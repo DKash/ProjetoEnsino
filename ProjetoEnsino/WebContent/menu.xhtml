@@ -16,7 +16,7 @@
 		<p:outputLabel id="Sessao"
 			value="Tempo de Sessão: #{loginMB.numero} min" dir="ltr" 
 			style="margin:830pt" />
-		<p:poll interval="60" listener="#{loginMB.decrement}" update="Sessao" />
+		<p:poll interval="1" listener="#{loginMB.decrement}" update="Sessao" />
 	</h:form>
 		
 		<p:outputLabel value="Hora Atual:  " /><p:clock pattern="HH:mm:ss" autoSync="true" />
@@ -80,7 +80,7 @@
 
 		<p:submenu label="#{msgs.tituloMenuSair}">
 			<p:menuitem value="#{msgs.tituloMenuSair}"
-				outcome="#{loginMB.logOut()}" icon="ui-icon-home"></p:menuitem>
+				url="#{loginMB.logOut()}" icon="ui-icon-home"></p:menuitem>
 		</p:submenu>
 	</p:menu>
 </h:body>

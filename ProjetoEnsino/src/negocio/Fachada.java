@@ -426,7 +426,7 @@ public class Fachada implements IFachada
 	 * @see interfaces.negocio.IFachada#consultarTodosProfessorAtivos()
 	 */
 	@Override
-	public List<Professor> consultarTodosProfessorAtivos()
+	public List<Professor> consultarTodosProfessoresAtivos()
 		throws PessoaInexistenteException, ProjetoInexistenteException,
 		NotaInexistenteException
 	{

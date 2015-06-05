@@ -3,14 +3,14 @@
  */
 package gui;
 
-import negocio.Fachada;
 import interfaces.negocio.IFachada;
+import negocio.Fachada;
 
 /**
  * @author Audry Martins
  *
  */
-public abstract class ObjetoMB
+public abstract class ObjetoMB<Entidade>
 {
 	// Atributos
 	protected IFachada fachada = Fachada.getInstancia();
@@ -18,27 +18,35 @@ public abstract class ObjetoMB
 	// Métodos
 	public abstract String inserir();
 	
+	/*public abstract void editar(ActionEvent actionEvent);*/
+	
 	public abstract String alterar();
 	
 	public abstract String remover();
 	
-	public abstract String consultarPorId();
+	public abstract String consultarPorId(int codigo);
 	
 	public abstract String consultarTodos();
 	
 	public abstract String consultarTodosComParametros();
 	
-	public abstract String consultarPorNome();
+	public abstract String consultarPorNome(String nome);
 	
-	public abstract String consultarPorCPF();
+	public abstract String consultarPorCPF(String cpf);
 	
 	public abstract String consultarTodosAtivos();
 	
 	public abstract String novo();
 	
-	public abstract String exibirIndex();
+	public String exibirIndex()
+	{
+		return "/index.xhtml?faces-redirect=true";
+	}
 	
-	public abstract String exibirMenu();
+	public String exibirMenu()
+	{
+		return "/menu.xhtml?faces-redirect=true";
+	}
 	
 	// Gets e Sets
 	/**

@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 
 import classesBasicas.Coordenador;
@@ -23,7 +24,8 @@ import exceptions.ProjetoInexistenteException;
  *
  */
 @ManagedBean
-public class CadastroCoordenadorMB extends CadastroPessoaMB
+@RequestScoped
+public class CadastroCoordenadorMB extends ObjetoMB<Coordenador>
 {
 	// Atributos
 	
@@ -74,7 +76,7 @@ public class CadastroCoordenadorMB extends CadastroPessoaMB
 	public String alterar()
 	{
 		try
-		{
+		{			
 			fachada.alterarCoordenador(entidade);
 			FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage("Coordenador alterado com sucesso"));
@@ -127,7 +129,7 @@ public class CadastroCoordenadorMB extends CadastroPessoaMB
 	 * @see manangedBeans.CadastroPessoaMB#consultarPorId()
 	 */
 	@Override
-	public String consultarPorId()
+	public String consultarPorId(int codigo)
 	{
 		try
 		{
@@ -205,7 +207,7 @@ public class CadastroCoordenadorMB extends CadastroPessoaMB
 	 * @see gui.CadastroPessoaMB#consultarPorNome()
 	 */
 	@Override
-	public String consultarPorNome()
+	public String consultarPorNome(String nome)
 	{
 		try
 		{
@@ -225,7 +227,7 @@ public class CadastroCoordenadorMB extends CadastroPessoaMB
 	 * @see gui.CadastroPessoaMB#consultarPorCPF()
 	 */
 	@Override
-	public String consultarPorCPF()
+	public String consultarPorCPF(String cpf)
 	{
 		try
 		{
@@ -274,8 +276,7 @@ public class CadastroCoordenadorMB extends CadastroPessoaMB
 	public String novo()
 	{
 		entidade = new Coordenador();
-		return "/coordenador/CadastroCoordenador.xhtml";
-		//return "#{msgs.urlCadastroCoordenador}";
+		return "/coordenador/CadastroCoordenador.xhtml?faces-redirect=true";
 	}
 	
 	// Gets e Sets
@@ -303,12 +304,12 @@ public class CadastroCoordenadorMB extends CadastroPessoaMB
 	{
 		try
 		{
-			coordenadores = fachada.consultarTodosCoordenadores();
+			coordenadores = fachada.consultarTodosCoordenadoresAtivos();
 		}catch(PessoaInexistenteException e)
 		{
-			e.printStackTrace();
+			/*e.printStackTrace();
 			FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage("Coordenador Inexistente"));
+				new FacesMessage("Coordenador Inexistente"));*/
 		}catch(ProjetoInexistenteException e)
 		{
 			/*e.printStackTrace();*/

@@ -33,11 +33,11 @@
 			</p:inputText>
 
 			<p:outputLabel value="#{msgs.labelCPF}* "></p:outputLabel>
-			<p:inputText size="11" maxlength="11" required="true"
-				requiredMessage="#{msgs.vldCPF}"
+			<p:inputMask size="14" maxlength="14" required="true"
+				requiredMessage="#{msgs.vldCPF}" mask="999.999.999-99"
 				converterMessage="#{msgs.cvmApenasNumeros}"
 				value="#{cadastroAlunoMB.entidade.cpf}"
-				placeholder="#{msgs.labelCPF}"></p:inputText>
+				placeholder="#{msgs.labelCPF}"></p:inputMask>
 
 			<p:outputLabel value="#{msgs.labelDataNascimento}* "></p:outputLabel>
 			<p:calendar id="mask" size="10" maxlength="10" required="true"
@@ -88,11 +88,11 @@
 				placeholder="#{msgs.labelTelefoneDDD}"></p:inputText>
 
 			<p:outputLabel value="#{msgs.labelNumero}* "></p:outputLabel>
-			<p:inputText maxlength="10" required="true"
+			<p:inputMask maxlength="10" required="true" mask="9 9999-9999"
 				requiredMessage="#{msgs.vldTelefoneNumero}"
 				converterMessage="#{msgs.cvmApenasNumeros}"
-				value="#{cadastroProfessorMB.entidade.telefone.numero}"
-				placeholder="#{msgs.labelNumero}"></p:inputText>
+				value="#{cadastroAlunoMB.entidade.telefone.numero}"
+				placeholder="#{msgs.labelNumero}"></p:inputMask>
 
 			<p:outputLabel value="#{msgs.labelTelefoneOperadora}* "></p:outputLabel>
 			<p:selectOneMenu maxlength="5" required="true"
@@ -169,6 +169,7 @@
 		<p:outputLabel value="#{msgs.tituloUsuario}* "></p:outputLabel>
 		<p:selectOneMenu required="true" requiredMessage="#{msgs.vldUsuario}"
 			converterMessage="#{msgs.cvmSelecioneCampo}"
+			style="orderby:#{user.nomeUsuario}"
 			value="#{cadastroAlunoMB.entidade.usuario.codigo}">
 			<f:selectItem itemLabel="#{msgs.cvmSelecione}" itemValue="" />
 			<f:selectItems value="#{cadastroUsuarioMB.usuarios}" var="user"
@@ -178,21 +179,21 @@
 
 		<br></br>
 		<br></br>
-		<br></br>
 
 		<p:panelGrid columns="3">
 			<f:facet name="footer">
 				<p:commandButton value="#{msgs.botaoCadastrar}" icon="ui-icon-check"
-					action="#{cadastroAlunoMB.inserir}"></p:commandButton>
+					action="#{cadastroAlunoMB.inserir}"></p:commandButton> &nbsp;&nbsp;
 
 				<p:commandButton value="#{msgs.botaoCancelar}" immediate="true"
-					icon="ui-icon-close" action="#{cadastroAlunoMB.exibirMenu}"></p:commandButton>
+					icon="ui-icon-close" action="#{cadastroAlunoMB.exibirMenu}">
+				</p:commandButton> &nbsp;&nbsp;
 
 				<p:commandButton value="#{msgs.botaoLimpar}" immediate="true"
 					icon="ui-icon-cancel" type="reset"></p:commandButton>
 			</f:facet>
 		</p:panelGrid>
-		<p:messages errorStyle="font-color: red"></p:messages>
+		<p:messages errorStyle="font-color: red" autoUpdate="true"></p:messages>
 	</h:form>
 </h:body>
 </html>

@@ -20,82 +20,240 @@
 		<br></br>
 
 		<p:panelGrid columns="3" cellpadding="5">
-			<p:outputLabel value="#{msgs.botaoConsultarPorCodigo}"></p:outputLabel>
-			<p:inputText value="#{cadastroNotaMB.entidade.codigo}"></p:inputText>
+			<p:outputLabel value="#{msgs.botaoConsultarPorCodigo}" />
+			<p:inputText id="id" value="#{cadastroNotaMB.entidade.codigo}" />
 			<p:commandButton value="#{msgs.botaoConsultarPorCodigo}"
-				action="#{cadastroNotaMB.consultarPorId}"
-				update="formPesquisaNotas, msgs" icon="ui-icon-search"></p:commandButton>
+				action="#{cadastroNotaMB.consultarPorId(id)}"
+				update="formPesquisaNotas, msgs" icon="ui-icon-search" />
+
+			<p:outputLabel value="#{msgs.botaoConsultarPorProfessorOrientador}" />
+			<p:selectOneMenu id="orientador"
+				value="#{cadastroNotaMB.entidade.projeto.professorOrientador}">
+				<f:selectItem itemLabel="#{msgs.cvmSelecione}" itemValue="" />
+				<f:selectItems value="#{cadastroNotaMB.orientadores}" var="po"
+					itemLabel="#{po.nome}" itemValue="#{po.codigo}" />
+			</p:selectOneMenu>
+			<p:commandButton value="#{msgs.botaoConsultarPorProfessorOrientador}"
+				action="#{cadastroNotaMB.consultarPorOrientador(orientador)}"
+				update="formPesquisaNotas, msgs" icon="ui-icon-search" />
+
+			<p:outputLabel value="#{msgs.botaoConsultarPorProfessorAvaliador}" />
+			<p:selectOneMenu id="avaliador2"
+				value="#{cadastroNotaMB.entidade.professorAvaliador}">
+				<f:selectItem itemLabel="#{msgs.cvmSelecione}" itemValue="" />
+				<f:selectItems value="#{cadastroNotaMB.avaliadores}" var="pa"
+					itemLabel="#{pa.nome}" itemValue="#{pa.codigo}" />
+			</p:selectOneMenu>
+			<p:commandButton value="#{msgs.botaoConsultarPorProfessorAvaliador}"
+				action="#{cadastroNotaMB.consultarPorAvaliador(avaliador2)}"
+				update="formPesquisaNotas, msgs" icon="ui-icon-search" />
+
+			<p:outputLabel value="#{msgs.botaoConsultarPorProjeto}" />
+			<p:selectOneMenu id="projeto"
+				value="#{cadastroNotaMB.entidade.projeto}">
+				<f:selectItem itemLabel="#{msgs.cvmSelecione}" itemValue="" />
+				<f:selectItems value="#{cadastroNotaMB.projetos}" var="p"
+					itemLabel="#{p.nome}" itemValue="#{p.codigo}" />
+			</p:selectOneMenu>
+			<p:commandButton value="#{msgs.botaoConsultarPorProjeto}"
+				action="#{cadastroNotaMB.consultarPorProjeto(projeto)}"
+				update="formPesquisaNotas, msgs" icon="ui-icon-search" />
+		</p:panelGrid>
+
+		<p:panelGrid columns="4" cellpadding="5">
+			<p:outputLabel value="#{msgs.botaoConsultarPorProjetoCriterio}" />
+			<p:selectOneMenu id="projeto2"
+				value="#{cadastroNotaMB.entidade.projeto}">
+				<f:selectItem itemLabel="#{msgs.cvmSelecione}" itemValue="" />
+				<f:selectItems value="#{cadastroNotaMB.projetos}" var="p"
+					itemLabel="#{p.nome}" itemValue="#{p.codigo}" />
+			</p:selectOneMenu>
+			<p:selectOneMenu id="criterio2"
+				value="#{cadastroNotaMB.entidade.criterio}">
+				<f:selectItem itemLabel="#{msgs.cvmSelecione}" itemValue="" />
+				<f:selectItems value="#{cadastroNotaMB.criterios}" />
+			</p:selectOneMenu>
+			<p:commandButton value="#{msgs.botaoConsultarPorProjetoCriterio}"
+				action="#{cadastroNotaMB.consultarPorProjetoCriterio(projeto2, criterio2)}"
+				update="formPesquisaNotas, msgs" icon="ui-icon-search" />
+		</p:panelGrid>
+
+		<p:panelGrid columns="5" cellpadding="5">
+			<p:outputLabel
+				value="#{msgs.botaoConsultarPorProjetoCriterioProfessorOrientadorAvaliador}" />
+			<p:selectOneMenu id="projeto3"
+				value="#{cadastroNotaMB.entidade.projeto}">
+				<f:selectItem itemLabel="#{msgs.cvmSelecione}" itemValue="" />
+				<f:selectItems value="#{cadastroNotaMB.projetos}" var="p"
+					itemLabel="#{p.nome}" itemValue="#{p.codigo}" />
+			</p:selectOneMenu>
+			<p:selectOneMenu id="criterio3"
+				value="#{cadastroNotaMB.entidade.criterio}">
+				<f:selectItem itemLabel="#{msgs.cvmSelecione}" itemValue="" />
+				<f:selectItems value="#{cadastroNotaMB.criterios}" />
+			</p:selectOneMenu>
+			<p:selectOneMenu id="orientador2"
+				value="#{cadastroNotaMB.entidade.projeto.professorOrientador}">
+				<f:selectItem itemLabel="#{msgs.cvmSelecione}" itemValue="" />
+				<f:selectItems value="#{cadastroNotaMB.orientadores}" var="po"
+					itemLabel="#{po.nome}" itemValue="#{po.codigo}" />
+			</p:selectOneMenu>
+			<p:selectOneMenu id="avaliador3"
+				value="#{cadastroNotaMB.entidade.professorAvaliador}">
+				<f:selectItem itemLabel="#{msgs.cvmSelecione}" itemValue="" />
+				<f:selectItems value="#{cadastroNotaMB.avaliadores}" var="pa"
+					itemLabel="#{pa.nome}" itemValue="#{pa.codigo}" />
+			</p:selectOneMenu>
+			<p:commandButton
+				value="#{msgs.botaoConsultarPorProjetoCriterioProfessorOrientadorAvaliador}"
+				action="#{cadastroNotaMB.consultarPorProjetoCriterioOrientadorAvaliador(projeto3, criterio3, orientador2, avaliador3)}"
+				update="formPesquisaNotas, msgs" icon="ui-icon-search" />
 		</p:panelGrid>
 
 		<br></br>
-		<br></br>
+
 		<p:growl id="msgs" showDetail="true" />
+
 		<p:commandButton value="#{msgs.botaoNovo}" immediate="true"
-			action="#{cadastroNotaMB.novo}" type="submit" icon="ui-icon-star"></p:commandButton>
+			action="#{cadastroNotaMB.novo}" type="submit" icon="ui-icon-star" />
+	</h:form>
 
-		<br></br>
-		<br></br>
-		<br></br>
+	<br></br>
+	<br></br>
 
-		<h:form id="formNotas">
-			<p:dataTable value="#{cadastroNotaMB.notas}" var="n"
-				widgetVar="NotasTable" style="width:80%"
-				styleClass="table table-hover"
-				rowStyleClass="#{n.codigo le n.codigo%2 ? '0' : null}"
-				disabled="#{n.situacao != 'ATIVO'}" emptyMessage="Nenhum resultado">
+	<h:form id="formNotas">
+		<p:dataTable id="tbNotas" value="#{cadastroNotaMB.notas}" var="n"
+			widgetVar="NotasTable" style="margin-bottom:20px" rows="5"
+			paginator="true"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+				{PreviousPageLink} {PageLinks} 
+				{NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			rowsPerPageTemplate="2,5" tableStyle="width=100%"
+			styleClass="table table-hover" emptyMessage="#{msgs.cvmSemRegistros}">
 
-				<p:column filterBy="#{n.codigo}" headerText="#{msgs.labelCodigo}"
-					sortBy="#{n.codigo}" footerText="contains"
-					filterMatchMode="contains">
-					<f:facet name="header">#{msgs.labelCodigo}</f:facet>
-					<p:outputLabel value="#{n.codigo}"></p:outputLabel>
-				</p:column>
+			<f:facet name="header">#{msgs.tituloPesquisaNota}</f:facet>
+			<p:column filterBy="#{n.codigo}" headerText="#{msgs.labelCodigo}"
+				footerText="contains" filterMatchMode="contains">
+				<f:facet name="header">#{msgs.labelCodigo}</f:facet>
+				<p:outputLabel value="#{n.codigo}"></p:outputLabel>
+			</p:column>
 
-				<p:column sortBy="#{n.criterio}">
-					<f:facet name="header">#{msgs.labelProjetoNotaCriterio}</f:facet>
-					<p:outputLabel value="#{n.criterio}"></p:outputLabel>
-				</p:column>
+			<p:column filterBy="#{n.criterio}" footerText="contains"
+				filterMatchMode="contains">
+				<f:facet name="header">#{msgs.labelProjetoNotaCriterio}</f:facet>
+				<p:outputLabel value="#{n.criterio}"></p:outputLabel>
+			</p:column>
 
-				<p:column sortBy="#{n.projeto.nome}">
-					<f:facet name="header">#{msgs.tituloMenuProjeto}</f:facet>
-					<p:outputLabel value="#{n.projeto.nome}"></p:outputLabel>
-				</p:column>
+			<p:column filterBy="#{n.projeto.nome}" footerText="contains"
+				filterMatchMode="contains">
+				<f:facet name="header">#{msgs.tituloMenuProjeto}</f:facet>
+				<p:outputLabel value="#{n.projeto.nome}"></p:outputLabel>
+			</p:column>
 
-				<p:column filterBy="#{n.nota}" headerText="Nota" sortBy="#{n.nota}"
-					footerText="contains" filterMatchMode="contains">
-					<f:facet name="header">#{msgs.labelProjetoNota}</f:facet>
-					<p:outputLabel value="#{n.nota}"></p:outputLabel>
-				</p:column>
+			<p:column filterBy="#{n.nota}" headerText="#{msgs.labelProjetoNota}"
+				footerText="contains" filterMatchMode="contains">
+				<f:facet name="header">#{msgs.labelProjetoNota}</f:facet>
+				<p:outputLabel value="#{n.nota}"></p:outputLabel>
+			</p:column>
 
-				<p:column>
-					<f:facet name="header">#{msgs.promptProjetoProfessorAvaliador}</f:facet>
-					<p:outputLabel value="#{n.professorAvaliador}"></p:outputLabel>
-				</p:column>
+			<p:column filterBy="#{n.professorAvaliador}" footerText="contains"
+				filterMatchMode="contains">
+				<f:facet name="header">#{msgs.promptProjetoProfessorAvaliador}</f:facet>
+				<p:outputLabel value="#{n.professorAvaliador.nome}"></p:outputLabel>
+			</p:column>
 
-				<p:column width="300">
-					<f:facet name="header">#{msgs.labelPesquisaAcoes}</f:facet>
-					<p:commandButton value="#{msgs.botaoAlterar}" action="#{cadastroNotaMB.alterar}"
-						icon="ui-icon-refresh">
-					</p:commandButton> &nbsp;&nbsp;
-					
-					<p:commandButton value="#{msgs.botaoRemover}" action="#{cadastroNotaMB.remover}"
-						icon="ui-icon-remove">
-					</p:commandButton>
-				</p:column>
-			</p:dataTable>
-		</h:form>
-
-		<br></br>
-		<br></br>
+			<p:column width="70">
+				<f:facet name="header">#{msgs.labelPesquisaAcoes}</f:facet>
+				<p:commandButton id="editar" update=":update"
+					oncomplete="PF('notaDialog').show()" icon="ui-icon-search">
+					<f:setPropertyActionListener target="#{cadastroNotaMB.entidade}"
+						value="#{n}" />
+				</p:commandButton>
+			</p:column>
+		</p:dataTable>
 
 		<p:panelGrid columns="1">
 			<f:facet name="footer">
 				<p:commandButton value="#{msgs.botaoCancelar}" immediate="true"
-					onclick="#{cadastroNotaMB.exibirMenu}" icon="ui-icon-close">
+					action="#{cadastroNotaMB.exibirMenu}" icon="ui-icon-close">
 				</p:commandButton>
 			</f:facet>
 		</p:panelGrid>
-		<p:messages errorStyle="font-color: red"></p:messages>
 	</h:form>
+
+	<h:form id="update">
+		<p:dialog header="#{msgs.tituloMenuNota}"
+			widgetVar="notaDialog" modal="true" showEffect="fade"
+			hideEffect="fade" resizable="false">
+			<p:outputPanel id="notaDetail">
+
+				<p:panelGrid columns="2" border="2" columnClasses="label,value">
+					<p:outputLabel value="#{msgs.labelCodigo}* "></p:outputLabel>
+					<p:inputText readonly="true" disabled="true"
+						value="#{cadastroNotaMB.entidade.codigo}" />
+				</p:panelGrid>
+
+				<br></br>
+
+				<p:panelGrid columns="2" border="2" cellspacing="4"
+					style="margin:0 auto;" id="alterarNota">
+
+					<p:outputLabel value="#{msgs.labelProjetoNome}* "></p:outputLabel>
+					<p:selectOneMenu required="true"
+						requiredMessage="#{msgs.vldProjetoNome}" disabled="true"
+						converterMessage="#{msgs.cvmSelecioneCampo}"
+						value="#{cadastroNotaMB.entidade.projeto.codigo}">
+						<f:selectItem itemLabel="#{msgs.cvmSelecione}" itemValue="" />
+						<f:selectItems value="#{cadastroNotaMB.projetos}" var="proj"
+							itemLabel="#{proj.nome}" itemValue="#{proj.codigo}" />
+					</p:selectOneMenu>
+
+					<p:outputLabel value="#{msgs.labelProjetoNotaCriterio}* "></p:outputLabel>
+					<p:selectOneMenu required="true" disabled="true"
+						requiredMessage="#{msgs.vldProjetoCriterio}"
+						converterMessage="#{msgs.cvmSelecioneCampo}"
+						value="#{cadastroNotaMB.entidade.criterio}">
+						<f:selectItem itemLabel="#{msgs.cvmSelecione}" itemValue="" />
+						<f:selectItems value="#{cadastroNotaMB.criterios}" />
+					</p:selectOneMenu>
+
+					<p:outputLabel value="#{msgs.labelProjetoNota}* "></p:outputLabel>
+					<p:inputText id="idNota" maxlength="4" required="true"
+						requiredMessage="#{msgs.vldProjetoNota}" readonly="true" disabled="true"
+						converterMessage="#{msgs.cvmApenasNumeros}"
+						value="#{cadastroNotaMB.entidade.nota}"
+						placeholder="#{msgs.labelProjetoNota}">
+						<f:convertNumber maxFractionDigits="1" maxIntegerDigits="2"
+							minFractionDigits="0" minIntegerDigits="1" pattern="0.0"
+							type="number" for="idNota"></f:convertNumber>
+					</p:inputText>
+
+					<p:outputLabel value="#{msgs.promptProjetoProfessorAvaliador}* "></p:outputLabel>
+					<p:selectOneMenu required="true" disabled="true"
+						requiredMessage="#{msgs.vldProjetoProfessorAvaliador}"
+						value="#{cadastroNotaMB.entidade.professorAvaliador.codigo}">
+						<f:selectItem itemLabel="#{msgs.cvmSelecione}" itemValue="" />
+						<f:selectItems value="#{cadastroNotaMB.avaliadores}" var="ava"
+							itemLabel="#{ava.nome}" itemValue="#{ava.codigo}" />
+					</p:selectOneMenu>
+				</p:panelGrid>
+			</p:outputPanel>
+		</p:dialog>
+	</h:form>
+
+	<h:form id="remover">
+		<p:confirmDialog id="removerNota"
+			message="#{msgs.labelConfirmaçãoRemover}?"
+			header="#{msgs.botaoRemover} #{msgs.tituloMenuNota}" severity="alert"
+			widgetVar="removerNota">
+
+			<p:commandButton ajax="true" id="excluirNota" value="Sim"
+				oncomplete="PF('removerNota').hide()"
+				action="#{cadastroNotaMB.remover}" />
+			<p:commandButton id="declineExcluir" value="Cancelar"
+				onclick="PF('removerNota').hide()" type="button" />
+		</p:confirmDialog>
+	</h:form>
+	<p:messages errorStyle="font-color: red" autoUpdate="true"></p:messages>
 </h:body>
 </html>

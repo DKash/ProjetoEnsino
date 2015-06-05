@@ -19,7 +19,7 @@ import javax.persistence.NamedQuery;
 	@NamedQuery(name = "Professor.findAllActives" , query="SELECT p FROM Professor p WHERE p.situacao =:situacao"),
 	@NamedQuery(name = "Professor.findByName", query = "SELECT p FROM Professor p WHERE p.nome LIKE :nome"),
 	@NamedQuery(name = "Professor.findByCPF", query = "SELECT p FROM Professor p WHERE p.cpf = :cpf"),
-	@NamedQuery(name = "Professor.findByTipoProfessor", query = "SELECT p FROM Professor p WHERE p.tipoProfessor = :tipoProfessor"),
+	@NamedQuery(name = "Professor.findByTipoProfessor", query = "SELECT p FROM Professor p WHERE p.tipoProfessor = :tipoProfessor")
 })
 @Entity
 public class Professor extends Pessoa

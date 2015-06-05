@@ -53,9 +53,9 @@ public class ControladorProjeto implements IControladorProjeto
 		ProjetoExistenteException, ProjetoInexistenteException,
 		NotaInexistenteException
 	{
-		Boolean resultado = ((ProjetoDAO) projetoDAO)
-			.verificarProjetoExistentePorId(entidade.getCodigo());
-		if(resultado == true)
+		Projeto resultado = ((ProjetoDAO) projetoDAO).consultarPorId(entidade.getCodigo());
+			
+		if(resultado != null)
 			throw new ProjetoExistenteException();
 		entidade.setSituacao(Situacao.ATIVO);
 		projetoDAO.inserir(entidade);

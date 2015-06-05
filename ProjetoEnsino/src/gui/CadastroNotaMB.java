@@ -11,8 +11,10 @@ import javax.faces.context.FacesContext;
 
 import classesBasicas.Criterio;
 import classesBasicas.Nota;
+import classesBasicas.Professor;
 import classesBasicas.Projeto;
 import classesBasicas.Resultado;
+import classesBasicas.TipoProfessor;
 import exceptions.NotaInexistenteException;
 import exceptions.PessoaExistenteException;
 import exceptions.PessoaInexistenteException;
@@ -25,16 +27,15 @@ import exceptions.ProjetoInexistenteException;
  *
  */
 @ManagedBean
-public class CadastroNotaMB extends CadastroPessoaMB
+public class CadastroNotaMB extends ObjetoMB<Nota>
 {
 	// Atributos
-	private Nota entidade = new Nota();
 	
-	
+	private Nota entidade = new Nota();	
 	private List<Nota> notas;
-	
-	
 	private List<Projeto> projetos;
+	private List<Professor> avaliadores;
+	private List<Professor> orientadores;
 	
 	// Métodos
 	/*
@@ -133,7 +134,7 @@ public class CadastroNotaMB extends CadastroPessoaMB
 	 * @see manangedBeans.CadastroPessoaMB#consultarPorId()
 	 */
 	@Override
-	public String consultarPorId()
+	public String consultarPorId(int codigo)
 	{
 		try
 		{
@@ -237,7 +238,7 @@ public class CadastroNotaMB extends CadastroPessoaMB
 	 * @see gui.CadastroPessoaMB#consultarPorNome()
 	 */
 	@Override
-	public String consultarPorNome()
+	public String consultarPorNome(String nome)
 	{
 		return null;
 	}
@@ -248,7 +249,7 @@ public class CadastroNotaMB extends CadastroPessoaMB
 	 * @see gui.CadastroPessoaMB#consultarPorCPF()
 	 */
 	@Override
-	public String consultarPorCPF()
+	public String consultarPorCPF(String cpf)
 	{
 		return null;
 	}
@@ -263,7 +264,125 @@ public class CadastroNotaMB extends CadastroPessoaMB
 	{
 		entidade = new Nota();
 		return "/projeto/CadastroNota.xhtml";
-		//return "#{msgs.urlCadastroNota}";
+		// return "#{msgs.urlCadastroNota}";
+	}
+	
+	public String consultarPorProjeto(Projeto projeto)
+	{
+		try
+		{
+			fachada.consultarNotasPorProjeto(projeto);
+		}catch(NotaInexistenteException e)
+		{
+			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Nota Inexistente"));
+		}
+		return "";
+	}
+	
+	public String consultarPorCriterio(String criterio)
+	{
+		try
+		{
+			fachada.consultarNotasPorCriterio(entidade.getCriterio());
+		}catch(NotaInexistenteException e)
+		{
+			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Nota Inexistente"));
+		}
+		return "";
+	}
+	
+	public String consultarPorAvaliador(Professor avaliador)
+	{
+		try
+		{
+			fachada.consultarNotasPorProfessorAvaliador(avaliador);
+		}catch(NotaInexistenteException e)
+		{
+			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Nota Inexistente"));
+		}
+		return "";
+	}
+	
+	public String consultarPorOrientador(Professor orientador)
+	{
+		try
+		{
+			fachada.consultarNotasPorProfessorOrientador(orientador);
+		}catch(NotaInexistenteException e)
+		{
+			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Nota Inexistente"));
+		}
+		return "";
+	}
+	
+	public String consultarPorOrientadorAvaliador(Professor orientador,
+		Professor avaliador)
+	{
+		try
+		{
+			fachada.consultarNotasPorProfessorOrientadorAvaliador(orientador,
+				avaliador);
+		}catch(NotaInexistenteException e)
+		{
+			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Nota Inexistente"));
+		}
+		return "";
+	}
+	
+	public String consultarPorProjetoAvaliador(Projeto projeto,
+		Professor avaliador)
+	{
+		try
+		{
+			fachada.consultarNotasPorProjetoAvaliador(projeto, avaliador);
+		}catch(ProjetoInexistenteException e)
+		{
+			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Nota Inexistente"));
+		}
+		return "";
+	}
+	
+	public String consultarPorProjetoCriterio(Projeto projeto, Criterio criterio)
+	{
+		try
+		{
+			fachada.consultarNotasPorProjetoCriterio(projeto, criterio);
+		}catch(NotaInexistenteException e)
+		{
+			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Nota Inexistente"));
+		}
+		return "";
+	}
+	
+	public String consultarPorProjetoCriterioOrientadorAvaliador(
+		Projeto projeto, Criterio criterio, Professor orientador,
+		Professor avaliador)
+	{
+		try
+		{
+			fachada.consultarNotasPorProjetoCriterioOrientadorAvaliador(
+				projeto, criterio, orientador, avaliador);
+		}catch(NotaInexistenteException e)
+		{
+			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Nota Inexistente"));
+		}
+		return "";
 	}
 	
 	// Gets e Sets
@@ -300,9 +419,11 @@ public class CadastroNotaMB extends CadastroPessoaMB
 			/* e.printStackTrace(); */
 		}catch(NotaInexistenteException e)
 		{
-			e.printStackTrace();
-			FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage("Nota Inexistente"));
+			/*
+			 * e.printStackTrace();
+			 * FacesContext.getCurrentInstance().addMessage(null, new
+			 * FacesMessage("Nota Inexistente"));
+			 */
 		}
 		return notas;
 	}
@@ -328,7 +449,7 @@ public class CadastroNotaMB extends CadastroPessoaMB
 	{
 		try
 		{
-			projetos = fachada.consultarTodosProjetos();
+			projetos = fachada.consultarTodosProjetosAtivos();
 		}catch(PessoaInexistenteException e)
 		{
 			e.printStackTrace();
@@ -336,9 +457,11 @@ public class CadastroNotaMB extends CadastroPessoaMB
 				new FacesMessage("Pessoa Inexistente"));
 		}catch(ProjetoInexistenteException e)
 		{
-			e.printStackTrace();
-			FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage("Projeto Inexistente"));
+			/*
+			 * e.printStackTrace();
+			 * FacesContext.getCurrentInstance().addMessage(null, new
+			 * FacesMessage("Projeto Inexistente"));
+			 */
 		}catch(NotaInexistenteException e)
 		{
 			e.printStackTrace();
@@ -360,5 +483,59 @@ public class CadastroNotaMB extends CadastroPessoaMB
 	public Criterio[] getCriterios()
 	{
 		return Criterio.values();
+	}
+	
+	/**
+	 * @return the avaliadores
+	 */
+	public List<Professor> getAvaliadores()
+	{
+		try
+		{
+			avaliadores = fachada
+				.consultarProfessorPorTipoProfessor(TipoProfessor.AVALIADOR);
+		}catch(PessoaInexistenteException e)
+		{
+			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Professor Inexistente"));
+		}
+		return avaliadores;
+	}
+	
+	/**
+	 * @param avaliadores
+	 *            the avaliadores to set
+	 */
+	public void setAvaliadores(List<Professor> avaliadores)
+	{
+		this.avaliadores = avaliadores;
+	}
+	
+	/**
+	 * @return the orientadores
+	 */
+	public List<Professor> getOrientadores()
+	{
+		try
+		{
+			orientadores = fachada
+				.consultarProfessorPorTipoProfessor(TipoProfessor.ORIENTADOR);
+		}catch(PessoaInexistenteException e)
+		{
+			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Professor Inexistente"));
+		}
+		return orientadores;
+	}
+	
+	/**
+	 * @param orientadores
+	 *            the orientadores to set
+	 */
+	public void setOrientadores(List<Professor> orientadores)
+	{
+		this.orientadores = orientadores;
 	}
 }

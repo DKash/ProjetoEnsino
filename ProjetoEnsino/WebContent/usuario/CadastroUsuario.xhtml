@@ -11,7 +11,7 @@
 <h:body>
 	<h:form id="formUsuarios">
 		<h:head>
-			<h2>#{msgs.tituloUsuario}</h2>
+			<h2>#{msgs.tituloCadastroUsuario}</h2>
 		</h:head>
 		<hr></hr>
 		<br></br>
@@ -51,18 +51,20 @@
 		<br></br>
 
 		<p:panelGrid columns="3">
-			<p:commandButton value="#{msgs.botaoCadastrar}" type="submit"
-				action="#{cadastroUsuarioMB.inserir}" icon="ui-icon-check">
-			</p:commandButton>
+			<f:facet name="footer">
+				<p:commandButton value="#{msgs.botaoCadastrar}" type="submit"
+					action="#{cadastroUsuarioMB.inserir}" icon="ui-icon-check">
+				</p:commandButton> &nbsp;&nbsp;
 
-			<p:commandButton value="#{msgs.botaoCancelar}" immediate="true"
-				action="#{cadastroUsuarioMB.exibirMenu}" icon="ui-icon-close">
-			</p:commandButton>
+				<p:commandButton value="#{msgs.botaoCancelar}" immediate="true"
+					action="#{cadastroUsuarioMB.exibirMenu}" icon="ui-icon-close">
+				</p:commandButton> &nbsp;&nbsp;
 
-			<p:commandButton value="#{msgs.botaoLimpar}" immediate="true"
-				icon="ui-icon-cancel" type="reset"></p:commandButton>
+				<p:commandButton value="#{msgs.botaoLimpar}" immediate="true"
+					icon="ui-icon-cancel" type="reset"></p:commandButton>
+			</f:facet>
 		</p:panelGrid>
-		<p:messages errorStyle="font-color: red"></p:messages>
+		<p:messages errorStyle="font-color: red" autoUpdate="true"></p:messages>
 	</h:form>
 </h:body>
 </html>

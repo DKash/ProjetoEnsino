@@ -6,6 +6,7 @@ package classesBasicas;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -37,31 +38,24 @@ public class Projeto
 	@Column(length = 5, nullable = false)
 	private Integer codigo;
 	
-	
 	@Column(length = 30, nullable = false)
 	private String nome;
-	
 	
 	@Column(length = 255, nullable = true)
 	private String descricao;
 	
-	
 	@ManyToMany(fetch=FetchType.EAGER)
 	private List<Aluno> alunos;
 	
-	
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(nullable = false)
 	private Professor professorOrientador;
-	
 	
 	@ManyToMany(fetch=FetchType.EAGER)
 	private List<Professor> professoresAvaliadores;
 	
-	
 	@Enumerated(EnumType.STRING)
 	private Resultado resultado;
-	
 	
 	@Enumerated(EnumType.STRING)
 	private Situacao situacao;
@@ -77,7 +71,7 @@ public class Projeto
 		this.professorOrientador = new Professor();
 		this.professoresAvaliadores = new ArrayList<Professor>();
 		this.resultado = null;
-		this.situacao = Situacao.ATIVO;
+		this.situacao = null;
 	}
 	
 	/**
