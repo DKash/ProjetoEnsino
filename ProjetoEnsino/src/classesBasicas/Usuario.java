@@ -12,13 +12,17 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
+
 /**
  * @author Audry Martins
  *
  */
 @NamedQueries({
 		@NamedQuery(name = "Usuario.findAllActives", query = "SELECT u FROM Usuario u WHERE u.situacao =:situacao"),
-		@NamedQuery(name = "Usuario.findByNome", query = "SELECT user FROM Usuario user WHERE user.nomeUsuario LIKE :nome") })
+		@NamedQuery(name = "Usuario.findByNome", query = "SELECT user FROM Usuario user WHERE user.nomeUsuario LIKE :nome"),
+		@NamedQuery(name = "Usuario.findByType", query = "SELECT user FROM Usuario user WHERE user.tipoUsuario =:tipoUsuario"),
+		@NamedQuery(name = "Usuario.findByTypes", query = "SELECT user FROM Usuario user WHERE user.tipoUsuario =:tipoUsuario "
+			+ "and user.tipoUsuario =:tipoUsuario")})
 @Entity
 public class Usuario
 {
@@ -27,17 +31,22 @@ public class Usuario
 	@GeneratedValue
 	private Integer codigo;
 	
+	
 	@Column(length = 40, unique = true, nullable = false)
 	private String nomeUsuario;
+	
 	
 	@Column(length = 30, nullable = false)
 	private String senha;
 	
+	
 	@Column(length = 30, nullable = true)
 	private String dica;
 	
+	
 	@Enumerated(EnumType.STRING)
 	private TipoUsuario tipoUsuario;
+	
 	
 	@Enumerated(EnumType.STRING)
 	private Situacao situacao;
@@ -82,8 +91,7 @@ public class Usuario
 	{
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-			+ ((nomeUsuario == null) ? 0 : nomeUsuario.hashCode());
+		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
 		return result;
 	}
 	
@@ -102,13 +110,13 @@ public class Usuario
 		if(getClass() != obj.getClass())
 			return false;
 		Usuario other = (Usuario) obj;
-		if(nomeUsuario == null)
+		if(codigo == null)
 		{
-			if(other.nomeUsuario != null)
+			if(other.codigo != null)
 				return false;
 		}
 		else
-			if(!nomeUsuario.equals(other.nomeUsuario))
+			if(!codigo.equals(other.codigo))
 				return false;
 		return true;
 	}

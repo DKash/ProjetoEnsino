@@ -20,6 +20,7 @@ import classesBasicas.Nota;
 import classesBasicas.Professor;
 import classesBasicas.Projeto;
 import classesBasicas.TipoProfessor;
+import classesBasicas.TipoUsuario;
 import classesBasicas.Usuario;
 import exceptions.LoginInvalidoException;
 import exceptions.NotaExistenteException;
@@ -703,6 +704,25 @@ public class Fachada implements IFachada
 		throws PessoaInexistenteException
 	{
 		return controladorUsuario.consultarUsuarioPorNome(nome);
+	}
+	
+	/* (non-Javadoc)
+	 * @see interfaces.negocio.IFachada#consultarUsuarioPorTipo(classesBasicas.TipoUsuario)
+	 */
+	@Override
+	public List<Usuario> consultarUsuarioPorTipo(TipoUsuario tipoUsuario)
+		throws PessoaInexistenteException
+	{
+		return controladorUsuario.consultarUsuarioPorTipo(tipoUsuario);
+	}
+	
+	/* (non-Javadoc)
+	 * @see interfaces.negocio.IFachada#consultarUsuarioPorTipos(classesBasicas.TipoUsuario, classesBasicas.TipoUsuario)
+	 */
+	@Override
+	public List<Usuario> consultarUsuarioPorTipos() throws PessoaInexistenteException
+	{
+		return controladorUsuario.consultarUsuarioPorTipos();
 	}
 	
 	// Nota

@@ -22,7 +22,7 @@
 			<p:inputText id="codigo" value="#{cadastroUsuarioMB.entidade.codigo}"
 				placeholder="#{msgs.labelCodigo}"></p:inputText>
 			<p:commandButton value="#{msgs.botaoConsultarPorCodigo}"
-				action="#{cadastroUsuarioMB.consultarPorId(codigo)}"
+				action="#{cadastroUsuarioMB.consultarPorId}"
 				update="formPesquisaUsuarios, msgs"></p:commandButton>
 
 			<p:outputLabel value="#{msgs.botaoConsultarPorNome}"></p:outputLabel>
@@ -30,7 +30,7 @@
 				value="#{cadastroUsuarioMB.entidade.nomeUsuario}"
 				placeholder="#{msgs.labelUsuarioNomeUsuario}"></p:inputText>
 			<p:commandButton value="#{msgs.botaoConsultarPorNome}"
-				action="#{cadastroUsuarioMB.consultarPorNome(nome)}"
+				action="#{cadastroUsuarioMB.consultarPorNome}"
 				update="formPesquisaUsuarios, msgs"></p:commandButton>
 		</p:panelGrid>
 

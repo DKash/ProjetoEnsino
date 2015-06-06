@@ -12,6 +12,7 @@ import classesBasicas.Nota;
 import classesBasicas.Professor;
 import classesBasicas.Projeto;
 import classesBasicas.TipoProfessor;
+import classesBasicas.TipoUsuario;
 import classesBasicas.Usuario;
 import exceptions.LoginInvalidoException;
 import exceptions.NotaExistenteException;
@@ -194,6 +195,11 @@ public interface IFachada
 	
 	Usuario consultarUsuarioPorNome(String nome)
 		throws PessoaInexistenteException;
+	
+	List<Usuario> consultarUsuarioPorTipo(TipoUsuario tipoUsuario)
+		throws PessoaInexistenteException;
+	
+	List<Usuario> consultarUsuarioPorTipos() throws PessoaInexistenteException;
 	
 	// Nota
 	void inserirNota(Nota entidade) throws PessoaExistenteException,

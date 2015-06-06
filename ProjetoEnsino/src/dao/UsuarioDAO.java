@@ -11,6 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 import classesBasicas.Situacao;
+import classesBasicas.TipoUsuario;
 import classesBasicas.Usuario;
 import dao.generics.DAOGeneric;
 import exceptions.PessoaInexistenteException;
@@ -49,6 +50,39 @@ public class UsuarioDAO extends DAOGeneric<Usuario> implements IUsuarioDAO
 		try
 		{
 			return query.setMaxResults(1).getSingleResult();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public List<Usuario> consultarUsuarioPorTipo(TipoUsuario tipoUsuario)
+	{
+		TypedQuery<Usuario> query = this.entityManager.createNamedQuery(
+			"Usuario.findByType", this.classePersistente);
+		query.setParameter("tipoUsuario", tipoUsuario);
+		
+		try
+		{
+			return query.getResultList();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public List<Usuario> consultarUsuarioPorTipos()
+	{
+		TypedQuery<Usuario> query = this.entityManager.createNamedQuery(
+			"Usuario.findByType", this.classePersistente);
+		query.setParameter("tipoUsuario", TipoUsuario.Orientador);
+		query.setParameter("tipoUsuario", TipoUsuario.Avaliador);
+		
+		try
+		{
+			return query.getResultList();
 		}catch(Exception e)
 		{
 			e.printStackTrace();

@@ -20,7 +20,7 @@
 		<br></br>
 
 		<p:growl autoUpdate="true" for="DadosCadastrais" showDetail="true"
-			widgetVar="msgsVar" id="msgs" severity="Info" />
+			widgetVar="msgsVar" id="msgs" severity="Info"/>
 
 		<p:panelGrid columns="4" border="2" id="DadosCadastrais"
 			cellspacing="4">
@@ -30,6 +30,7 @@
 				converterMessage="#{msgs.cvmApenasLetras}" autocomplete="true"
 				value="#{cadastroAlunoMB.entidade.nome}"
 				placeholder="#{msgs.labelNome}">
+				<f:validateLength minimum="10" maximum="30" />
 			</p:inputText>
 
 			<p:outputLabel value="#{msgs.labelCPF}* "></p:outputLabel>
@@ -81,11 +82,11 @@
 				placeholder="#{msgs.labelTelefoneCodigoPais}"></p:inputText>
 
 			<p:outputLabel value="#{msgs.labelTelefoneDDD}* "></p:outputLabel>
-			<p:inputText maxlength="3" required="true"
+			<p:inputMask maxlength="3" required="true" mask="99"
 				requiredMessage="#{msgs.vldTelefoneDDD}"
 				converterMessage="#{msgs.cvmApenasNumeros}"
 				value="#{cadastroAlunoMB.entidade.telefone.ddd}"
-				placeholder="#{msgs.labelTelefoneDDD}"></p:inputText>
+				placeholder="#{msgs.labelTelefoneDDD}"></p:inputMask>
 
 			<p:outputLabel value="#{msgs.labelNumero}* "></p:outputLabel>
 			<p:inputMask maxlength="10" required="true" mask="9 9999-9999"
@@ -172,7 +173,7 @@
 			style="orderby:#{user.nomeUsuario}"
 			value="#{cadastroAlunoMB.entidade.usuario.codigo}">
 			<f:selectItem itemLabel="#{msgs.cvmSelecione}" itemValue="" />
-			<f:selectItems value="#{cadastroUsuarioMB.usuarios}" var="user"
+			<f:selectItems value="#{cadastroUsuarioMB.usuariosAluno}" var="user"
 				itemLabel="#{user.nomeUsuario} - #{user.tipoUsuario}"
 				itemValue="#{user.codigo}" />
 		</p:selectOneMenu>

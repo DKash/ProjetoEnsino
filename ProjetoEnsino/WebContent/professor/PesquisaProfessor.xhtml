@@ -23,20 +23,20 @@
 			<p:outputLabel value="#{msgs.botaoConsultarPorCodigo}"></p:outputLabel>
 			<p:inputText value="#{cadastroProfessorMB.entidade.codigo}"></p:inputText>
 			<p:commandButton value="#{msgs.botaoConsultarPorCodigo}"
-				action="#{cadastroProfessorMB.consultarPorId(p.codigo)}"
+				action="#{cadastroProfessorMB.consultarPorId}"
 				update="formPesquisaProfessores, msgs" icon="ui-icon-search"></p:commandButton>
 
 			<p:outputLabel value="#{msgs.botaoConsultarPorNome}"></p:outputLabel>
 			<p:inputText value="#{cadastroProfessorMB.entidade.nome}"></p:inputText>
 			<p:commandButton value="#{msgs.botaoConsultarPorNome}"
-				action="#{cadastroProfessorMB.consultarPorNome(p.nome)}"
+				action="#{cadastroProfessorMB.consultarPorNome}"
 				update="formPesquisaProfessores, msgs" icon="ui-icon-search"></p:commandButton>
 
 			<p:outputLabel value="#{msgs.botaoConsultarPorCPF}"></p:outputLabel>
 			<p:inputMask value="#{cadastroProfessorMB.entidade.cpf}"
 				mask="999.999.999-99" placeholder="#{mags.labelPessoaCpf}"></p:inputMask>
 			<p:commandButton value="#{msgs.botaoConsultarPorCPF}"
-				action="#{cadastroProfessorMB.consultarPorCPF(p.cpf)}"
+				action="#{cadastroProfessorMB.consultarPorCPF}"
 				update="formPesquisaProfessores, msgs" type="submit"
 				icon="ui-icon-search"></p:commandButton>
 		</p:panelGrid>

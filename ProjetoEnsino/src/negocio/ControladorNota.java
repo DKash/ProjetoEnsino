@@ -66,14 +66,18 @@ public class ControladorNota implements IControladorNota
 		List<Projeto> projetoProfessores = projetoDAO
 			.consultarNotasPorProjetoAvaliador(entidade.getProjeto(),
 				entidade.getProfessorAvaliador());
+		
 		if(projetoProfessores == null || projetoProfessores.isEmpty())
 			throw new ProjetoInexistenteException();
+		
 		List<Nota> notasProjetoCriterioProfessores = notaDAO
 			.consultarNotasPorProjetoCriterioAvaliador(entidade.getProjeto(),
 				entidade.getCriterio(), entidade.getProfessorAvaliador());
-		if(notasProjetoCriterioProfessores == null
-			|| notasProjetoCriterioProfessores.isEmpty())
+		
+		if(notasProjetoCriterioProfessores != null
+			&& !notasProjetoCriterioProfessores.isEmpty())
 			throw new NotaInexistenteException();
+		
 		notaDAO.inserir(entidade);
 	}
 	
@@ -205,8 +209,9 @@ public class ControladorNota implements IControladorNota
 		Professor orientador, Professor avaliador)
 		throws NotaInexistenteException
 	{
-		List<Nota> notas = notaDAO.consultarNotasPorProfessorOrientadorAvaliador(
-			orientador, avaliador);
+		List<Nota> notas = notaDAO
+			.consultarNotasPorProfessorOrientadorAvaliador(orientador,
+				avaliador);
 		if(notas == null || notas.isEmpty())
 			throw new NotaInexistenteException();
 		return notas;
@@ -241,8 +246,9 @@ public class ControladorNota implements IControladorNota
 		Projeto projeto, Criterio criterio, Professor orientador,
 		Professor avaliador) throws NotaInexistenteException
 	{
-		List<Nota> notas = notaDAO.consultarNotasPorProjetoCriterioOrientadorAvaliador(
-			projeto, criterio, orientador, avaliador);
+		List<Nota> notas = notaDAO
+			.consultarNotasPorProjetoCriterioOrientadorAvaliador(projeto,
+				criterio, orientador, avaliador);
 		if(notas == null || notas.isEmpty())
 			throw new NotaInexistenteException();
 		return notas;
@@ -274,7 +280,8 @@ public class ControladorNota implements IControladorNota
 	public List<Nota> consultarNotasPorProjetoCriterio(Projeto projeto,
 		Criterio criterio) throws NotaInexistenteException
 	{
-		List<Nota> notas = notaDAO.consultarNotasPorProjetoCriterio(projeto, criterio);
+		List<Nota> notas = notaDAO.consultarNotasPorProjetoCriterio(projeto,
+			criterio);
 		if(notas == null || notas.isEmpty())
 			throw new NotaInexistenteException();
 		return notas;
@@ -284,8 +291,8 @@ public class ControladorNota implements IControladorNota
 		Professor avaliador) throws NotaInexistenteException,
 		ProjetoInexistenteException
 	{
-		List<Projeto> projetos = projetoDAO.consultarNotasPorProjetoAvaliador(projeto,
-			avaliador);
+		List<Projeto> projetos = projetoDAO.consultarNotasPorProjetoAvaliador(
+			projeto, avaliador);
 		if(projetos == null || projetos.isEmpty())
 			throw new NotaInexistenteException();
 		return null;
@@ -303,8 +310,8 @@ public class ControladorNota implements IControladorNota
 		Projeto projeto, Criterio criterio, Professor avaliador)
 		throws NotaInexistenteException
 	{
-		List<Nota> notas = notaDAO.consultarNotasPorProjetoCriterioAvaliador(projeto,
-			criterio, avaliador);
+		List<Nota> notas = notaDAO.consultarNotasPorProjetoCriterioAvaliador(
+			projeto, criterio, avaliador);
 		if(notas == null || notas.isEmpty())
 			throw new NotaInexistenteException();
 		return null;
@@ -342,7 +349,7 @@ public class ControladorNota implements IControladorNota
 	{
 		this.notaDAO = notaDAO;
 	}
-
+	
 	/**
 	 * @return the projetoDAO
 	 */
@@ -350,9 +357,10 @@ public class ControladorNota implements IControladorNota
 	{
 		return projetoDAO;
 	}
-
+	
 	/**
-	 * @param projetoDAO the projetoDAO to set
+	 * @param projetoDAO
+	 *            the projetoDAO to set
 	 */
 	public void setProjetoDAO(IProjetoDAO projetoDAO)
 	{

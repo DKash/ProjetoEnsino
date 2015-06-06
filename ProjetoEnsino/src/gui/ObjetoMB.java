@@ -24,15 +24,15 @@ public abstract class ObjetoMB<Entidade>
 	
 	public abstract String remover();
 	
-	public abstract String consultarPorId(int codigo);
+	public abstract String consultarPorId();
 	
 	public abstract String consultarTodos();
 	
 	public abstract String consultarTodosComParametros();
 	
-	public abstract String consultarPorNome(String nome);
+	public abstract String consultarPorNome();
 	
-	public abstract String consultarPorCPF(String cpf);
+	public abstract String consultarPorCPF();
 	
 	public abstract String consultarTodosAtivos();
 	

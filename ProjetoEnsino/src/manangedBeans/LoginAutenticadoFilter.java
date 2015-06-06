@@ -326,6 +326,7 @@ public class LoginAutenticadoFilter implements Filter
 		return false;
 	}
 	
+	
 	 (non-Javadoc)
 	 * @see java.util.logging.Filter#isLoggable(java.util.logging.LogRecord)
 	 

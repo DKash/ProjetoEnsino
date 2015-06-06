@@ -61,7 +61,7 @@ public class CadastroPessoaMB extends ObjetoMB<Pessoa>
 	 * @see gui.ObjetoMB#consultarPorId()
 	 */
 	@Override
-	public String consultarPorId(int codigo)
+	public String consultarPorId()
 	{
 		return null;
 	}
@@ -94,7 +94,7 @@ public class CadastroPessoaMB extends ObjetoMB<Pessoa>
 	 * @see gui.ObjetoMB#consultarPorNome()
 	 */
 	@Override
-	public String consultarPorNome(String nome)
+	public String consultarPorNome()
 	{
 		return null;
 	}
@@ -105,7 +105,7 @@ public class CadastroPessoaMB extends ObjetoMB<Pessoa>
 	 * @see gui.ObjetoMB#consultarPorCPF()
 	 */
 	@Override
-	public String consultarPorCPF(String cpf)
+	public String consultarPorCPF()
 	{
 		return null;
 	}

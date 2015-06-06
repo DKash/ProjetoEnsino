@@ -23,20 +23,20 @@
 			<p:outputLabel value="#{msgs.botaoConsultarPorCodigo}"></p:outputLabel>
 			<p:inputText value="#{cadastroCoordenadorMB.entidade.codigo}"></p:inputText>
 			<p:commandButton value="#{msgs.botaoConsultarPorCodigo}"
-				action="#{cadastroCoordenadorMB.consultarPorId(c.codigo)}"
+				action="#{cadastroCoordenadorMB.consultarPorId}"
 				update="formCoordenadores" icon="ui-icon-search"></p:commandButton>
 
 			<p:outputLabel value="#{msgs.botaoConsultarPorNome}"></p:outputLabel>
 			<p:inputText value="#{cadastroCoordenadorMB.entidade.nome}"></p:inputText>
 			<p:commandButton value="#{msgs.botaoConsultarPorNome}"
-				action="#{cadastroCoordenadorMB.consultarPorNome(c.nome)}"
+				action="#{cadastroCoordenadorMB.consultarPorNome}"
 				update="formCoordenadores" icon="ui-icon-search"></p:commandButton>
 
 			<p:outputLabel value="#{msgs.botaoConsultarPorCPF}"></p:outputLabel>
 			<p:inputMask value="#{cadastroCoordenadorMB.entidade.cpf}"
 				mask="999.999.999-99"></p:inputMask>
 			<p:commandButton value="#{msgs.botaoConsultarPorCPF}"
-				action="#{cadastroCoordenadorMB.consultarPorCPF(c.cpf)}"
+				action="#{cadastroCoordenadorMB.consultarPorCPF}"
 				update="formCoordenadores" icon="ui-icon-search"></p:commandButton>
 		</p:panelGrid>
 

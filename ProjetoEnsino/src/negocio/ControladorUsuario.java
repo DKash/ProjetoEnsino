@@ -9,6 +9,7 @@ import interfaces.negocio.IControladorUsuario;
 import java.util.List;
 
 import classesBasicas.Situacao;
+import classesBasicas.TipoUsuario;
 import classesBasicas.Usuario;
 import dao.UsuarioDAO;
 import dao.generics.DAOFactory;
@@ -193,6 +194,40 @@ public class ControladorUsuario implements IControladorUsuario
 		NotaInexistenteException
 	{
 		List<Usuario> usuarios = usuarioDAO.consultarTodosAtivos();
+		if(usuarios == null || usuarios.isEmpty())
+			throw new PessoaInexistenteException();
+		return usuarios;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * interfaces.dao.IUsuarioDAO#consultarUsuarioPorTipo(classesBasicas.TipoUsuario
+	 * )
+	 */
+	@Override
+	public List<Usuario> consultarUsuarioPorTipo(TipoUsuario tipoUsuario)
+		throws PessoaInexistenteException
+	{
+		List<Usuario> usuarios = usuarioDAO
+			.consultarUsuarioPorTipo(tipoUsuario);
+		if(usuarios == null || usuarios.isEmpty())
+			throw new PessoaInexistenteException();
+		return usuarios;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see interfaces.dao.IUsuarioDAO#consultarUsuarioPorTipos(classesBasicas.
+	 * TipoUsuario, classesBasicas.TipoUsuario)
+	 */
+	@Override
+	public List<Usuario> consultarUsuarioPorTipos() throws PessoaInexistenteException
+	{
+		List<Usuario> usuarios = usuarioDAO
+			.consultarUsuarioPorTipos();
 		if(usuarios == null || usuarios.isEmpty())
 			throw new PessoaInexistenteException();
 		return usuarios;

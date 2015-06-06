@@ -19,7 +19,7 @@
 		<hr></hr>
 		<br></br>
 
-		<p:growl autoUpdate="true" for="DadosCadastrais" showDetail="true"
+		<p:growl autoUpdate="true" showDetail="true"
 			widgetVar="msgsVar" id="msgs" severity="Info" />
 
 		<p:panelGrid columns="4" border="2" id="DadosCadastrais"
@@ -171,7 +171,7 @@
 			converterMessage="#{msgs.cvmSelecioneCampo}"
 			value="#{cadastroCoordenadorMB.entidade.usuario.codigo}">
 			<f:selectItem itemLabel="#{msgs.cvmSelecione}" itemValue="" />
-			<f:selectItems value="#{cadastroUsuarioMB.usuarios}" var="user"
+			<f:selectItems value="#{cadastroUsuarioMB.usuariosCoordenador}" var="user"
 				itemLabel="#{user.nomeUsuario} - #{user.tipoUsuario}"
 				itemValue="#{user.codigo}" />
 		</p:selectOneMenu>

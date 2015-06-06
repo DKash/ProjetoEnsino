@@ -20,6 +20,7 @@ import exceptions.PessoaInexistenteException;
 import exceptions.ProjetoExistenteException;
 import exceptions.ProjetoInexistenteException;
 
+
 /**
  * @author Audry Martins
  *
@@ -29,9 +30,19 @@ import exceptions.ProjetoInexistenteException;
 public class CadastroUsuarioMB extends ObjetoMB<Usuario>
 {
 	// Atributos
-	
 	private Usuario entidade = new Usuario();
+	
+	
 	private List<Usuario> usuarios;
+	
+	
+	private List<Usuario> usuariosAluno;
+	
+	
+	private List<Usuario> usuariosProfessor;
+	
+	
+	private List<Usuario> usuariosCoordenador;
 	
 	@PostConstruct
 	public void init()
@@ -40,7 +51,6 @@ public class CadastroUsuarioMB extends ObjetoMB<Usuario>
 	}
 	
 	// Métodos
-	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -65,13 +75,13 @@ public class CadastroUsuarioMB extends ObjetoMB<Usuario>
 				new FacesMessage("Usuário Existente"));
 		}catch(NotaExistenteException e)
 		{
-			/*e.printStackTrace();*/
+			/* e.printStackTrace(); */
 		}catch(ProjetoInexistenteException e)
 		{
-			/*e.printStackTrace();*/
+			/* e.printStackTrace(); */
 		}catch(NotaInexistenteException e)
 		{
-			/*e.printStackTrace();*/
+			/* e.printStackTrace(); */
 		}
 		return "";
 	}
@@ -85,7 +95,7 @@ public class CadastroUsuarioMB extends ObjetoMB<Usuario>
 	public String alterar()
 	{
 		try
-		{			
+		{
 			fachada.alterarUsuario(entidade);
 			FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage("Usuário alterado com sucesso"));
@@ -113,7 +123,7 @@ public class CadastroUsuarioMB extends ObjetoMB<Usuario>
 	public String remover()
 	{
 		try
-		{		
+		{
 			fachada.removerUsuario(entidade);
 			FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage("Usuário excluído com sucesso"));
@@ -138,7 +148,7 @@ public class CadastroUsuarioMB extends ObjetoMB<Usuario>
 	 * @see manangedBeans.CadastroPessoaMB#consultarPorId()
 	 */
 	@Override
-	public String consultarPorId(int codigo)
+	public String consultarPorId()
 	{
 		try
 		{
@@ -216,7 +226,7 @@ public class CadastroUsuarioMB extends ObjetoMB<Usuario>
 	 * @see gui.CadastroPessoaMB#consultarPorNome()
 	 */
 	@Override
-	public String consultarPorNome(String nome)
+	public String consultarPorNome()
 	{
 		try
 		{
@@ -236,7 +246,7 @@ public class CadastroUsuarioMB extends ObjetoMB<Usuario>
 	 * @see gui.CadastroPessoaMB#consultarPorCPF()
 	 */
 	@Override
-	public String consultarPorCPF(String cpf)
+	public String consultarPorCPF()
 	{
 		return "";
 	}
@@ -259,10 +269,10 @@ public class CadastroUsuarioMB extends ObjetoMB<Usuario>
 				new FacesMessage("Usuário Inexistente"));
 		}catch(ProjetoInexistenteException e)
 		{
-			/*e.printStackTrace();*/
+			/* e.printStackTrace(); */
 		}catch(NotaInexistenteException e)
 		{
-			/*e.printStackTrace();*/
+			/* e.printStackTrace(); */
 		}
 		return "";
 	}
@@ -277,7 +287,7 @@ public class CadastroUsuarioMB extends ObjetoMB<Usuario>
 	{
 		entidade = new Usuario();
 		return "/usuario/CadastroUsuario.xhtml?faces-redirect=true";
-		//return "#{msgs.urlCadastroUsuario}";
+		// return "#{msgs.urlCadastroUsuario}";
 	}
 	
 	// Gets e Sets
@@ -313,10 +323,10 @@ public class CadastroUsuarioMB extends ObjetoMB<Usuario>
 				new FacesMessage("Usuário Inexistente"));
 		}catch(ProjetoInexistenteException e)
 		{
-			/*e.printStackTrace();*/
+			/* e.printStackTrace(); */
 		}catch(NotaInexistenteException e)
 		{
-			/*e.printStackTrace();*/
+			/* e.printStackTrace(); */
 		}
 		return usuarios;
 	}
@@ -337,22 +347,83 @@ public class CadastroUsuarioMB extends ObjetoMB<Usuario>
 	{
 		return TipoUsuario.values();
 	}
-
+	
 	/**
-	 * @return the lista
-	 *//*
-	public DataModel<Usuario> getLista()
+	 * @return the usuariosAluno
+	 */
+	public List<Usuario> getUsuariosAluno()
 	{
-		lista = new ListDataModel<Usuario>(getUsuarios());
-		
-		return lista;
+		try
+		{
+			usuariosAluno = fachada.consultarUsuarioPorTipo(TipoUsuario.Aluno);
+		}catch(PessoaInexistenteException e)
+		{
+			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Usuário Aluno Inexistente"));
+		}
+		return usuariosAluno;
 	}
-
-	*//**
-	 * @param lista the lista to set
-	 *//*
-	public void setLista(DataModel<Usuario> lista)
+	
+	/**
+	 * @param usuariosAluno
+	 *            the usuariosAluno to set
+	 */
+	public void setUsuariosAluno(List<Usuario> usuariosAluno)
 	{
-		this.lista = lista;
-	}*/
+		this.usuariosAluno = usuariosAluno;
+	}
+	
+	/**
+	 * @return the usuariosProfessor
+	 */
+	public List<Usuario> getUsuariosProfessor()
+	{
+		try
+		{
+			usuariosProfessor = fachada.consultarUsuarioPorTipos();
+		}catch(PessoaInexistenteException e)
+		{
+			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Usuarios Professores Inexistentes"));
+		}
+		return usuariosProfessor;
+	}
+	
+	/**
+	 * @param usuariosProfessor
+	 *            the usuariosProfessor to set
+	 */
+	public void setUsuariosProfessor(List<Usuario> usuariosProfessor)
+	{
+		this.usuariosProfessor = usuariosProfessor;
+	}
+	
+	/**
+	 * @return the usuariosCoordenador
+	 */
+	public List<Usuario> getUsuariosCoordenador()
+	{
+		try
+		{
+			usuariosCoordenador = fachada
+				.consultarUsuarioPorTipo(TipoUsuario.Coordenador);
+		}catch(PessoaInexistenteException e)
+		{
+			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Usuario Coordenador Inexistente"));
+		}
+		return usuariosCoordenador;
+	}
+	
+	/**
+	 * @param usuariosCoordenador
+	 *            the usuariosCoordenador to set
+	 */
+	public void setUsuariosCoordenador(List<Usuario> usuariosCoordenador)
+	{
+		this.usuariosCoordenador = usuariosCoordenador;
+	}
 }

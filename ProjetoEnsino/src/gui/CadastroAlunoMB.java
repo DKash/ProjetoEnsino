@@ -58,7 +58,7 @@ public class CadastroAlunoMB extends ObjetoMB<Aluno>
 		{
 			/* e.printStackTrace(); */
 		}
-		return "#{msgs.urlCadastroAluno}";
+		return null;
 	}
 	
 	/*
@@ -123,7 +123,7 @@ public class CadastroAlunoMB extends ObjetoMB<Aluno>
 	 * @see manangedBeans.CadastroPessoaMB#consultarPorId()
 	 */
 	@Override
-	public String consultarPorId(int codigo)
+	public String consultarPorId()
 	{
 		try
 		{
@@ -208,7 +208,7 @@ public class CadastroAlunoMB extends ObjetoMB<Aluno>
 	 * @see gui.CadastroPessoaMB#consultarPorNome()
 	 */
 	@Override
-	public String consultarPorNome(String nome)
+	public String consultarPorNome()
 	{
 		try
 		{
@@ -228,7 +228,7 @@ public class CadastroAlunoMB extends ObjetoMB<Aluno>
 	 * @see gui.CadastroPessoaMB#consultarPorCPF()
 	 */
 	@Override
-	public String consultarPorCPF(String cpf)
+	public String consultarPorCPF()
 	{
 		try
 		{

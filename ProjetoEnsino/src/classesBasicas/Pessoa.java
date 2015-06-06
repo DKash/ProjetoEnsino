@@ -21,6 +21,7 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+
 /**
  * @author Audry Martins
  *
@@ -29,51 +30,59 @@ import org.hibernate.annotations.FetchMode;
 public class Pessoa
 {
 	// Atributos
-	
-	@Id @GeneratedValue
+	@Id
+	@GeneratedValue
 	@Column(length = 10, nullable = false, updatable = false)
 	private Integer codigo;
+	
 	
 	@Column(length = 40, nullable = false)
 	private String nome;
 	
+	
 	@Column(length = 14, nullable = false, unique = true)
 	private String cpf;
+	
 	
 	@Temporal(TemporalType.DATE)
 	@Column(length = 10, nullable = false)
 	private Date dataNascimento;
 	
+	
 	@Column(length = 40, nullable = false, unique = true)
 	private String email;
 	
+	
 	@Enumerated(EnumType.STRING)
 	private Sexo sexo;
+	
 	
 	@OneToOne
 	@Fetch(FetchMode.JOIN)
 	@JoinColumn(nullable = false, unique = true)
 	private Usuario usuario;
 	
-	@OneToOne(cascade=CascadeType.ALL)
+	
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(nullable = true)
 	private Telefone telefone;
+	
 	
 	@Embedded
 	private Endereco endereco;
 	
+	
 	@Column(length = 30, nullable = false)
 	private String nacionalidade;
+	
 	
 	@Enumerated(EnumType.STRING)
 	private Situacao situacao;
 	
 	// Construtores
-	
 	public Pessoa()
 	{
 		super();
-		
 		this.nome = "";
 		this.cpf = "";
 		this.dataNascimento = null;
@@ -96,12 +105,11 @@ public class Pessoa
 	 * @param telefones
 	 * @param endereco
 	 */
-	public Pessoa(Integer codigo, String nome, String cpf, Date dataNascimento, 
+	public Pessoa(Integer codigo, String nome, String cpf, Date dataNascimento,
 		String emailprincipal, Sexo sexo, Usuario usuario, Telefone telefone,
 		Endereco endereco, String nacionalidade, Situacao situacao)
 	{
 		super();
-		
 		this.codigo = codigo;
 		this.nome = nome;
 		this.cpf = cpf;
@@ -116,8 +124,18 @@ public class Pessoa
 	}
 	
 	// Métodos
+	// Gets e Sets
+	/**
+	 * @return the codigo
+	 */
+	public Integer getCodigo()
+	{
+		return codigo;
+	}
 	
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -125,11 +143,13 @@ public class Pessoa
 	{
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((cpf == null) ? 0 : cpf.hashCode());
+		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
 		return result;
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -142,27 +162,17 @@ public class Pessoa
 		if(getClass() != obj.getClass())
 			return false;
 		Pessoa other = (Pessoa) obj;
-		if(cpf == null)
+		if(codigo == null)
 		{
-			if(other.cpf != null)
+			if(other.codigo != null)
 				return false;
 		}
 		else
-			if(!cpf.equals(other.cpf))
+			if(!codigo.equals(other.codigo))
 				return false;
 		return true;
 	}
 	
-	// Gets e Sets
-	/**
-	 * @return the codigo
-	 */
-	public Integer getCodigo()
-	{
-		return codigo;
-	}
-	
-
 	/**
 	 * @param codigo
 	 *            the codigo to set
@@ -230,15 +240,16 @@ public class Pessoa
 	{
 		return email;
 	}
-
+	
 	/**
-	 * @param email the email to set
+	 * @param email
+	 *            the email to set
 	 */
 	public void setEmail(String email)
 	{
 		this.email = email;
 	}
-
+	
 	/**
 	 * @return the sexo
 	 */
@@ -246,15 +257,16 @@ public class Pessoa
 	{
 		return sexo;
 	}
-
+	
 	/**
-	 * @param sexo the sexo to set
+	 * @param sexo
+	 *            the sexo to set
 	 */
 	public void setSexo(Sexo sexo)
 	{
 		this.sexo = sexo;
 	}
-
+	
 	/**
 	 * @return the usuario
 	 */
@@ -322,7 +334,7 @@ public class Pessoa
 	{
 		this.nacionalidade = nacionalidade;
 	}
-
+	
 	/**
 	 * @return the situacao
 	 */
@@ -330,9 +342,10 @@ public class Pessoa
 	{
 		return situacao;
 	}
-
+	
 	/**
-	 * @param situacao the situacao to set
+	 * @param situacao
+	 *            the situacao to set
 	 */
 	public void setSituacao(Situacao situacao)
 	{

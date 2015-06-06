@@ -134,7 +134,7 @@ public class CadastroNotaMB extends ObjetoMB<Nota>
 	 * @see manangedBeans.CadastroPessoaMB#consultarPorId()
 	 */
 	@Override
-	public String consultarPorId(int codigo)
+	public String consultarPorId()
 	{
 		try
 		{
@@ -238,7 +238,7 @@ public class CadastroNotaMB extends ObjetoMB<Nota>
 	 * @see gui.CadastroPessoaMB#consultarPorNome()
 	 */
 	@Override
-	public String consultarPorNome(String nome)
+	public String consultarPorNome()
 	{
 		return null;
 	}
@@ -249,7 +249,7 @@ public class CadastroNotaMB extends ObjetoMB<Nota>
 	 * @see gui.CadastroPessoaMB#consultarPorCPF()
 	 */
 	@Override
-	public String consultarPorCPF(String cpf)
+	public String consultarPorCPF()
 	{
 		return null;
 	}

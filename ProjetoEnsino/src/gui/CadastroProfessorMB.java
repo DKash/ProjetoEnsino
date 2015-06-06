@@ -121,7 +121,7 @@ public class CadastroProfessorMB extends ObjetoMB<Professor>
 	 * @see manangedBeans.CadastroPessoaMB#consultarPorId()
 	 */
 	@Override
-	public String consultarPorId(int codigo)
+	public String consultarPorId()
 	{
 		try
 		{
@@ -199,7 +199,7 @@ public class CadastroProfessorMB extends ObjetoMB<Professor>
 	 * @see gui.CadastroPessoaMB#consultarPorNome()
 	 */
 	@Override
-	public String consultarPorNome(String nome)
+	public String consultarPorNome()
 	{
 		try
 		{
@@ -219,7 +219,7 @@ public class CadastroProfessorMB extends ObjetoMB<Professor>
 	 * @see gui.CadastroPessoaMB#consultarPorCPF()
 	 */
 	@Override
-	public String consultarPorCPF(String cpf)
+	public String consultarPorCPF()
 	{
 		try
 		{

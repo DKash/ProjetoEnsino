@@ -6,7 +6,6 @@ package classesBasicas;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -19,6 +18,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 /**
  * @author Audry Martins
@@ -47,8 +49,9 @@ public class Projeto
 	@ManyToMany(fetch=FetchType.EAGER)
 	private List<Aluno> alunos;
 	
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne()
 	@JoinColumn(nullable = false)
+	@Fetch(FetchMode.JOIN)
 	private Professor professorOrientador;
 	
 	@ManyToMany(fetch=FetchType.EAGER)
@@ -111,7 +114,7 @@ public class Projeto
 	{
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
 		return result;
 	}
 
@@ -128,16 +131,16 @@ public class Projeto
 		if(getClass() != obj.getClass())
 			return false;
 		Projeto other = (Projeto) obj;
-		if(nome == null)
+		if(codigo == null)
 		{
-			if(other.nome != null)
+			if(other.codigo != null)
 				return false;
 		}
 		else
-			if(!nome.equals(other.nome))
+			if(!codigo.equals(other.codigo))
 				return false;
 		return true;
-	}	
+	}
 	
 	// Gets e Sets
 	/**

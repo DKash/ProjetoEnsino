@@ -23,7 +23,7 @@
 			<p:outputLabel value="#{msgs.botaoConsultarPorCodigo}" />
 			<p:inputText id="id" value="#{cadastroNotaMB.entidade.codigo}" />
 			<p:commandButton value="#{msgs.botaoConsultarPorCodigo}"
-				action="#{cadastroNotaMB.consultarPorId(id)}"
+				action="#{cadastroNotaMB.consultarPorId}"
 				update="formPesquisaNotas, msgs" icon="ui-icon-search" />
 
 			<p:outputLabel value="#{msgs.botaoConsultarPorProfessorOrientador}" />
